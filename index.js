@@ -88,6 +88,16 @@ svg.call(d3.zoom().on("zoom", function (event) {
     svg.attr("transform", event.transform)
 }))
 
+//Tooltip
+var Tooltip = d3.select("#mapContainer")
+.append("div")
+.style("opacity", 0)
+.attr("class", "tooltip")
+.style("background-color", "white")
+.style("border", "solid")
+.style("border-width", "2px")
+.style("border-radius", "5px")
+.style("padding", "5px")
 
 
     // Bars
@@ -102,6 +112,26 @@ let cityBars = svg.selectAll("mybar")
   // correct for the length of the bar in order to place at correct position of city
   .attr("y", function(d) { return projection([d.long, d.lat])[1] - d.rent })
   .attr("fill", "#69b3a2")
+  .on("mouseover", function(event, d) {
+    Tooltip
+      .style("opacity", 1)
+    d3.select(this)
+      .style("stroke", "black")
+      .style("opacity", 1)
+  })
+  .on("mousemove", function(event, d) {
+    Tooltip
+      .text(d.name)
+      .style("left", (event.x+70) + "px")
+      .style("top", (event.y) + "px")
+  })
+  .on("mouseleave", function(event) {
+    Tooltip
+      .style("opacity", 0)
+    d3.select(this)
+      .style("stroke", "none")
+      .style("opacity", 0.8)
+  })
 
 
 let updateChart = function () {
