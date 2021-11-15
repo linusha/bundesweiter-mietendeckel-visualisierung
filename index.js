@@ -7,6 +7,7 @@ import * as d3 from "https://cdn.skypack.dev/d3@7";
 // 1 - balanced market
 // 2 - strained market
 // 3 - distress market
+// for balanced markets is maximalRent == increasedRent
 let cities = [
   {
     name: "Bochum",
@@ -16,6 +17,7 @@ let cities = [
     lat: 51.48,
     marketRent: 6.66,
     portfolioRent:5.74,
+    maximalRent: 6.89,
   },
   {
     name: "Chemnitz",
@@ -25,6 +27,7 @@ let cities = [
     lat: 50.83,
     marketRent: 4.97,
     portfolioRent:5.02,
+    maximalRent: 6.02,
   },
   {
     name: "Dortmund",
@@ -34,6 +37,7 @@ let cities = [
     lat: 51.51,
     marketRent: 6.88,
     portfolioRent: 5.72,
+    maximalRent: 6.86,
   },
   {
     name: "Duisburg",
@@ -43,6 +47,7 @@ let cities = [
     lat: 51.43,
     marketRent: 5.9,
     portfolioRent: 5.53,
+    maximalRent: 6.64,
   },
   { 
     name: "Erfurt", 
@@ -52,6 +57,7 @@ let cities = [
     lat: 50.97, 
     marketRent: 7.13,
     portfolioRent:5.83,
+    maximalRent: 7,
   },
   { 
     name: "Essen", 
@@ -61,6 +67,7 @@ let cities = [
     lat: 51.45, 
     marketRent: 6.85,
     portfolioRent:6.08,
+    maximalRent: 7.3,
   },
   { 
     name: "Gelsenkirchen",
@@ -70,6 +77,7 @@ let cities = [
     lat: 51.50, 
     marketRent: 5.72,
     portfolioRent:5.04,
+    maximalRent: 6.05,
   },
   { 
     name: "Hamm", 
@@ -79,6 +87,7 @@ let cities = [
     lat: 51.68, 
     marketRent: 5.94,
     portfolioRent:5.49,
+    maximalRent: 6.59,
   },
   { 
     name: "Krefeld", 
@@ -88,6 +97,7 @@ let cities = [
     lat: 51.33, 
     marketRent: 6.61,
     portfolioRent:5.9,
+    maximalRent: 7.08,
   },
   { 
     name: "Mönchengladbach",
@@ -97,6 +107,7 @@ let cities = [
     lat: 51.18, 
     marketRent: 6.41,
     portfolioRent:5.97,
+    maximalRent: 7.16,
   },
   { 
     name: "Mühlheim an der Ruhr",
@@ -106,6 +117,7 @@ let cities = [
     lat: 50.11, 
     marketRent: 6.65,
     portfolioRent:6.23,
+    maximalRent: 7.48,
   },
   { 
     name: "Oberhausen",
@@ -115,6 +127,7 @@ let cities = [
     lat: 51.47, 
     marketRent: 6.02,
     portfolioRent:5.27,
+    maximalRent: 6.32,
   },
   { 
     name: "Rostock", 
@@ -124,6 +137,7 @@ let cities = [
     lat: 54.08, 
     marketRent: 6.71,
     portfolioRent:6.1,
+    maximalRent: 7.32,
   },
   { 
     name: "Wuppertal",
@@ -133,6 +147,7 @@ let cities = [
     lat: 50.77, 
     marketRent: 6.18,
     portfolioRent:5.74,
+    maximalRent: 6.89,
   },
   { 
     name: "Aachen", 
@@ -142,6 +157,9 @@ let cities = [
     lat: 50.77, 
     marketRent: 8.31,
     portfolioRent:6.85,
+    renewedRent: 7.53,
+    maximalRent: 8.22,
+    increasedRent: 6.95,
   },
   { 
     name: "Bonn", 
@@ -151,6 +169,9 @@ let cities = [
     lat: 50.73, 
     marketRent: 9.44,
     portfolioRent:7.93,
+    renewedRent: 8.72,
+    maximalRent: 9.52,
+    increasedRent: 8.04,
   },
   { 
     name: "Braunschweig",
@@ -160,6 +181,9 @@ let cities = [
     lat: 52.26, 
     marketRent: 7.99,
     portfolioRent: 6.24,
+    renewedRent: 6.86,
+    maximalRent: 7.49,
+    increasedRent: 6.33,
   },
   { 
     name: "Dresden",
@@ -169,6 +193,9 @@ let cities = [
     lat: 51.05, 
     marketRent: 7.17,
     portfolioRent: 6.12,
+    renewedRent: 6.73,
+    maximalRent: 7.34,
+    increasedRent: 6.21,
   },
   { 
     name: "Düsseldorf",
@@ -178,6 +205,9 @@ let cities = [
     lat: 51.22, 
     marketRent: 10.09,
     portfolioRent: 7.94,
+    renewedRent: 8.73,
+    maximalRent: 9.53,
+    increasedRent: 8.05,
   },
   { 
     name: "Hannover", 
@@ -187,6 +217,9 @@ let cities = [
     lat: 52.37, 
     marketRent: 8.85,
     portfolioRent: 6.60,
+    renewedRent: 7.26,
+    maximalRent: 7.92,
+    increasedRent: 6.7,
   },
   { 
     name: "Karlsruhe",
@@ -196,6 +229,9 @@ let cities = [
     lat: 49.00, 
     marketRent: 10.10,
     portfolioRent: 6.73,
+    renewedRent: 7.4,
+    maximalRent: 8.08,
+    increasedRent: 6.83,
   },
   { 
     name: "Kiel",
@@ -205,6 +241,9 @@ let cities = [
     lat: 54.32, 
     marketRent: 7.88,
     portfolioRent: 6.87,
+    renewedRent: 7.56,
+    maximalRent: 8.24,
+    increasedRent: 6.97,
   },
   { 
     name: "Leipzig",
@@ -214,6 +253,9 @@ let cities = [
     lat: 51.33, 
     marketRent: 6.19,
     portfolioRent: 5.44,
+    renewedRent: 5.98,
+    maximalRent: 6.53,
+    increasedRent: 5.52,
   },
   { 
     name: "Leverkusen",
@@ -223,6 +265,9 @@ let cities = [
     lat: 51.03, 
     marketRent: 7.60,
     portfolioRent: 6.31,
+    renewedRent: 6.94,
+    maximalRent: 7.57,
+    increasedRent: 6.4,
   },
   { 
     name: "Lübeck", 
@@ -232,6 +277,9 @@ let cities = [
     lat: 53.86, 
     marketRent: 8.05,
     portfolioRent: 6.53,
+    renewedRent: 7.18,
+    maximalRent: 7.84,
+    increasedRent: 6.62,
   },
   { 
     name: "Ludwigshafen am Rhein",
@@ -241,6 +289,9 @@ let cities = [
     lat: 49.48,
     marketRent: 8.27,
     portfolioRent: 6.22,
+    renewedRent: 6.84,
+    maximalRent: 7.46,
+    increasedRent: 6.31,
   },
   { 
     name: "Mannheim",
@@ -250,6 +301,9 @@ let cities = [
     lat: 49.49, 
     marketRent: 9.04,
     portfolioRent: 6.99,
+    renewedRent: 7.69,
+    maximalRent: 8.39,
+    increasedRent: 7.09,
   },
   { 
     name: "Münster",
@@ -259,6 +313,9 @@ let cities = [
     lat: 51.96, 
     marketRent: 9.54,
     portfolioRent:7.89,
+    renewedRent: 8.68,
+    maximalRent: 9.47,
+    increasedRent: 8,
   },
   { 
     name: "Nürnberg",
@@ -268,6 +325,9 @@ let cities = [
     lat: 49.45, 
     marketRent: 9.19,
     portfolioRent: 7.04,
+    renewedRent: 7.74,
+    maximalRent: 8.45,
+    increasedRent: 7.14,
   },
   { 
     name: "Potsdam",
@@ -277,6 +337,9 @@ let cities = [
     lat: 52.39, 
     marketRent: 9,
     portfolioRent: 6.98,
+    renewedRent: 7.68,
+    maximalRent: 8.38,
+    increasedRent: 7.08,
   },
   { 
     name: "Wiesbaden",
@@ -286,6 +349,9 @@ let cities = [
     lat: 50.08, 
     marketRent: 10.08,
     portfolioRent: 8.21,
+    renewedRent: 9.03,
+    maximalRent: 9.85,
+    increasedRent: 8.33,
   },
   { 
     name: "Berlin",
@@ -294,7 +360,8 @@ let cities = [
     long: 13.41, 
     lat: 52.52, 
     marketRent: 10.19,
-    portfolioRent:6.68,
+    portfolioRent: 6.68,
+    maximalRent: 7.24,
   },
   { 
     name: "Bielefeld",
@@ -304,6 +371,7 @@ let cities = [
     lat: 52.03, 
     marketRent: 7.24,
     portfolioRent: 6.19,
+    maximalRent: 5.56,
   },
   { 
     name: "Frankfurt am Main",
@@ -313,6 +381,7 @@ let cities = [
     lat: 50.11,
     marketRent: 12.72,
     portfolioRent: 8.82,
+    maximalRent: 8.57,
   },
   { 
     name: "Freiburg im Breisgau",
@@ -322,6 +391,7 @@ let cities = [
     lat: 47.99,
     marketRent: 11.73,
     portfolioRent: 8,
+    maximalRent: 7.2,
   },
   { 
     name: "Hamburg",
@@ -331,6 +401,7 @@ let cities = [
     lat: 53.57, 
     marketRent: 11.04,
     portfolioRent: 8.26,
+    maximalRent: 8.25,
   },
   { 
     name: "Heidelberg",
@@ -340,6 +411,7 @@ let cities = [
     lat: 49.40, 
     marketRent: 11.28,
     portfolioRent:8.21,
+    maximalRent: 7.37,
   },
   { 
     name: "Köln",
@@ -349,6 +421,7 @@ let cities = [
     lat: 50.93, 
     marketRent: 10.67,
     portfolioRent: 8.21,
+    maximalRent: 7.15,
   },
   { 
     name: "Mainz",
@@ -358,6 +431,7 @@ let cities = [
     lat: 49.98, 
     marketRent: 10.97,
     portfolioRent: 8.29,
+    maximalRent: 7.12,
   },
   { 
     name: "München",
@@ -366,7 +440,8 @@ let cities = [
     long: 11.57, 
     lat: 48.13, 
     marketRent: 17.02,
-    portfolioRent:11.11,
+    portfolioRent: 11.11,
+    maximalRent: 9.87,
   },
   { 
     name: "Osnabrück",
@@ -376,6 +451,7 @@ let cities = [
     lat: 52.27, 
     marketRent: 7.73,
     portfolioRent: 6.1,
+    maximalRent: 5.14,
   },
   { 
     name: "Stuttgart",
@@ -385,6 +461,7 @@ let cities = [
     lat: 48.78, 
     marketRent: 12.79,
     portfolioRent: 8.53,
+    maximalRent: 8.42,
   },
 ]
 
