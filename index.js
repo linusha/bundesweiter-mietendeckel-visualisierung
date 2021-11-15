@@ -511,20 +511,22 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
   ////////
   // FUNCTIONALITY FOR THE BUTTONS
   ////////
+
+  // TODO: refine the highlighting so that it takes into account actual changes that would happen?
+  // i.e. if in a city there would be actually no reduction, do not highlight it
   function highlightBalancedCities () {
     svg.selectAll("circle")
-      .filter((d) => d.marketCategory == 1)
-        .transition()
-          .duration(500)
-          .attr("r", 5 * circleRadius)
-        .transition()
-          .duration(500)
-          .attr("r", circleRadius);
+      .transition()
+        .duration(500)
+        .attr("r", 5 * circleRadius)
+      .transition()
+        .duration(500)
+        .attr("r", circleRadius);
   }
 
   function highlightStrainedCities () {
     svg.selectAll("circle")
-      .filter((d) => d.marketCategory == 2)
+      .filter((d) => d.marketCategory != 1)
         .transition()
           .duration(500)
           .attr("r", 5 * circleRadius)
