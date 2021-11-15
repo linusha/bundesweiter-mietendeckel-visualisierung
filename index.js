@@ -1,4 +1,4 @@
-// Code from d3-graph-gallery.com
+// Code partially from d3-graph-gallery.com
 // https://www.d3-graph-gallery.com/graph/backgroundmap_country.html
 
 import * as d3 from "https://cdn.skypack.dev/d3@7";
@@ -405,7 +405,7 @@ const svg = d3.select("#mapContainer")
 // Map and projection
 const projection = d3.geoMercator()
   .center([6, 51])                // GPS of location to zoom on
-  .scale(980)                       // This is like the zoom
+  .scale(2000)                       // This is like the zoom
   .translate([width / 2, height / 2])
 
 // Load external data and boot
@@ -427,59 +427,132 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
     svg.attr("transform", event.transform)
   }))
 
-  //Tooltip
-  var Tooltip = d3.select("#mapContainer")
-    .append("div")
-    .style("opacity", 0)
-    .attr("class", "tooltip")
-    .style("background-color", "white")
-    .style("border", "solid")
-    .style("border-width", "2px")
-    .style("border-radius", "5px")
-    .style("padding", "5px")
+  // a city has been toggled by clicking on it
+  let updateCitySelection = function(event, clickedData) {
+    clickedData.active = !clickedData.active;
+      
+    svg.selectAll(".marketRect")
+      .filter((d) => d.name == clickedData.name )
+      .transition(2000)
+      .attr("height", (d) => clickedData.active ? d.marketRent : 0)
+      .attr("y", (d) => clickedData.active ? projection([d.long, d.lat])[1] - d.marketRent : projection([d.long, d.lat])[1])
+      .style("opacity", clickedData.active ? 1 : 0);
 
+    svg.selectAll(".portfolioRect")
+      .filter((d) => d.name == clickedData.name )
+      .transition(2000)
+      .attr("height", (d) => clickedData.active ? d.portfolioRent : 0)
+      .attr("y", (d) => clickedData.active ? projection([d.long, d.lat])[1] - d.portfolioRent : projection([d.long, d.lat])[1])
+      .style("opacity", clickedData.active ? 1 : 0);
+    
+    cityCircles
+      .filter( (d) => d.name == clickedData.name )
+      .transition(2000)
+      .style("opacity", clickedData.active ? 0 : 1);
+  }
 
-  // Bars
-  let cityBars = svg.selectAll("mybar")
+  function colorCityCircles(d) {
+    if (d.marketCategory == 1) return "#00ff00"
+    if (d.marketCategory == 2) return "#ff9900"
+    if (d.marketCategory == 3) return "#ff0000"
+  }
+
+  function colorMarketBars(d) {
+    if (d.marketCategory == 1) return "#00ff00"
+    if (d.marketCategory == 2) return "#ff9900"
+    if (d.marketCategory == 3) return "#ff0000"
+  }
+
+  function colorPortfolioBars(d) {
+    if (d.marketCategory == 1) return "#009900"
+    if (d.marketCategory == 2) return "#b36b00"
+    if (d.marketCategory == 3) return "#990000"
+  }
+
+  let circleRadius = 2;
+
+  let cityCircles = svg.selectAll("circles")
     .data(cities)
     .enter()
-    .append("rect")
-    .attr("width", 10)
-    .attr("height", function (d) { return d.marketRent; })
-    .attr("x", function (d) { return projection([d.long, d.lat])[0] })
-    // y point pins the top left corner of the bar
-    // correct for the length of the bar in order to place at correct position of city
-    .attr("y", function (d) { return projection([d.long, d.lat])[1] - d.marketRent })
-    .attr("fill", "#69b3a2")
-    .on("mouseover", function (event, d) {
-      Tooltip
-        .style("opacity", 1)
-      d3.select(this)
-        .style("stroke", "black")
-        .style("opacity", 1)
-    })
-    .on("mousemove", function (event, d) {
-      Tooltip
-        .text(d.name)
-        .style("left", (event.x + 70) + "px")
-        .style("top", (event.y) + "px")
-    })
-    .on("mouseleave", function (event) {
-      Tooltip
-        .style("opacity", 0)
-      d3.select(this)
-        .style("stroke", "none")
-        .style("opacity", 0.8)
-    })
+      .append("circle")
+        .attr("class", "cityCircle")
+        .attr("cx", function (d) { return projection([d.long, d.lat])[0] })
+        .attr("cy", function (d) { return projection([d.long, d.lat])[1] })
+        .attr("r", circleRadius)
+        .attr("fill", colorCityCircles)
+        .on("mousedown", updateCitySelection);
+    
+  let barWidth = 10; 
 
+  let cityMarketBars = svg.selectAll("marketBars")
+    .data(cities)
+    .enter()
+      .append("rect")
+        .attr("class", "cityRect marketRect")
+        .attr("width", barWidth)
+        .attr("x", (d) => projection([d.long, d.lat])[0] - (barWidth / 2))
+        .attr("y", (d) => projection([d.long, d.lat])[1])
+        .attr("fill", colorMarketBars)
+        .attr("opacity", 0)
+        .on("mousedown", updateCitySelection);
+  
+  let cityPortfolioBars = svg.selectAll("portfolioBars")
+    .data(cities)
+    .enter()
+      .append("rect")
+        .attr("class", "cityRect portfolioRect")
+        .attr("width", barWidth)
+        .attr("x", (d) => projection([d.long, d.lat])[0] - (barWidth / 2))
+        .attr("y", (d) => projection([d.long, d.lat])[1])
+        .attr("fill", colorPortfolioBars)
+        .attr("opacity", 0)
+        .on("mousedown", updateCitySelection);
 
-  let updateChart = function () {
-
-    cityBars
-      .transition()
-      .duration(2000)
-      .attr("height", (d) => d.marketRent * 2)
-      .attr("y", function (d) { return projection([d.long, d.lat])[1] - 2 * d.marketRent })
+  ////////
+  // FUNCTIONALITY FOR THE BUTTONS
+  ////////
+  function highlightBalancedCities () {
+    svg.selectAll("circle")
+      .filter((d) => d.marketCategory == 1)
+        .transition()
+          .duration(500)
+          .attr("r", 5 * circleRadius)
+        .transition()
+          .duration(500)
+          .attr("r", circleRadius);
   }
-  document.getElementById("rentDecrease").onclick = updateChart;
+
+  function highlightStrainedCities () {
+    svg.selectAll("circle")
+      .filter((d) => d.marketCategory == 2)
+        .transition()
+          .duration(500)
+          .attr("r", 5 * circleRadius)
+        .transition()
+          .duration(500)
+          .attr("r", circleRadius);
+  }
+
+  function highlightDistressedCities () {
+    svg.selectAll("circle")
+      .filter((d) => d.marketCategory == 3)  
+        .transition()
+          .duration(500)
+          .attr("r", 5 * circleRadius)
+        .transition()
+          .duration(500)
+          .attr("r", circleRadius);
+  }
+  
+  function updateChart () {
+
+  }
+
+  ////////
+  // WIRE UP BUTTONS AND THEIR METHODS
+  ////////
+  document.getElementById("rentDecrease").onclick = highlightBalancedCities;
+  document.getElementById("rentStop").onclick = highlightStrainedCities;
+  document.getElementById("rentMaximum").onclick = highlightDistressedCities;
+
 })
