@@ -470,9 +470,6 @@ var margin = { top: 30, right: 30, bottom: 70, left: 60 },
   width = 700 - margin.left - margin.right,
   height = 400 - margin.top - margin.bottom;
 
-// The svg
-
-
 // Map and projection
 const projection = d3.geoMercator()
   .center([6, 51])                // GPS of location to zoom on
@@ -482,7 +479,7 @@ const projection = d3.geoMercator()
 // Load external data and boot
 d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_deutschland/2_hoch.geo.json").then(function (data) {
 
-  let svg = d3.select("#mapContainer")
+  let map = d3.select("#mapContainer")
   .append("svg")
   .attr("width", 400)
   .attr("height", 300)
@@ -515,25 +512,25 @@ function calculatePortfolioRent (cityData){
 }
 
 function getCircleSelectionForRentRenewal(){
-  return svg.selectAll("circle")
+  return map.selectAll("circle")
     .filter(data => {  
       return ((data.marketCategory == 2 && (data.marketRent > data.renewedRent)) || (data.marketCategory == 3 && (data.marketRent > data.maximalRent))) 
     });
 }
 
 function getCircleSelectionForMaximumRent(){
-  return svg.selectAll("circle")
+  return map.selectAll("circle")
     .filter(data => {
       return data.marketRent > data.maximalRent 
     });
 }
 
 function getCircleSelectionForRentIncrease(){
-  return svg.selectAll("circle");
+  return map.selectAll("circle");
 }
 
   // Draw the map
-  svg.append("g")
+  map.append("g")
     .selectAll("path")
     .data(data.features)
     .join("path")
@@ -544,8 +541,8 @@ function getCircleSelectionForRentIncrease(){
     .style("stroke", "none")
 
 
-  svg.call(d3.zoom().on("zoom", function (event) {
-    svg.attr("transform", event.transform)
+  map.call(d3.zoom().on("zoom", function (event) {
+    map.attr("transform", event.transform)
   }))
 
   // Define the div for the tooltip
@@ -559,18 +556,18 @@ function getCircleSelectionForRentIncrease(){
   let updateCitySelection = function(event, clickedData) {
     clickedData.active = !clickedData.active;
       
-    svg.selectAll(".marketRect")
+    map.selectAll(".marketRect")
       .filter((d) => d.name == clickedData.name )
       .transition(2000)
       .attr("height", (d) => calculateMarketRent(d))
-      .attr("y", (d) => clickedData.active ? projection([d.long, d.lat])[1] - d.marketRent : projection([d.long, d.lat])[1])
+      .attr("y", (d) => projection([d.long, d.lat])[1] - calculateMarketRent(d))
       .style("opacity", clickedData.active ? 1 : 0);
 
-    svg.selectAll(".portfolioRect")
+    map.selectAll(".portfolioRect")
       .filter((d) => d.name == clickedData.name )
       .transition(2000)
-      .attr("height", (d) => clickedData.active ? d.portfolioRent : 0)
-      .attr("y", (d) => clickedData.active ? projection([d.long, d.lat])[1] - d.portfolioRent : projection([d.long, d.lat])[1])
+      .attr("height", (d) => calculatePortfolioRent(d))
+      .attr("y", (d) => projection([d.long, d.lat])[1] - calculatePortfolioRent(d))
       .style("opacity", clickedData.active ? 1 : 0);
     
     cityCircles
@@ -599,7 +596,7 @@ function getCircleSelectionForRentIncrease(){
 
   let circleRadius = 2;
 
-  let cityCircles = svg.selectAll("circles")
+  let cityCircles = map.selectAll("circles")
     .data(cities)
     .enter()
       .append("circle")
@@ -625,7 +622,7 @@ function getCircleSelectionForRentIncrease(){
     
   let barWidth = 10; 
 
-  svg.selectAll("marketBars")
+  map.selectAll("marketBars")
     .data(cities)
     .enter()
       .append("rect")
@@ -637,7 +634,7 @@ function getCircleSelectionForRentIncrease(){
         .attr("opacity", 0)
         .on("mousedown", updateCitySelection);
   
-  svg.selectAll("portfolioBars")
+  map.selectAll("portfolioBars")
     .data(cities)
     .enter()
       .append("rect")
@@ -688,7 +685,7 @@ function getCircleSelectionForRentIncrease(){
           .duration(500)
           .attr("r", circleRadius);
       // adapt rent rects for strained markets
-      svg.selectAll(".marketRect")
+      map.selectAll(".marketRect")
         .transition()
           .duration(1000)
           .attr("height", (d) => calculateMarketRent(d))
@@ -713,7 +710,7 @@ function getCircleSelectionForRentIncrease(){
         .duration(500)
         .attr("r", circleRadius);
   // adapt rent rects
-  svg.selectAll(".portfolioRect")
+  map.selectAll(".portfolioRect")
     .transition()
       .duration(1000)
       .attr("height", (d) => calculatePortfolioRent(d))
