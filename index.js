@@ -609,9 +609,17 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
   // FUNCTIONALITY FOR THE BUTTONS
   ////////
 
+  let rentDecreaseActive, rentStopActive, maximumRentActive = false
   // TODO: refine the highlighting so that it takes into account actual changes that would happen?
   // i.e. if in a city there would be actually no reduction, do not highlight it
-  function highlightBalancedCities () {
+  function rentDecreasePressed () {
+    if (rentDecreaseActive){
+      document.getElementById('rentDecrease').setAttribute("selected", false);
+      rentDecreaseActive = false  
+    }
+    else {
+      document.getElementById('rentDecrease').setAttribute("selected", true);
+      rentDecreaseActive = true
     svg.selectAll("circle")
       .transition()
         .duration(500)
@@ -619,9 +627,17 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
       .transition()
         .duration(500)
         .attr("r", circleRadius);
+    }
   }
 
-  function highlightStrainedCities () {
+  function rentStopPressed () {
+    if (rentStopActive){
+      document.getElementById('rentStop').setAttribute("selected", false);
+      rentStopActive = false  
+    }
+    else {
+      document.getElementById('rentStop').setAttribute("selected", true);
+      rentStopActive = true
     svg.selectAll("circle")
       .filter((d) => d.marketCategory != 1)
         .transition()
@@ -630,9 +646,17 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
         .transition()
           .duration(500)
           .attr("r", circleRadius);
+    }
   }
 
-  function highlightDistressedCities () {
+  function rentMaximumPressed () {
+    if (maximumRentActive){
+      document.getElementById('rentMaximum').setAttribute("selected", false);
+      maximumRentActive = false  
+    }
+    else {
+      document.getElementById('rentMaximum').setAttribute("selected", true);
+      maximumRentActive = true
     svg.selectAll("circle")
       .filter((d) => d.marketCategory == 3)  
         .transition()
@@ -641,6 +665,7 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
         .transition()
           .duration(500)
           .attr("r", circleRadius);
+    }
   }
   
   function updateChart () {
@@ -650,8 +675,8 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
   ////////
   // WIRE UP BUTTONS AND THEIR METHODS
   ////////
-  document.getElementById("rentDecrease").onclick = highlightBalancedCities;
-  document.getElementById("rentStop").onclick = highlightStrainedCities;
-  document.getElementById("rentMaximum").onclick = highlightDistressedCities;
+  document.getElementById("rentDecrease").onclick = rentDecreasePressed;
+  document.getElementById("rentStop").onclick = rentStopPressed;
+  document.getElementById("rentMaximum").onclick = rentMaximumPressed;
 
 })

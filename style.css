@@ -1,0 +1,11 @@
+.measureSelection {
+    background: red;
+    border-radius: 4px;
+    border-style: none;
+    color: white;
+}
+
+.measureSelection[selected=true] {
+    background: darkred;
+    color: white;
+}
