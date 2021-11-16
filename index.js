@@ -504,6 +504,13 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
     svg.attr("transform", event.transform)
   }))
 
+  // Define the div for the tooltip
+  let tooltip = d3.select("body")
+    .append("div")	
+      .attr("class", "tooltip")
+      .style("position", "absolute")			
+      .style("opacity", 0);
+
   // a city has been toggled by clicking on it
   let updateCitySelection = function(event, clickedData) {
     clickedData.active = !clickedData.active;
@@ -557,7 +564,20 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
         .attr("cy", function (d) { return projection([d.long, d.lat])[1] })
         .attr("r", circleRadius)
         .attr("fill", colorCityCircles)
-        .on("mousedown", updateCitySelection);
+        .on("mousedown", updateCitySelection)
+        .on("mouseover", function(event, d) {		
+          tooltip.transition()		
+            .duration(200)		
+            .style("opacity", .9);		
+          tooltip.html(d.name)	
+            .style("left", (event.pageX) + "px")		
+            .style("top", (event.pageY - 28) + "px");	
+        })					
+        .on("mouseout", function() {		
+          tooltip.transition()		
+            .duration(500)		
+            .style("opacity", 0);	
+        });
     
   let barWidth = 10; 
 
