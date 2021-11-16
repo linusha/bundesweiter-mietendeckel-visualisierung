@@ -471,22 +471,66 @@ var margin = { top: 30, right: 30, bottom: 70, left: 60 },
   height = 400 - margin.top - margin.bottom;
 
 // The svg
-const svg = d3.select("#mapContainer")
-  .append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform",
-    "translate(" + margin.left + "," + margin.top + ")");
+
 
 // Map and projection
 const projection = d3.geoMercator()
   .center([6, 51])                // GPS of location to zoom on
-  .scale(2000)                       // This is like the zoom
-  .translate([width / 2, height / 2])
+  .scale(980)                       // This is like the zoom
+  .translate([400 / 2, 300 / 2])
 
 // Load external data and boot
 d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_deutschland/2_hoch.geo.json").then(function (data) {
+
+  let svg = d3.select("#mapContainer")
+  .append("svg")
+  .attr("width", 400)
+  .attr("height", 300)
+  .append("g")
+  //.attr("transform",
+  //  "translate(" + margin.left + "," + margin.top + ")");
+
+let rentIncreaseActive, rentRenewalActive, maximumRentActive = false
+
+//////
+// HELPER METHODS
+//////
+
+function calculateMarketRent(cityData){
+  if (!cityData.active) return 0;
+  if (rentRenewalActive){
+    if (cityData.marketCategory == 1) return cityData.marketRent;
+    if (cityData.marketCategory == 3) return cityData.marketRent > cityData.maximalRent ? cityData.maximalRent : cityData.marketRent;
+    return cityData.marketRent > cityData.renewedRent ? cityData.renewedRent : cityData.marketRent;
+  }
+  return cityData.marketRent;
+}
+
+function calculatePortfolioRent (cityData){
+  if (!cityData.active) return 0;
+  if (maximumRentActive){
+    return cityData.portfolioRent > cityData.maximalRent ? cityData.maximalRent : cityData.portfolioRent;
+  }
+  return cityData.portfolioRent;
+}
+
+function getCircleSelectionForRentRenewal(){
+  return svg.selectAll("circle")
+    .filter(data => {  
+      return ((data.marketCategory == 2 && (data.marketRent > data.renewedRent)) || (data.marketCategory == 3 && (data.marketRent > data.maximalRent))) 
+    });
+}
+
+function getCircleSelectionForMaximumRent(){
+  return svg.selectAll("circle")
+    .filter(data => {
+      return data.marketRent > data.maximalRent 
+    });
+}
+
+function getCircleSelectionForRentIncrease(){
+  return svg.selectAll("circle");
+}
 
   // Draw the map
   svg.append("g")
@@ -518,7 +562,7 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
     svg.selectAll(".marketRect")
       .filter((d) => d.name == clickedData.name )
       .transition(2000)
-      .attr("height", (d) => clickedData.active ? d.marketRent : 0)
+      .attr("height", (d) => calculateMarketRent(d))
       .attr("y", (d) => clickedData.active ? projection([d.long, d.lat])[1] - d.marketRent : projection([d.long, d.lat])[1])
       .style("opacity", clickedData.active ? 1 : 0);
 
@@ -581,7 +625,7 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
     
   let barWidth = 10; 
 
-  let cityMarketBars = svg.selectAll("marketBars")
+  svg.selectAll("marketBars")
     .data(cities)
     .enter()
       .append("rect")
@@ -593,7 +637,7 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
         .attr("opacity", 0)
         .on("mousedown", updateCitySelection);
   
-  let cityPortfolioBars = svg.selectAll("portfolioBars")
+  svg.selectAll("portfolioBars")
     .data(cities)
     .enter()
       .append("rect")
@@ -609,74 +653,78 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
   // FUNCTIONALITY FOR THE BUTTONS
   ////////
 
-  let rentDecreaseActive, rentStopActive, maximumRentActive = false
-  // TODO: refine the highlighting so that it takes into account actual changes that would happen?
-  // i.e. if in a city there would be actually no reduction, do not highlight it
-  function rentDecreasePressed () {
-    if (rentDecreaseActive){
-      document.getElementById('rentDecrease').setAttribute("selected", false);
-      rentDecreaseActive = false  
+  function rentIncreasePressed () {
+    if (rentIncreaseActive){
+      document.getElementById('rentIncrease').setAttribute("selected", false);
+      rentIncreaseActive = false  
     }
     else {
-      document.getElementById('rentDecrease').setAttribute("selected", true);
-      rentDecreaseActive = true
-    svg.selectAll("circle")
+      document.getElementById('rentIncrease').setAttribute("selected", true);
+      rentIncreaseActive = true
+    }
+    getCircleSelectionForRentIncrease()
+    .transition()
+          .duration(500)
+          .attr("r", 5 * circleRadius)
+        .transition()
+          .duration(500)
+          .attr("r", circleRadius);
+  }
+
+  function rentRenewalPressed () {
+    if (rentRenewalActive){
+      document.getElementById('rentRenewal').setAttribute("selected", false);
+      rentRenewalActive = false
+    }
+    else {
+      document.getElementById('rentRenewal').setAttribute("selected", true);
+      rentRenewalActive = true
+    }
+    getCircleSelectionForRentRenewal()
+        .transition()
+          .duration(500)
+          .attr("r", 5 * circleRadius)
+        .transition()
+          .duration(500)
+          .attr("r", circleRadius);
+      // adapt rent rects for strained markets
+      svg.selectAll(".marketRect")
+        .transition()
+          .duration(1000)
+          .attr("height", (d) => calculateMarketRent(d))
+          .attr("y", (d) => projection([d.long, d.lat])[1] - calculateMarketRent(d));
+  }
+
+  function maximumRentPressed () {
+    if (maximumRentActive){
+      document.getElementById('maximumRent').setAttribute("selected", false);
+      maximumRentActive = false
+    }
+    else {
+      document.getElementById('maximumRent').setAttribute("selected", true);
+      maximumRentActive = true
+    }
+    // highlight for cities with effect
+    getCircleSelectionForMaximumRent()  
       .transition()
         .duration(500)
         .attr("r", 5 * circleRadius)
       .transition()
         .duration(500)
         .attr("r", circleRadius);
-    }
-  }
-
-  function rentStopPressed () {
-    if (rentStopActive){
-      document.getElementById('rentStop').setAttribute("selected", false);
-      rentStopActive = false  
-    }
-    else {
-      document.getElementById('rentStop').setAttribute("selected", true);
-      rentStopActive = true
-    svg.selectAll("circle")
-      .filter((d) => d.marketCategory != 1)
-        .transition()
-          .duration(500)
-          .attr("r", 5 * circleRadius)
-        .transition()
-          .duration(500)
-          .attr("r", circleRadius);
-    }
-  }
-
-  function rentMaximumPressed () {
-    if (maximumRentActive){
-      document.getElementById('rentMaximum').setAttribute("selected", false);
-      maximumRentActive = false  
-    }
-    else {
-      document.getElementById('rentMaximum').setAttribute("selected", true);
-      maximumRentActive = true
-    svg.selectAll("circle")
-      .filter((d) => d.marketCategory == 3)  
-        .transition()
-          .duration(500)
-          .attr("r", 5 * circleRadius)
-        .transition()
-          .duration(500)
-          .attr("r", circleRadius);
-    }
-  }
-  
-  function updateChart () {
-
+  // adapt rent rects
+  svg.selectAll(".portfolioRect")
+    .transition()
+      .duration(1000)
+      .attr("height", (d) => calculatePortfolioRent(d))
+      .attr("y", (d) => projection([d.long, d.lat])[1] - calculatePortfolioRent(d))
   }
 
   ////////
   // WIRE UP BUTTONS AND THEIR METHODS
   ////////
-  document.getElementById("rentDecrease").onclick = rentDecreasePressed;
-  document.getElementById("rentStop").onclick = rentStopPressed;
-  document.getElementById("rentMaximum").onclick = rentMaximumPressed;
+  document.getElementById("maximumRent").onclick = maximumRentPressed;
+  document.getElementById("rentRenewal").onclick = rentRenewalPressed;
+  document.getElementById("rentIncrease").onclick = rentIncreasePressed;
 
 })

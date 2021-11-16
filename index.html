@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen"/>
   </head>
 
 
@@ -10,9 +10,9 @@
       <div id="mapContainer"></div>
 
       <div id="measureControls">
-        <button id="rentDecrease">Mietsenkungen</button>
-        <button id="rentStop">Mietstopp</button>
-        <button id="rentMaximum">Mietobergrenzen</button>
+        <button class="measureSelection" id="maximumRent" selected="false">Höchstmieten</button>
+        <button class="measureSelection" id="rentRenewal" selected="false">Regulierung Neuvermietung</button>
+        <button class="measureSelection" id="rentIncrease" selected="false">Kappungsgrenzen</button>
       </div>    
 
     <script type="module" src="index.js"></script>  
