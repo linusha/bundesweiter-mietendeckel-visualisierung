@@ -1130,6 +1130,32 @@ let mietsteigerungActive, mietobergrenzenActive, mietabsenkungenActive, wohnunge
 //////
 // HELPER METHODS
 //////
+function calculateNewLeistbareWohnverhaeltnisse(cityData){
+  if (!mietsteigerungActive && !mietobergrenzenActive && !mietabsenkungenActive && !wohnungenotgebieteActive) return 0
+  if (!mietsteigerungActive && !mietobergrenzenActive && !mietabsenkungenActive && wohnungenotgebieteActive) return 0
+  if (!mietsteigerungActive && !mietobergrenzenActive && mietabsenkungenActive && !wohnungenotgebieteActive) return cityData.geschütztMietsenkung;
+  if (!mietsteigerungActive && !mietobergrenzenActive && mietabsenkungenActive && wohnungenotgebieteActive) return cityData.geschütztMietsenkungNot;
+  if (!mietsteigerungActive && mietobergrenzenActive && !mietabsenkungenActive && !wohnungenotgebieteActive) return cityData.geschütztWiedervermietung;
+  if (!mietsteigerungActive && mietobergrenzenActive && !mietabsenkungenActive && wohnungenotgebieteActive) return cityData.geschütztWiedervermietungNot;
+  if (!mietsteigerungActive && mietobergrenzenActive && mietabsenkungenActive && !wohnungenotgebieteActive) return cityData.geschütztMietsenkung + cityData.geschütztWiedervermietung;
+  if (!mietsteigerungActive && mietobergrenzenActive && mietabsenkungenActive && wohnungenotgebieteActive) return cityData.geschütztMietsenkungNot + cityData.geschütztWiedervermietungNot;
+  if (mietsteigerungActive && !mietobergrenzenActive && !mietabsenkungenActive && !wohnungenotgebieteActive) return cityData.geschütztKappung;
+  if (mietsteigerungActive && !mietobergrenzenActive && !mietabsenkungenActive && wohnungenotgebieteActive) return cityData.geschütztKappungNot;
+  if (mietsteigerungActive && !mietobergrenzenActive && mietabsenkungenActive && !wohnungenotgebieteActive) return cityData.geschütztKappung + geschütztMietsenkung;
+  if (mietsteigerungActive && !mietobergrenzenActive && mietabsenkungenActive && wohnungenotgebieteActive) return cityData.geschütztKappungNot + geschütztMietsenkungNot;
+  if (mietsteigerungActive && mietobergrenzenActive && !mietabsenkungenActive && !wohnungenotgebieteActive) return cityData.geschütztWiedervermietung + cityData.geschütztKappung;
+  if (mietsteigerungActive && mietobergrenzenActive && !mietabsenkungenActive && wohnungenotgebieteActive) return cityData.geschütztKappungNot + cityData.geschütztWiedervermietungNot;
+  if (mietsteigerungActive && mietobergrenzenActive && mietabsenkungenActive && !wohnungenotgebieteActive) return cityData.geschütztKappung + cityData.geschütztMietsenkung + cityData.geschütztWiedervermietung;
+  if (mietsteigerungActive && mietobergrenzenActive && mietabsenkungenActive && wohnungenotgebieteActive) return cityData.geschütztKappungNot + cityData.geschütztMietsenkungNot + cityData.geschütztWiedervermietungNot;
+};
+
+function getTooltipContent(cityData){
+  let nameTag = "<p>" + cityData.name + "</p>"
+  let leistbarNewTag = "<p>" +
+    calculateNewLeistbareWohnverhaeltnisse(cityData) + 
+    "</p>"
+  return nameTag + leistbarNewTag
+};
 
 function calculateMarketRent(cityData){
   if (!cityData.active) return 0;
@@ -1248,7 +1274,7 @@ function getCircleSelectionForRentIncrease(){
           tooltip.transition()		
             .duration(200)		
             .style("opacity", .9);		
-          tooltip.html(d.name)	
+          tooltip.html(getTooltipContent(d))	
             .style("left", (event.pageX) + "px")		
             .style("top", (event.pageY - 28) + "px");	
         })					
