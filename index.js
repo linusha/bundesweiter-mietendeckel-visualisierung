@@ -1125,7 +1125,7 @@ d3.json("https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_d
   //.attr("transform",
   //  "translate(" + margin.left + "," + margin.top + ")");
 
-let rentIncreaseActive, rentRenewalActive, maximumRentActive = false
+let mietsteigerungActive, mietobergrenzenActive, mietabsenkungenActive, wohnungenotgebieteActive = false
 
 //////
 // HELPER METHODS
@@ -1288,14 +1288,14 @@ function getCircleSelectionForRentIncrease(){
   // FUNCTIONALITY FOR THE BUTTONS
   ////////
 
-  function rentIncreasePressed () {
-    if (rentIncreaseActive){
-      document.getElementById('rentIncrease').setAttribute("selected", false);
-      rentIncreaseActive = false  
+  function mietsteigerungPressed () {
+    if (mietsteigerungActive){
+      document.getElementById('mietsteigerung').setAttribute("selected", false);
+      mietsteigerungActive = false  
     }
     else {
-      document.getElementById('rentIncrease').setAttribute("selected", true);
-      rentIncreaseActive = true
+      document.getElementById('mietsteigerung').setAttribute("selected", true);
+      mietsteigerungActive = true
     }
     getCircleSelectionForRentIncrease()
     .transition()
@@ -1304,16 +1304,16 @@ function getCircleSelectionForRentIncrease(){
         .transition()
           .duration(500)
           .attr("r", circleRadius);
-  }
+  };
 
-  function rentRenewalPressed () {
-    if (rentRenewalActive){
-      document.getElementById('rentRenewal').setAttribute("selected", false);
-      rentRenewalActive = false
+  function mietabsenkungenPressed () {
+    if (mietabsenkungenActive){
+      document.getElementById('mietabsenkungen').setAttribute("selected", false);
+      mietabsenkungenActive = false
     }
     else {
-      document.getElementById('rentRenewal').setAttribute("selected", true);
-      rentRenewalActive = true
+      document.getElementById('mietabsenkungen').setAttribute("selected", true);
+      mietabsenkungenActive = true
     }
     getCircleSelectionForRentRenewal()
         .transition()
@@ -1328,16 +1328,16 @@ function getCircleSelectionForRentIncrease(){
           .duration(1000)
           .attr("height", (d) => calculateMarketRent(d))
           .attr("y", (d) => projection([d.long, d.lat])[1] - calculateMarketRent(d));
-  }
+  };
 
-  function maximumRentPressed () {
-    if (maximumRentActive){
-      document.getElementById('maximumRent').setAttribute("selected", false);
-      maximumRentActive = false
+  function mietobergrenzenPressed () {
+    if (mietobergrenzenActive){
+      document.getElementById('mietobergrenzen').setAttribute("selected", false);
+      mietobergrenzenActive = false
     }
     else {
-      document.getElementById('maximumRent').setAttribute("selected", true);
-      maximumRentActive = true
+      document.getElementById('mietobergrenzen').setAttribute("selected", true);
+      mietobergrenzenActive = true
     }
     // highlight for cities with effect
     getCircleSelectionForMaximumRent()  
@@ -1353,13 +1353,25 @@ function getCircleSelectionForRentIncrease(){
       .duration(1000)
       .attr("height", (d) => calculatePortfolioRent(d))
       .attr("y", (d) => projection([d.long, d.lat])[1] - calculatePortfolioRent(d))
-  }
+  };
+
+  function wohnungenotgebietePressed () {
+    if (wohnungenotgebieteActive){
+      document.getElementById('wohnungenotgebiete').setAttribute("selected", false);
+      wohnungenotgebieteActive = false
+    }
+    else {
+      document.getElementById('wohnungenotgebiete').setAttribute("selected", true);
+      wohnungenotgebieteActive = true
+    }
+  };
 
   ////////
   // WIRE UP BUTTONS AND THEIR METHODS
   ////////
-  document.getElementById("maximumRent").onclick = maximumRentPressed;
-  document.getElementById("rentRenewal").onclick = rentRenewalPressed;
-  document.getElementById("rentIncrease").onclick = rentIncreasePressed;
+  document.getElementById("mietsteigerung").onclick = mietsteigerungPressed;
+  document.getElementById("mietobergrenzen").onclick = mietobergrenzenPressed;
+  document.getElementById("mietabsenkungen").onclick = mietabsenkungenPressed;
+  document.getElementById("wohnungenotgebiete").onclick = wohnungenotgebietePressed;
 
 })
