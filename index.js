@@ -1512,23 +1512,70 @@ d3.json(
   }
 
   let maximumSubjektfoerderung =
-    12 *
-    arraySum(
-      cities.map(
-        (city) =>
-          city.geschütztWiedervermietungNot *
-            city.leistbarkeitsDifferenzWiedervermietung +
-          city.geschütztKappungNot * city.leistbarkeitsdifferenzKappung +
-          city.geschütztMietsenkungNot * city.leistbarkeitsdifferenzMietsenkung
+    (
+      12 *
+      arraySum(
+        cities.map(
+          (city) =>
+            city.geschütztWiedervermietungNot *
+              city.leistbarkeitsDifferenzWiedervermietung +
+            city.geschütztKappungNot * city.leistbarkeitsdifferenzKappung +
+            city.geschütztMietsenkungNot *
+              city.leistbarkeitsdifferenzMietsenkung
+        )
       )
-    );
+    ).toLocaleString("de-DE") + "€";
   document.getElementById("total").textContent = maximumSubjektfoerderung;
+
+  function bestandsMiete(city) {
+    if (mietabsenkungenActive) {
+      if (wohnungenotgebieteActive) return city.mietsenkungSollNot;
+      return city.mietsenkungSoll;
+    }
+    return city.bestandsMiete;
+  }
+
+  function neuvermietungsMiete(city) {
+    if (mietobergrenzenActive) {
+      if (wohnungenotgebieteActive) return city.wiedervermietungSollNot;
+      return city.wiedervermietungSoll;
+    }
+    return city.wiedervermietungIst;
+  }
+
+  function mieterhoehung(city) {
+    if (mietobergrenzenActive) {
+      if (wohnungenotgebieteActive) return city.kappungSollNot;
+      return city.kappungSoll;
+    }
+    return city.kappungIst;
+  }
 
   function getTooltipContent(cityData) {
     let nameTag = "<p>" + cityData.name + "</p>";
     let leistbarNewTag =
-      "<p>" + calculateNewLeistbareWohnverhaeltnisse(cityData) + "</p>";
-    return nameTag + leistbarNewTag;
+      "<p>" +
+      calculateNewLeistbareWohnverhaeltnisse(cityData).toLocaleString("de-DE") +
+      " leistbare Mietverhältnisse entstehen oder werden erhalten.</p>";
+    let bestandsMietenTag =
+      "<p>Durchschnittliche Miete im Bestand: " +
+      bestandsMiete(cityData) +
+      " €/m²</p>";
+    let neuvermietungsTag =
+      "<p>Durchschnittliche Neuvermietungsmiete: " +
+      neuvermietungsMiete(cityData) +
+      " €/m²</p>";
+    let mieterhoehungsTag =
+      "<p>Durchschnittlich mögliche Mieterhöhung auf: " +
+      mieterhoehung(cityData) +
+      " €/m²</p>";
+    return (
+      nameTag +
+      leistbarNewTag +
+      bestandsMietenTag +
+      neuvermietungsTag +
+      mieterhoehungsTag
+    );
   }
 
   function calculateMarketRent(cityData) {
@@ -1717,7 +1764,7 @@ d3.json(
       mietsteigerungActive = true;
     }
     document.getElementById("currentMeasures").textContent =
-      calculateEquivalentSubjektfoerderung();
+      calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
     getCircleSelectionForRentIncrease()
       .transition()
       .duration(500)
@@ -1738,7 +1785,7 @@ d3.json(
       mietabsenkungenActive = true;
     }
     document.getElementById("currentMeasures").textContent =
-      calculateEquivalentSubjektfoerderung();
+      calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
     getCircleSelectionForRentRenewal()
       .transition()
       .duration(500)
@@ -1769,7 +1816,7 @@ d3.json(
       mietobergrenzenActive = true;
     }
     document.getElementById("currentMeasures").textContent =
-      calculateEquivalentSubjektfoerderung();
+      calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
     // highlight for cities with effect
     getCircleSelectionForMaximumRent()
       .transition()
@@ -1803,7 +1850,7 @@ d3.json(
       wohnungenotgebieteActive = true;
     }
     document.getElementById("currentMeasures").textContent =
-      calculateEquivalentSubjektfoerderung();
+      calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
   }
 
   ////////
@@ -1815,5 +1862,5 @@ d3.json(
   document.getElementById("wohnungenotgebiete").onclick =
     wohnungenotgebietePressed;
   document.getElementById("currentMeasures").textContent =
-    calculateEquivalentSubjektfoerderung();
+    calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
 });
