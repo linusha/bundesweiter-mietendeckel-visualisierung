@@ -7,13 +7,38 @@
 
 
   <body>
+    <h1>Wie wirkt ein bundesweiter Mietendeckel?</h1>
+    <h2>Am Beispiel von 42 deutschen Großstädten</h2>
       <div id="mapContainer"></div>
 
       <div id="measureControls">
-        <button class="measureSelection" id="mietsteigerung" selected="false">Mietsteigerung</button>
-        <button class="measureSelection" id="mietobergrenzen" selected="false">Mietobergrenzen</button>
-        <button class="measureSelection" id="mietabsenkungen" selected="false">Mietabsenkungen</button>
-        <button class="measureSelection" id="wohnungenotgebiete" selected="false">Wohnungsnotgebiete</button>
+        <div>
+          <button class="measureSelection" id="mietsteigerung" selected="false">Mietsteigerung</button>
+          <p>
+            In Gebieten mit einem angespannten Wohnungsmarkt können Mieten in laufenden Mietverhältnissen nur noch entsprechend der Inflation erhöht werden.
+          </p>
+        </div>
+        <div>
+          <button class="measureSelection" id="mietobergrenzen" selected="false">Mietobergrenzen</button>
+          <p>
+            Neuvermietungen sind in Gebieten mit angespanntem Wohnungsmarkt nur noch bis maximal 10% über der örtlichen Durchschnittsmiete möglich.
+          </p>
+        </div>
+        <div>
+          <button class="measureSelection" id="mietabsenkungen" selected="false">Mietabsenkungen</button>
+          <p>
+            In bestehenden Mietverhältnisse werden Mieten die die örtliche Durchschnittsmiete um mehr als 20% übersteigen auf diesen Wert abgesenkt.
+          </p>
+        </div>
+        <div>
+          <button class="measureSelection" id="wohnungenotgebiete" selected="false">Wohnungsnotgebiete</button>
+          <p>
+            Besonders belastete Gebiete werden als Wohnungsnotgebiete ausgewiesen. Die Miete kann hier in laufenden Mietverhältnissen nicht mehr erhöht werden. Neue Mietverhältnisse dürfen nur zur örtlichen Durchschnittsmiete geschlossen werden. In bestehenden Mietverhältnissen wird die Miete so abgesenkt, dass sie die im Schnitt leistbare Miete um maximal 20% überschreitet.
+          </p>
+        </div>
+        
+        
+        
       </div>    
 
     <script type="module" src="index.js"></script>  
