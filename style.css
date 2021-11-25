@@ -1,3 +1,7 @@
+#customMietendeckelApplet {
+    font-family: 'Univers', sans-serif;
+}                                            
+
 .measureSelection {
     background: red;
     border-radius: 4px;
