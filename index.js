@@ -1619,7 +1619,6 @@ d3.json(
     })
   );
 
-  // Define the div for the tooltip
   let tooltip = d3
     .select("body")
     .append("div")
@@ -1627,6 +1626,7 @@ d3.json(
     .style("position", "absolute")
     .style("border", "1px solid black")
     .style("border-radius", "3px")
+    .style("background", "white")
     .style("visibility", "hidden");
 
   function citySelected() {
@@ -1725,7 +1725,7 @@ d3.json(
     .on("mouseover", function (event, d) {
       tooltip.transition().duration(200).style("visibility", "visible");
       tooltip
-        .html(getConsequencesContent(d))
+        .html(d.name)
         .style("left", event.pageX + "px")
         .style("top", event.pageY - 28 + "px");
     })
