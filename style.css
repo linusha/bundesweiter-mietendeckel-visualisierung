@@ -13,3 +13,7 @@
     background: darkred;
     color: white;
 }
+
+#consequences {
+    border: 1px solid black;
+}

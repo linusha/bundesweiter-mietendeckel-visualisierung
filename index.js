@@ -1136,6 +1136,12 @@ d3.json(
     mietabsenkungenActive,
     wohnungenotgebieteActive = false;
 
+  function showTutorial() {
+    document.getElementById("consequences").innerHTML = '<p id="tutorial">Durch klicken kann eine Stadt ausgewählt werden um die Auswirkungen der aktivierten Maßnahmen auf die Stadt genauer zu betrachten.</p>'  
+  }
+  // let tutorial be visible in the beginning
+
+  showTutorial()
   //////
   // HELPER METHODS
   //////
@@ -1551,8 +1557,8 @@ d3.json(
     return city.kappungIst;
   }
 
-  function getTooltipContent(cityData) {
-    let nameTag = "<p>" + cityData.name + "</p>";
+  function getConsequencesContent(cityData) {
+    let nameTag = "<p style='font-weight: bold;'>" + cityData.name + "</p>";
     let leistbarNewTag =
       "<p>" +
       calculateNewLeistbareWohnverhaeltnisse(cityData).toLocaleString("de-DE") +
@@ -1576,31 +1582,6 @@ d3.json(
       neuvermietungsTag +
       mieterhoehungsTag
     );
-  }
-
-  function calculateMarketRent(cityData) {
-    if (!cityData.active) return 0;
-    if (rentRenewalActive) {
-      if (cityData.marketCategory == 1) return cityData.marketRent;
-      if (cityData.marketCategory == 3)
-        return cityData.marketRent > cityData.maximalRent
-          ? cityData.maximalRent
-          : cityData.marketRent;
-      return cityData.marketRent > cityData.renewedRent
-        ? cityData.renewedRent
-        : cityData.marketRent;
-    }
-    return cityData.marketRent;
-  }
-
-  function calculatePortfolioRent(cityData) {
-    if (!cityData.active) return 0;
-    if (maximumRentActive) {
-      return cityData.portfolioRent > cityData.maximalRent
-        ? cityData.maximalRent
-        : cityData.portfolioRent;
-    }
-    return cityData.portfolioRent;
   }
 
   function getCircleSelectionForRentRenewal() {
@@ -1648,26 +1629,55 @@ d3.json(
     .style("border-radius", "3px")
     .style("visibility", "hidden");
 
+  function citySelected() {
+    return cities.some((city) => city.active)
+  }
+
+  function selectedCity() {
+    return cities.filter((city) => city.active)[0]
+  }
+
+  function updateConsequences(city) {
+    document.getElementById("consequences").innerHTML = getConsequencesContent(city)
+  }
   // a city has been toggled by clicking on it
   let updateCitySelection = function (event, clickedData) {
     clickedData.active = !clickedData.active;
-
+    cities.map(city => city.active = city.name == clickedData.name ? city.active : false)
+    
+    map
+      .selectAll(".marketRect")
+      .style("visibility", "hidden");
+    map
+      .selectAll(".portfolioRect")
+      .style("visibility", "hidden");
+    cityCircles
+      .style("visibility", "visible");
+  
+    if (citySelected()) {
+      updateConsequences(clickedData)
+    } 
+    else {
+      showTutorial()
+    };
+    
+    
     map
       .selectAll(".marketRect")
       .filter((d) => d.name == clickedData.name)
       .transition(2000)
-      .attr("height", (d) => calculateMarketRent(d))
-      .attr("y", (d) => projection([d.long, d.lat])[1] - calculateMarketRent(d))
+      .attr("height", (d) => neuvermietungsMiete(d))
+      .attr("y", (d) => projection([d.long, d.lat])[1] - neuvermietungsMiete(d))
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
     map
       .selectAll(".portfolioRect")
       .filter((d) => d.name == clickedData.name)
       .transition(2000)
-      .attr("height", (d) => calculatePortfolioRent(d))
+      .attr("height", (d) => bestandsMiete(d))
       .attr(
         "y",
-        (d) => projection([d.long, d.lat])[1] - calculatePortfolioRent(d)
+        (d) => projection([d.long, d.lat])[1] - bestandsMiete(d)
       )
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
@@ -1715,7 +1725,7 @@ d3.json(
     .on("mouseover", function (event, d) {
       tooltip.transition().duration(200).style("visibility", "visible");
       tooltip
-        .html(getTooltipContent(d))
+        .html(getConsequencesContent(d))
         .style("left", event.pageX + "px")
         .style("top", event.pageY - 28 + "px");
     })
@@ -1772,6 +1782,7 @@ d3.json(
       .transition()
       .duration(500)
       .attr("r", circleRadius);
+    if (citySelected()) updateConsequences(selectedCity());
   }
 
   function mietabsenkungenPressed() {
@@ -1798,11 +1809,12 @@ d3.json(
       .selectAll(".marketRect")
       .transition()
       .duration(1000)
-      .attr("height", (d) => calculateMarketRent(d))
+      .attr("height", (d) => neuvermietungsMiete(d))
       .attr(
         "y",
-        (d) => projection([d.long, d.lat])[1] - calculateMarketRent(d)
+        (d) => projection([d.long, d.lat])[1] - neuvermietungsMiete(d)
       );
+      if (citySelected()) updateConsequences(selectedCity());
   }
 
   function mietobergrenzenPressed() {
@@ -1835,6 +1847,7 @@ d3.json(
         "y",
         (d) => projection([d.long, d.lat])[1] - calculatePortfolioRent(d)
       );
+      if (citySelected()) updateConsequences(selectedCity());
   }
 
   function wohnungenotgebietePressed() {
@@ -1851,6 +1864,7 @@ d3.json(
     }
     document.getElementById("currentMeasures").textContent =
       calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
+      if (citySelected()) updateConsequences(selectedCity());
   }
 
   ////////
