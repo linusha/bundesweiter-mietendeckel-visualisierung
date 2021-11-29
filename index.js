@@ -1517,6 +1517,16 @@ d3.json(
     }
   }
 
+  function getEquivalentSubjektfoerderungString(){
+    return calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
+  }
+
+  function updateSubjektfoerderungsShowcase() {
+    document.getElementById("subjektfoerderung").textContent = `Um den Effekt der gerade ausgewählten Maßnahmen durch die Zahlung von Subjektfoederung zu erzielen, müssten ${getEquivalentSubjektfoerderungString()} aufgewendet werden. Die aktuell ausgewählten Maßnahmen erreichen ${Math.round(((calculateEquivalentSubjektfoerderung()/maximumSubjektfoerderung).toFixed(2) * 100)) }% des nach dem Konzept maximal möglichen Effektes. Dieser entspräche einem Einsatz von ${maximumSubjektfoerderung.toLocaleString("de-DE")} €.` 
+  }
+
+  
+
   let maximumSubjektfoerderung =
     (
       12 *
@@ -1530,8 +1540,7 @@ d3.json(
               city.leistbarkeitsdifferenzMietsenkung
         )
       )
-    ).toLocaleString("de-DE") + "€";
-  document.getElementById("total").textContent = maximumSubjektfoerderung;
+    );
 
   function bestandsMiete(city) {
     if (mietabsenkungenActive) {
@@ -1773,8 +1782,7 @@ d3.json(
       document.getElementById("mietsteigerung").setAttribute("selected", true);
       mietsteigerungActive = true;
     }
-    document.getElementById("currentMeasures").textContent =
-      calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
+    updateSubjektfoerderungsShowcase();
     getCircleSelectionForRentIncrease()
       .transition()
       .duration(500)
@@ -1795,8 +1803,7 @@ d3.json(
       document.getElementById("mietabsenkungen").setAttribute("selected", true);
       mietabsenkungenActive = true;
     }
-    document.getElementById("currentMeasures").textContent =
-      calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
+    updateSubjektfoerderungsShowcase();
     getCircleSelectionForRentRenewal()
       .transition()
       .duration(500)
@@ -1827,8 +1834,7 @@ d3.json(
       document.getElementById("mietobergrenzen").setAttribute("selected", true);
       mietobergrenzenActive = true;
     }
-    document.getElementById("currentMeasures").textContent =
-      calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
+    updateSubjektfoerderungsShowcase();
     // highlight for cities with effect
     getCircleSelectionForMaximumRent()
       .transition()
@@ -1842,10 +1848,10 @@ d3.json(
       .selectAll(".portfolioRect")
       .transition()
       .duration(1000)
-      .attr("height", (d) => calculatePortfolioRent(d))
+      .attr("height", (d) => bestandsMiete(d))
       .attr(
         "y",
-        (d) => projection([d.long, d.lat])[1] - calculatePortfolioRent(d)
+        (d) => projection([d.long, d.lat])[1] - bestandsMiete(d)
       );
       if (citySelected()) updateConsequences(selectedCity());
   }
@@ -1862,8 +1868,7 @@ d3.json(
         .setAttribute("selected", true);
       wohnungenotgebieteActive = true;
     }
-    document.getElementById("currentMeasures").textContent =
-      calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
+    updateSubjektfoerderungsShowcase();
       if (citySelected()) updateConsequences(selectedCity());
   }
 
@@ -1873,8 +1878,6 @@ d3.json(
   document.getElementById("mietsteigerung").onclick = mietsteigerungPressed;
   document.getElementById("mietobergrenzen").onclick = mietobergrenzenPressed;
   document.getElementById("mietabsenkungen").onclick = mietabsenkungenPressed;
-  document.getElementById("wohnungenotgebiete").onclick =
-    wohnungenotgebietePressed;
-  document.getElementById("currentMeasures").textContent =
-    calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
+  document.getElementById("wohnungenotgebiete").onclick = wohnungenotgebietePressed;
+  updateSubjektfoerderungsShowcase();
 });
