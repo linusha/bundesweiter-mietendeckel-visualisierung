@@ -1659,6 +1659,8 @@ d3.json(
     return map.selectAll("circle");
   }
 
+  let barScale = 5;
+
   // Draw the map
   map
     .append("g")
@@ -1707,6 +1709,9 @@ d3.json(
     map
       .selectAll(".portfolioRect")
       .style("visibility", "hidden");
+    map
+      .selectAll(".increaseRect")
+      .style("visibility", "hidden");
     cityCircles
       .style("visibility", "visible");
   
@@ -1722,18 +1727,26 @@ d3.json(
       .selectAll(".marketRect")
       .filter((d) => d.name == clickedData.name)
       .transition(2000)
-      .attr("height", (d) => neuvermietungsMiete(d))
-      .attr("y", (d) => projection([d.long, d.lat])[1] - neuvermietungsMiete(d))
+      .attr("height", (d) => neuvermietungsMiete(d) * barScale)
+      .attr("y", (d) => projection([d.long, d.lat])[1] - neuvermietungsMiete(d) * barScale)
+      .style("visibility", clickedData.active ? "visible" : "hidden");
+
+    map
+      .selectAll(".increaseRect")
+      .filter((d) => d.name == clickedData.name)
+      .transition(2000)
+      .attr("height", (d) => mieterhoehung(d) * barScale)
+      .attr("y", (d) => projection([d.long, d.lat])[1] - mieterhoehung(d) * barScale)
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
     map
       .selectAll(".portfolioRect")
       .filter((d) => d.name == clickedData.name)
       .transition(2000)
-      .attr("height", (d) => bestandsMiete(d))
+      .attr("height", (d) => bestandsMiete(d) * barScale)
       .attr(
         "y",
-        (d) => projection([d.long, d.lat])[1] - bestandsMiete(d)
+        (d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale
       )
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
@@ -1791,6 +1804,7 @@ d3.json(
 
   let barWidth = 10;
 
+  // depicting bar for new rentals
   map
     .selectAll("marketBars")
     .data(cities)
@@ -1798,12 +1812,13 @@ d3.json(
     .append("rect")
     .attr("class", "cityRect marketRect")
     .attr("width", barWidth)
-    .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth / 2)
+    .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth)
     .attr("y", (d) => projection([d.long, d.lat])[1])
     .attr("fill", colorMarketBars)
     .attr("visibility", "hidden")
     .on("mousedown", updateCitySelection);
 
+  // depicting bar for current rentals
   map
     .selectAll("portfolioBars")
     .data(cities)
@@ -1811,9 +1826,24 @@ d3.json(
     .append("rect")
     .attr("class", "cityRect portfolioRect")
     .attr("width", barWidth)
-    .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth / 2)
+    .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth)
     .attr("y", (d) => projection([d.long, d.lat])[1])
     .attr("fill", colorPortfolioBars)
+    .attr("visibility", "hidden")
+    .on("mousedown", updateCitySelection);
+
+  //depicting bars for possible increases in current rentals
+  map
+    .selectAll("increaseBars")
+    .data(cities)
+    .enter()
+    .append("rect")
+    .attr("class", "cityRect increaseRect")
+    .attr("width", barWidth)
+    .attr("x", (d) => projection([d.long, d.lat])[0])
+    .attr("y", (d) => projection([d.long, d.lat])[1])
+    .attr("fill", "black")
+    .attr("opacity", "0.5")
     .attr("visibility", "hidden")
     .on("mousedown", updateCitySelection);
 
@@ -1837,7 +1867,18 @@ d3.json(
       .transition()
       .duration(500)
       .attr("r", circleRadius);
-    if (citySelected()) updateConsequences(selectedCity());
+    
+      map
+      .selectAll(".increaseRect")
+      .transition()
+      .duration(1000)
+      .attr("height", (d) => mieterhoehung(d) * barScale)
+      .attr(
+        "y",
+        (d) => projection([d.long, d.lat])[1] - mieterhoehung(d) * barScale
+      );
+
+      if (citySelected()) updateConsequences(selectedCity());
   }
 
   function mietabsenkungenPressed() {
@@ -1858,15 +1899,14 @@ d3.json(
       .transition()
       .duration(500)
       .attr("r", circleRadius);
-    // adapt rent rects for strained markets
     map
-      .selectAll(".marketRect")
+      .selectAll(".portfolioRect")
       .transition()
       .duration(1000)
-      .attr("height", (d) => neuvermietungsMiete(d))
+      .attr("height", (d) => bestandsMiete(d) * barScale)
       .attr(
         "y",
-        (d) => projection([d.long, d.lat])[1] - neuvermietungsMiete(d)
+        (d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale
       );
       if (citySelected()) updateConsequences(selectedCity());
   }
@@ -1892,13 +1932,13 @@ d3.json(
       .attr("r", circleRadius);
     // adapt rent rects
     map
-      .selectAll(".portfolioRect")
+      .selectAll(".marketRect")
       .transition()
       .duration(1000)
-      .attr("height", (d) => bestandsMiete(d))
+      .attr("height", (d) => neuvermietungsMiete(d) * barScale)
       .attr(
         "y",
-        (d) => projection([d.long, d.lat])[1] - bestandsMiete(d)
+        (d) => projection([d.long, d.lat])[1] - neuvermietungsMiete(d) * barScale
       );
       if (citySelected()) updateConsequences(selectedCity());
   }
@@ -1915,6 +1955,37 @@ d3.json(
         .setAttribute("selected", true);
       wohnungenotgebieteActive = true;
     }
+
+    map
+      .selectAll(".increaseRect")
+      .transition()
+      .duration(1000)
+      .attr("height", (d) => mieterhoehung(d) * barScale)
+      .attr(
+        "y",
+        (d) => projection([d.long, d.lat])[1] - mieterhoehung(d) * barScale
+      );
+      
+    map
+      .selectAll(".portfolioRect")
+      .transition()
+      .duration(1000)
+      .attr("height", (d) => bestandsMiete(d) * barScale)
+      .attr(
+        "y",
+        (d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale
+      );
+
+    map
+      .selectAll(".marketRect")
+      .transition()
+      .duration(1000)
+      .attr("height", (d) => neuvermietungsMiete(d) * barScale)
+      .attr(
+        "y",
+        (d) => projection([d.long, d.lat])[1] - neuvermietungsMiete(d) * barScale
+      );
+
     updateSubjektfoerderungsShowcase();
       if (citySelected()) updateConsequences(selectedCity());
   }
