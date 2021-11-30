@@ -1559,7 +1559,7 @@ d3.json(
   }
 
   function mieterhoehung(city) {
-    if (mietobergrenzenActive) {
+    if (mietsteigerungActive) {
       if (wohnungenotgebieteActive) return city.kappungSollNot;
       return city.kappungSoll;
     }
