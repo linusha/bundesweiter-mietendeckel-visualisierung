@@ -1608,12 +1608,17 @@ d3.json(
     return city.kappungIst;
   }
 
+  function profitingHouseholds(city) {
+    let percent = calculateNewLeistbareWohnverhaeltnisse(city)/city.haushalte
+    return Math.round(1/percent);
+  }
+
   function getConsequencesContent(cityData) {
     let nameTag = "<p style='font-weight: bold;'>" + cityData.name + "</p>";
     let leistbarNewTag =
       "<p>" +
       calculateNewLeistbareWohnverhaeltnisse(cityData).toLocaleString("de-DE") +
-      " leistbare Mietverhältnisse entstehen oder werden erhalten.</p>";
+      " leistbare Mietverhältnisse entstehen oder werden erhalten. Das ist jeder " + profitingHouseholds(cityData) + ". Haushalt." + "</p>";
     let bestandsMietenTag =
       "<p>Durchschnittliche Miete im Bestand: " +
       bestandsMiete(cityData) +
