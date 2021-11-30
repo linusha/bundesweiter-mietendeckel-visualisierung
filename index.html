@@ -15,7 +15,7 @@
 
       <div id="measureControls">
         <div>
-          <button class="measureSelection" id="mietsteigerung" selected="false">Mietsteigerung</button>
+          <button class="measureSelection" id="mietsteigerung" selected="false">Mietsteigerung begrenzen</button>
           <p>
             In Gebieten mit einem angespannten Wohnungsmarkt können Mieten in laufenden Mietverhältnissen nur noch entsprechend der Inflation erhöht werden.
           </p>
@@ -35,7 +35,7 @@
         <div>
           <button class="measureSelection" id="wohnungenotgebiete" selected="false">Wohnungsnotgebiete</button>
           <p>
-            Besonders belastete Gebiete werden als Wohnungsnotgebiete ausgewiesen. Die Miete kann hier in laufenden Mietverhältnissen nicht mehr erhöht werden. Neue Mietverhältnisse dürfen nur zur örtlichen Durchschnittsmiete geschlossen werden. In bestehenden Mietverhältnissen wird die Miete so abgesenkt, dass sie die im Schnitt leistbare Miete um maximal 20% überschreitet.
+            Besonders belastete Gebiete werden als Wohnungsnotgebiete ausgewiesen. Dies verschärft die drei anderen Maßnahmen in diesen Gebieten entsprechend. Die Miete kann hier in laufenden Mietverhältnissen nicht mehr erhöht werden. Neue Mietverhältnisse dürfen nur zur örtlichen Durchschnittsmiete geschlossen werden. In bestehenden Mietverhältnissen wird die Miete so abgesenkt, dass sie die im Schnitt leistbare Miete um maximal 20% überschreitet.
           </p>
         </div>
         
@@ -43,10 +43,17 @@
         
       </div>
 
-      <div id="consequences"></div>
-
+      <div>
+        <h3>Effekte für ausgewählte Stadt</h3>
+        <div id="consequences"></div>
+      </div>
       
-      <p id="subjektfoerderung"></p>
+
+      <div>
+        <h3>Effekt auf alle Städte</h3>
+        <p id="subjektfoerderung"></p>
+      </div>
+      
     </div>
 
     <script type="module" src="index.js"></script>  

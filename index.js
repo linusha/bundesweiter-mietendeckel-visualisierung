@@ -1564,7 +1564,7 @@ d3.json(
   }
 
   function updateSubjektfoerderungsShowcase() {
-    document.getElementById("subjektfoerderung").textContent = `Um den Effekt der gerade ausgewählten Maßnahmen durch die Zahlung von Subjektfoederung zu erzielen, müssten ${getEquivalentSubjektfoerderungString()} aufgewendet werden. Die aktuell ausgewählten Maßnahmen erreichen ${Math.round(((calculateEquivalentSubjektfoerderung()/maximumSubjektfoerderung).toFixed(2) * 100)) }% des nach dem Konzept maximal möglichen Effektes. Dieser entspräche einem Einsatz von ${maximumSubjektfoerderung.toLocaleString("de-DE")} €.` 
+    document.getElementById("subjektfoerderung").textContent = `Um den Effekt der gerade ausgewählten Maßnahmen durch die Zahlung von Subjektfoederung zu erzielen, müssten pro Jahr ${getEquivalentSubjektfoerderungString()} aufgewendet werden. Die aktuell ausgewählten Maßnahmen erreichen ${Math.round(((calculateEquivalentSubjektfoerderung()/maximumSubjektfoerderung).toFixed(2) * 100)) }% des nach dem Konzept maximal möglichen Effektes. Dieser entspräche einem Einsatz von ${maximumSubjektfoerderung.toLocaleString("de-DE")} €.` 
   }
 
   
