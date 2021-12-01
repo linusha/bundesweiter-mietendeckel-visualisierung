@@ -6,6 +6,10 @@ svg {
     border: 1px solid black;
 }
 
+.path {
+    stroke:black;
+}
+
 .measureSelection {
     background: red;
     border-radius: 4px;
@@ -20,4 +24,19 @@ svg {
 
 #consequences {
     border: 1px solid black;
+}
+
+.feature.active {
+    fill: orange;
+  }
+
+#content {
+    display: flex; 
+    flex-direction: row;
+}
+
+@media (max-width:800px)  { 
+    #content {
+        flex-direction: column;
+    }
 }

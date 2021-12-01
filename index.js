@@ -1,7 +1,10 @@
 // Code partially from d3-graph-gallery.com
 // https://www.d3-graph-gallery.com/graph/backgroundmap_country.html
+// https://bl.ocks.org/mbostock/4699541 [GPLv3]
 
 import * as d3 from "https://cdn.skypack.dev/d3@7";
+
+let active = d3.select(null);
 
 function arraySum(array) {
   return array.reduce((accumVariable, curValue) => accumVariable + curValue, 0);
@@ -1156,13 +1159,13 @@ var margin = { top: 30, right: 30, bottom: 70, left: 60 },
 // Map and projection
 const projection = d3
   .geoMercator()
-  .center([6, 51]) // GPS of location to zoom on
+  .center([10, 51])
   .scale(980) // This is like the zoom
   .translate([400 / 2, 300 / 2]);
 
 // Load external data and boot
 d3.json(
-  "https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/1_deutschland/2_hoch.geo.json"
+  "https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/2_bundeslaender/3_mittel.geo.json"
 ).then(function (data) {
   let map = d3
     .select("#mapContainer")
@@ -1671,21 +1674,80 @@ d3.json(
 
   let barScale = 5;
 
-  // Draw the map
-  map
-    .append("g")
-    .selectAll("path")
-    .data(data.features)
-    .join("path")
-    .attr("fill", "grey")
-    .attr("d", d3.geoPath().projection(projection))
-    .style("stroke", "none");
+  let width = 400;
+  let height = 300;
+  
 
-  map.call(
-    d3.zoom().on("zoom", function (event) {
-      map.attr("transform", event.transform);
-    })
+  function clicked(event, d) {
+    if (active.node() === this) return reset();
+  active.classed("active", false);
+  active = d3.select(this).classed("active", true);
+
+  var bounds = path.bounds(d),
+      dx = bounds[1][0] - bounds[0][0],
+      dy = bounds[1][1] - bounds[0][1],
+      x = (bounds[0][0] + bounds[1][0]) / 2,
+      y = (bounds[0][1] + bounds[1][1]) / 2,
+      scale = .9 / Math.max(dx / width, dy / height),
+      translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+  map.transition(750)
+      .style("stroke-width", 1.5 / scale + "px")
+      .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+  }
+
+  function reset() {
+    active.classed("active", false);
+    active = d3.select(null);
+  
+    map.transition(750)
+        .style("stroke-width", "1.5px")
+        .attr("transform", "");
+  }
+
+  // Draw the map
+  var path = d3.geoPath().projection(projection);
+  
+    map.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", reset);
+
+  let g = map
+    .append("g").style("stroke-width", "1.5px")
+    
+    g.selectAll("path")
+    .data(data.features)
+    .enter()
+    .append("path")
+    .attr("fill", "grey")
+    .attr("d", path)
+    .attr("class", "feature")
+    .style("stroke", "black")
+    .on("click", clicked);
+
+  var zoom = d3.zoom()
+    .scaleExtent([1, 8])
+    .on('zoom', function(event) {
+        map.attr('transform', event.transform)
+    });
+
+  map.call(zoom);
+
+  d3.select("#btn-zoom--in").on("click", 
+    () => clickToZoom(2)
   );
+  d3.select("#btn-zoom--out").on("click",
+  () => clickToZoom(0.5)
+  );
+  d3.select("#btn-zoom--reset").on("click",
+    () =>  map.call(zoom.scaleTo, 1.5, [10, 51])
+  );
+  function clickToZoom(zoomStep) {
+    map
+      .transition(100)
+      .call(zoom.scaleBy, zoomStep);}
 
   let tooltip = d3
     .select("body")
