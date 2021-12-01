@@ -1165,7 +1165,7 @@ const projection = d3
 
 // Load external data and boot
 d3.json(
-  "https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/2_bundeslaender/3_mittel.geo.json"
+  "https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/2_bundeslaender/4_niedrig.geo.json"
 ).then(function (data) {
   let map = d3
     .select("#mapContainer")
@@ -1692,7 +1692,7 @@ d3.json(
       translate = [width / 2 - scale * x, height / 2 - scale * y];
 
   map.transition(750)
-      .style("stroke-width", 1.5 / scale + "px")
+      .style("stroke-width", "0.1px")
       .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
   }
 
@@ -1701,7 +1701,7 @@ d3.json(
     active = d3.select(null);
   
     map.transition(750)
-        .style("stroke-width", "1.5px")
+        .style("stroke-width", "1px")
         .attr("transform", "");
   }
 
@@ -1715,16 +1715,16 @@ d3.json(
     .on("click", reset);
 
   let g = map
-    .append("g").style("stroke-width", "1.5px")
+    .append("g").style("stroke-width", "1px")
     
     g.selectAll("path")
     .data(data.features)
     .enter()
     .append("path")
-    .attr("fill", "grey")
+    .attr("fill", "#d3dfee")
     .attr("d", path)
     .attr("class", "feature")
-    .style("stroke", "black")
+    .style("stroke", "darkgray")
     .on("click", clicked);
 
   var zoom = d3.zoom()
@@ -1789,6 +1789,18 @@ d3.json(
   
     if (citySelected()) {
       updateConsequences(clickedData)
+    
+
+      var dx = 5 * barWidth,
+        dy = neuvermietungsMiete(clickedData) * barScale + 10,
+        x = ((projection([clickedData.long, clickedData.lat])[0] - barWidth) + projection([clickedData.long, clickedData.lat])[0] + barWidth) / 2,
+        y = ((projection([clickedData.long, clickedData.lat])[1]) + projection([clickedData.long, clickedData.lat])[1] - dy) / 2,
+        scale = .9 / Math.max(dx / width, dy / height),
+        translate = [width / 2 - scale * x, height / 2 - scale * y];
+
+  map.transition(750)
+      .style("stroke-width", "0.1px")
+      .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
     } 
     else {
       showTutorial()

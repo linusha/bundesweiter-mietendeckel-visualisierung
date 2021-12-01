@@ -4,10 +4,7 @@
 
 svg {
     border: 1px solid black;
-}
-
-.path {
-    stroke:black;
+    fill: white;
 }
 
 .measureSelection {
@@ -27,7 +24,7 @@ svg {
 }
 
 .feature.active {
-    fill: orange;
+    fill: #4f81bd;
   }
 
 #content {
