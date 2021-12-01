@@ -1173,10 +1173,10 @@ d3.json(
   //.attr("transform",
   //  "translate(" + margin.left + "," + margin.top + ")");
 
-  let mietsteigerungActive,
-    mietobergrenzenActive,
-    mietabsenkungenActive,
-    wohnungenotgebieteActive = false;
+  let mietsteigerungActive = false;
+    let mietobergrenzenActive = false;
+    let mietabsenkungenActive = false;
+    let wohnungenotgebieteActive = false;
 
   function showTutorial() {
     document.getElementById("consequences").innerHTML = '<p id="tutorial">Durch klicken kann eine Stadt ausgewählt werden um die Auswirkungen der aktivierten Maßnahmen auf die Stadt genauer zu betrachten.</p>'  
@@ -1564,10 +1564,39 @@ d3.json(
   }
 
   function updateSubjektfoerderungsShowcase() {
-    document.getElementById("subjektfoerderung").textContent = `Um den Effekt der gerade ausgewählten Maßnahmen durch die Zahlung von Subjektfoederung zu erzielen, müssten pro Jahr ${getEquivalentSubjektfoerderungString()} aufgewendet werden. Die aktuell ausgewählten Maßnahmen erreichen ${Math.round(((calculateEquivalentSubjektfoerderung()/maximumSubjektfoerderung).toFixed(2) * 100)) }% des nach dem Konzept maximal möglichen Effektes. Dieser entspräche einem Einsatz von ${maximumSubjektfoerderung.toLocaleString("de-DE")} €.` 
+    let befitingCities = `Von den ausgewählten Maßnahmen profitieren Haushalte in ${benefitingFromCurrentSelection().length} Städten. `
+    let subjektfoerderung = `Um den Effekt der gerade ausgewählten Maßnahmen durch die Zahlung von Subjektfoederung zu erzielen, müssten pro Jahr ${getEquivalentSubjektfoerderungString()} aufgewendet werden. Die aktuell ausgewählten Maßnahmen erreichen ${Math.round(((calculateEquivalentSubjektfoerderung()/maximumSubjektfoerderung).toFixed(2) * 100)) }% des nach dem Konzept maximal möglichen Effektes. Dieser entspräche einem Einsatz von ${maximumSubjektfoerderung.toLocaleString("de-DE")} €.`
+    document.getElementById("subjektfoerderung").textContent = befitingCities + subjektfoerderung 
   }
 
+  function benefitsFromMietsteigerung(city){
+    return city.geschütztKappung > 0;
+  }
   
+  function benefitsFromMietobergrenzen(city){
+    return city.geschütztWiedervermietung > 0;
+  }
+  
+  function benefitsFromMietabsenkungen(city){
+    return city.geschütztMietsenkung > 0;
+  }
+
+  function benefitsFromNotgebiete(city){
+    return city.geschütztKappungNot > 0 || city.geschütztMietsenkungNot > 0 || city.geschütztWiedervermietungNot > 0;
+  }
+
+  function benefitingFromCurrentSelection(){
+    let benefitingKappung = [];
+    let benefitingWiedervermietung = [];
+    let benefitingAbsenkung = [];
+    let benefitingNot = [];
+    if (mietsteigerungActive) benefitingKappung = cities.filter(city => benefitsFromMietsteigerung(city));
+    if (mietobergrenzenActive) benefitingWiedervermietung = cities.filter(city => benefitsFromMietobergrenzen(city));
+    if (mietabsenkungenActive) benefitingAbsenkung = cities.filter(city => benefitsFromMietabsenkungen(city));
+    if (wohnungenotgebieteActive) benefitingNot = cities.filter(city => benefitsFromNotgebiete(city));
+    
+    return [...new Set((benefitingKappung.concat(benefitingWiedervermietung, benefitingAbsenkung, benefitingNot)).map(city => city.name ))]
+  }
 
   let maximumSubjektfoerderung =
     (
@@ -1638,25 +1667,6 @@ d3.json(
       neuvermietungsTag +
       mieterhoehungsTag
     );
-  }
-
-  function getCircleSelectionForRentRenewal() {
-    return map.selectAll("circle").filter((data) => {
-      return (
-        (data.marketCategory == 2 && data.marketRent > data.renewedRent) ||
-        (data.marketCategory == 3 && data.marketRent > data.maximalRent)
-      );
-    });
-  }
-
-  function getCircleSelectionForMaximumRent() {
-    return map.selectAll("circle").filter((data) => {
-      return data.marketRent > data.maximalRent;
-    });
-  }
-
-  function getCircleSelectionForRentIncrease() {
-    return map.selectAll("circle");
   }
 
   let barScale = 5;
@@ -1860,15 +1870,8 @@ d3.json(
       mietsteigerungActive = true;
     }
     updateSubjektfoerderungsShowcase();
-    getCircleSelectionForRentIncrease()
-      .transition()
-      .duration(500)
-      .attr("r", 5 * circleRadius)
-      .transition()
-      .duration(500)
-      .attr("r", circleRadius);
-    
-      map
+  
+    map
       .selectAll(".increaseRect")
       .transition()
       .duration(1000)
@@ -1892,13 +1895,6 @@ d3.json(
       mietabsenkungenActive = true;
     }
     updateSubjektfoerderungsShowcase();
-    getCircleSelectionForRentRenewal()
-      .transition()
-      .duration(500)
-      .attr("r", 5 * circleRadius)
-      .transition()
-      .duration(500)
-      .attr("r", circleRadius);
     map
       .selectAll(".portfolioRect")
       .transition()
@@ -1922,14 +1918,6 @@ d3.json(
       mietobergrenzenActive = true;
     }
     updateSubjektfoerderungsShowcase();
-    // highlight for cities with effect
-    getCircleSelectionForMaximumRent()
-      .transition()
-      .duration(500)
-      .attr("r", 5 * circleRadius)
-      .transition()
-      .duration(500)
-      .attr("r", circleRadius);
     // adapt rent rects
     map
       .selectAll(".marketRect")
@@ -1965,7 +1953,7 @@ d3.json(
         "y",
         (d) => projection([d.long, d.lat])[1] - mieterhoehung(d) * barScale
       );
-      
+
     map
       .selectAll(".portfolioRect")
       .transition()
