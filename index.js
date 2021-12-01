@@ -1672,18 +1672,15 @@ d3.json(
     );
   }
 
-  let barScale = 5;
-
-  let width = 400;
-  let height = 300;
+  let barScale = 5, width = 400, height = 300;
   
 
   function clicked(event, d) {
     if (active.node() === this) return reset();
-  active.classed("active", false);
-  active = d3.select(this).classed("active", true);
+    active.classed("active", false);
+    active = d3.select(this).classed("active", true);
 
-  var bounds = path.bounds(d),
+    var bounds = path.bounds(d),
       dx = bounds[1][0] - bounds[0][0],
       dy = bounds[1][1] - bounds[0][1],
       x = (bounds[0][0] + bounds[1][0]) / 2,
@@ -1691,7 +1688,7 @@ d3.json(
       scale = .9 / Math.max(dx / width, dy / height),
       translate = [width / 2 - scale * x, height / 2 - scale * y];
 
-  map.transition(750)
+    map.transition(750)
       .style("stroke-width", "0.1px")
       .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
   }
@@ -1701,8 +1698,8 @@ d3.json(
     active = d3.select(null);
   
     map.transition(750)
-        .style("stroke-width", "1px")
-        .attr("transform", "");
+      .style("stroke-width", "1px")
+      .attr("transform", "");
   }
 
   // Draw the map
@@ -1726,28 +1723,6 @@ d3.json(
     .attr("class", "feature")
     .style("stroke", "darkgray")
     .on("click", clicked);
-
-  var zoom = d3.zoom()
-    .scaleExtent([1, 8])
-    .on('zoom', function(event) {
-        map.attr('transform', event.transform)
-    });
-
-  map.call(zoom);
-
-  d3.select("#btn-zoom--in").on("click", 
-    () => clickToZoom(2)
-  );
-  d3.select("#btn-zoom--out").on("click",
-  () => clickToZoom(0.5)
-  );
-  d3.select("#btn-zoom--reset").on("click",
-    () =>  map.call(zoom.scaleTo, 1.5, [10, 51])
-  );
-  function clickToZoom(zoomStep) {
-    map
-      .transition(100)
-      .call(zoom.scaleBy, zoomStep);}
 
   let tooltip = d3
     .select("body")
@@ -1798,7 +1773,7 @@ d3.json(
         scale = .9 / Math.max(dx / width, dy / height),
         translate = [width / 2 - scale * x, height / 2 - scale * y];
 
-  map.transition(750)
+      map.transition(750)
       .style("stroke-width", "0.1px")
       .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
     } 
