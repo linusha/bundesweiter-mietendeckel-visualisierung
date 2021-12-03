@@ -2,7 +2,7 @@
 // https://www.d3-graph-gallery.com/graph/backgroundmap_country.html
 // https://bl.ocks.org/mbostock/4699541 [GPLv3]
 
-import * as d3 from "https://cdn.skypack.dev/d3@7";
+import * as d3 from "d3";
 
 let active = d3.select(null);
 
@@ -1165,7 +1165,8 @@ const projection = d3
 
 // Load external data and boot
 d3.json(
-  "https://raw.githubusercontent.com/isellsoap/deutschlandGeoJSON/main/2_bundeslaender/4_niedrig.geo.json"
+  "map.geo.json"
+  //"https://www.rosalux.de/fileadmin/static/mietendeckel/map.geo.json"
 ).then(function (data) {
   let map = d3
     .select("#mapContainer")
