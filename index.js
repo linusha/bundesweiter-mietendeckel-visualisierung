@@ -5,6 +5,7 @@
 import * as d3 from "d3";
 
 let active = d3.select(null);
+let activeBundesland = undefined;
 
 function arraySum(array) {
   return array.reduce((accumVariable, curValue) => accumVariable + curValue, 0);
@@ -1159,8 +1160,8 @@ var margin = { top: 30, right: 30, bottom: 70, left: 60 },
 // Map and projection
 const projection = d3
   .geoMercator()
-  .center([10, 51])
-  .scale(980) // This is like the zoom
+  .center([10, 51.38])
+  .scale(1200) // This is like the zoom
   .translate([400 / 2, 300 / 2]);
 
 // Load external data and boot
@@ -1676,10 +1677,17 @@ d3.json(
   let barScale = 5, width = 400, height = 300;
   
 
-  function clicked(event, d) {
-    if (active.node() === this) return reset();
-    active.classed("active", false);
-    active = d3.select(this).classed("active", true);
+  function clicked(event, d, doNotReset) {
+    if (!doNotReset && active.node() === this){
+      activeBundesland = null;
+      return reset();
+    }
+    activeBundesland = d;
+    if (!doNotReset){
+      active.classed("active", false);
+      active = d3.select(this).classed("active", true);
+    }
+    
 
     var bounds = path.bounds(d),
       dx = bounds[1][0] - bounds[0][0],
@@ -1748,6 +1756,7 @@ d3.json(
   }
   // a city has been toggled by clicking on it
   let updateCitySelection = function (event, clickedData) {
+    event.stopPropagation();
     clickedData.active = !clickedData.active;
     cities.map(city => city.active = city.name == clickedData.name ? city.active : false)
     
@@ -1779,7 +1788,12 @@ d3.json(
       .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
     } 
     else {
+      debugger
       showTutorial()
+      if (document.getElementsByClassName("active").length > 0){
+        clicked(null, activeBundesland, true);
+      }
+      else reset();
     };
     
     
