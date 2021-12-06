@@ -1928,9 +1928,11 @@ d3.json(
   function mietsteigerungPressed() {
     if (mietsteigerungActive) {
       document.getElementById("mietsteigerung").setAttribute("selected", false);
+      document.getElementById("mietsteigerung").nextElementSibling.className = "closedItem"
       mietsteigerungActive = false;
     } else {
       document.getElementById("mietsteigerung").setAttribute("selected", true);
+      document.getElementById("mietsteigerung").nextElementSibling.className = "openItem"
       mietsteigerungActive = true;
     }
     updateSubjektfoerderungsShowcase();
@@ -1954,8 +1956,10 @@ d3.json(
         .getElementById("mietabsenkungen")
         .setAttribute("selected", false);
       mietabsenkungenActive = false;
+      document.getElementById("mietabsenkungen").nextElementSibling.className = "closedItem"
     } else {
       document.getElementById("mietabsenkungen").setAttribute("selected", true);
+      document.getElementById("mietabsenkungen").nextElementSibling.className = "openItem"
       mietabsenkungenActive = true;
     }
     updateSubjektfoerderungsShowcase();
@@ -1977,9 +1981,11 @@ d3.json(
         .getElementById("mietobergrenzen")
         .setAttribute("selected", false);
       mietobergrenzenActive = false;
+      document.getElementById("mietobergrenzen").nextElementSibling.className = "closedItem"
     } else {
       document.getElementById("mietobergrenzen").setAttribute("selected", true);
       mietobergrenzenActive = true;
+      document.getElementById("mietobergrenzen").nextElementSibling.className = "openItem"
     }
     updateSubjektfoerderungsShowcase();
     // adapt rent rects
@@ -2001,11 +2007,13 @@ d3.json(
         .getElementById("wohnungenotgebiete")
         .setAttribute("selected", false);
       wohnungenotgebieteActive = false;
+      document.getElementById("wohnungenotgebiete").nextElementSibling.className = "closedItem"
     } else {
       document
         .getElementById("wohnungenotgebiete")
         .setAttribute("selected", true);
       wohnungenotgebieteActive = true;
+      document.getElementById("wohnungenotgebiete").nextElementSibling.className = "openItem"
     }
 
     map
