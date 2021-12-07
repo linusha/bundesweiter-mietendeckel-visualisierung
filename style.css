@@ -4,14 +4,14 @@ svg {
 }
 
 .measureSelection {
-    background: red;
+    background: #ff3300;
     border-radius: 4px;
     border-style: none;
     color: white;
 }
 
 .measureSelection[selected=true] {
-    background: darkred;
+    background: #b32400;
     color: white;
 }
 
@@ -20,7 +20,7 @@ svg {
 }
 
 .feature.active {
-    fill: #4f81bd;
+    fill: #779CCA;
   }
 
 #content {

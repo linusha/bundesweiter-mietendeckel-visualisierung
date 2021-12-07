@@ -1738,9 +1738,11 @@ d3.json(
     .append("div")
     .attr("class", "tooltip")
     .style("position", "absolute")
-    .style("border", "1px solid black")
-    .style("border-radius", "3px")
-    .style("background", "white")
+    .style("border-radius", "1px")
+    .style("background", "#2b3240")
+    .style("opacity", 0.8)
+    .style("padding", "3px")
+    .style("color", "white")
     .style("visibility", "hidden");
 
   function citySelected() {
@@ -1788,7 +1790,6 @@ d3.json(
       .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
     } 
     else {
-      debugger
       showTutorial()
       if (document.getElementsByClassName("active").length > 0){
         clicked(null, activeBundesland, true);
@@ -1831,9 +1832,11 @@ d3.json(
   };
 
   function colorCityCircles(d) {
-    if (d.marketCategory == 1) return "#00ff00";
-    if (d.marketCategory == 2) return "#ff9900";
-    if (d.marketCategory == 3) return "#ff0000";
+    if (wohnungenotgebieteActive && d.marketCategory == 3) return "#ff3300";
+    if (mietsteigerungActive && d.kappungIst > d.kappungSoll) return "#ff3300";
+    if (mietobergrenzenActive && d.wiedervermietungIst > d.wiedervermietungSoll) return "#ff3300";
+    if (mietabsenkungenActive && d.bestandsMiete > d.mietsenkungSoll) return "#ff3300";
+    return "#2b3240"
   }
 
   function colorMarketBars(d) {
@@ -1888,7 +1891,7 @@ d3.json(
     .attr("width", barWidth)
     .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth)
     .attr("y", (d) => projection([d.long, d.lat])[1])
-    .attr("fill", colorMarketBars)
+    .attr("fill", "#BD56B8")
     .attr("visibility", "hidden")
     .on("mousedown", updateCitySelection);
 
@@ -1902,7 +1905,7 @@ d3.json(
     .attr("width", barWidth)
     .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth)
     .attr("y", (d) => projection([d.long, d.lat])[1])
-    .attr("fill", colorPortfolioBars)
+    .attr("fill", "#BD8F56")
     .attr("visibility", "hidden")
     .on("mousedown", updateCitySelection);
 
@@ -1916,8 +1919,7 @@ d3.json(
     .attr("width", barWidth)
     .attr("x", (d) => projection([d.long, d.lat])[0])
     .attr("y", (d) => projection([d.long, d.lat])[1])
-    .attr("fill", "black")
-    .attr("opacity", "0.5")
+    .attr("fill", "#56BD5B")
     .attr("visibility", "hidden")
     .on("mousedown", updateCitySelection);
 
@@ -1940,6 +1942,9 @@ d3.json(
     }
     updateSubjektfoerderungsShowcase();
   
+    map.selectAll(".cityCircle")
+        .attr("fill", colorCityCircles)
+
     map
       .selectAll(".increaseRect")
       .transition()
@@ -1969,6 +1974,10 @@ d3.json(
       mietabsenkungenActive = true;
     }
     updateSubjektfoerderungsShowcase();
+    
+    map.selectAll(".cityCircle")
+        .attr("fill", colorCityCircles)
+
     map
       .selectAll(".portfolioRect")
       .transition()
@@ -1996,7 +2005,13 @@ d3.json(
       mietobergrenzenActive = true;
       button.nextElementSibling.className = "openItem"
     }
+
     updateSubjektfoerderungsShowcase();
+    
+    map.selectAll(".cityCircle")
+        .attr("fill", colorCityCircles)
+
+        debugger
     // adapt rent rects
     map
       .selectAll(".marketRect")
@@ -2025,7 +2040,9 @@ d3.json(
       wohnungenotgebieteActive = true;
       button.nextElementSibling.className = "openItem"
     }
-
+    map.selectAll(".cityCircle")
+      .attr("fill", colorCityCircles)
+    
     map
       .selectAll(".increaseRect")
       .transition()
