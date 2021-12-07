@@ -1656,21 +1656,21 @@ d3.json(
     let bestandsMietenTag =
       "<p>Durchschnittliche Miete im Bestand: " +
       bestandsMiete(cityData) +
-      " €/m²</p>";
+      " €/m²<span style='color:#BD8F56;'>●</span></p>" + "<p style='color=#BD8F56'></p>";
     let neuvermietungsTag =
       "<p>Durchschnittliche Neuvermietungsmiete: " +
       neuvermietungsMiete(cityData) +
-      " €/m²</p>";
+      " €/m²<span style='color:#BD56B8;'>●</span></p>";
     let mieterhoehungsTag =
       "<p>Durchschnittlich mögliche Mieterhöhung auf: " +
       mieterhoehung(cityData) +
-      " €/m²</p>";
+      " €/m²<span style='color:#56BD5B;'>●</span></p>";
     return (
       nameTag +
       leistbarNewTag +
       bestandsMietenTag +
-      neuvermietungsTag +
-      mieterhoehungsTag
+      mieterhoehungsTag +
+      neuvermietungsTag
     );
   }
 
@@ -1837,18 +1837,6 @@ d3.json(
     if (mietobergrenzenActive && d.wiedervermietungIst > d.wiedervermietungSoll) return "#ff3300";
     if (mietabsenkungenActive && d.bestandsMiete > d.mietsenkungSoll) return "#ff3300";
     return "#2b3240"
-  }
-
-  function colorMarketBars(d) {
-    if (d.marketCategory == 1) return "#00ff00";
-    if (d.marketCategory == 2) return "#ff9900";
-    if (d.marketCategory == 3) return "#ff0000";
-  }
-
-  function colorPortfolioBars(d) {
-    if (d.marketCategory == 1) return "#009900";
-    if (d.marketCategory == 2) return "#b36b00";
-    if (d.marketCategory == 3) return "#990000";
   }
 
   let circleRadius = 2;
