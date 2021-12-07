@@ -1753,7 +1753,43 @@ d3.json(
     return cities.filter((city) => city.active)[0]
   }
 
+  function updateBarNumbers(city){
+  map.selectAll("text")
+    .style("visibility", "hidden")
+  
+  portfolioBars
+    .selectAll("text")
+    .filter((d) => d.name == city.name)
+    .text((d) => bestandsMiete(d))
+    .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
+    .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth + (bestandsMiete(d).toString().length == 5 ? 1 : 2))
+    .style("visibility", "visible")
+    .style("font-size", "2pt")
+    .style("z-index", "-1")
+
+  increaseBars
+    .selectAll("text")
+    .filter((d) => d.name == city.name)
+    .text((d) => mieterhoehung(d))
+    .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
+    .attr("x", (d) => projection([d.long, d.lat])[0] + (mieterhoehung(d).toString().length == 5 ? 1 : 2))
+    .style("visibility", "visible")
+    .style("font-size", "2pt")
+    .style("z-index", "-1")
+
+  marketBars
+    .selectAll("text")
+    .filter((d) => d.name == city.name)
+    .text((d) => neuvermietungsMiete(d))
+    .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
+    .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (neuvermietungsMiete(d).toString().length == 5 ? 1 : 2))
+    .style("visibility", "visible")
+    .style("font-size", "2pt")
+    .style("z-index", "-1")
+  }
+
   function updateConsequences(city) {
+    updateBarNumbers(city)
     document.getElementById("consequences").innerHTML = getConsequencesContent(city)
   }
   // a city has been toggled by clicking on it
@@ -1773,8 +1809,9 @@ d3.json(
       .style("visibility", "hidden");
     cityCircles
       .style("visibility", "visible");
-  
+    
     if (citySelected()) {
+    
       updateConsequences(clickedData)
     
 
@@ -1790,6 +1827,8 @@ d3.json(
       .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
     } 
     else {
+      map.selectAll("text")
+        .style("visibility", "hidden")
       showTutorial()
       if (document.getElementsByClassName("active").length > 0){
         clicked(null, activeBundesland, true);
@@ -1870,24 +1909,32 @@ d3.json(
   let barWidth = 10;
 
   // depicting bar for new rentals
-  map
+  let marketBars = map
     .selectAll("marketBars")
     .data(cities)
     .enter()
-    .append("rect")
+    .append("g")
+
+   marketBars.append("rect")
     .attr("class", "cityRect marketRect")
     .attr("width", barWidth)
     .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth)
     .attr("y", (d) => projection([d.long, d.lat])[1])
     .attr("fill", "#BD56B8")
     .attr("visibility", "hidden")
-    .on("mousedown", updateCitySelection);
+    .on("mousedown", updateCitySelection)
+  
+  marketBars
+    .append("text")
 
   // depicting bar for current rentals
-  map
+  let portfolioBars = map
     .selectAll("portfolioBars")
     .data(cities)
     .enter()
+    .append("g")
+
+  portfolioBars
     .append("rect")
     .attr("class", "cityRect portfolioRect")
     .attr("width", barWidth)
@@ -1897,11 +1944,17 @@ d3.json(
     .attr("visibility", "hidden")
     .on("mousedown", updateCitySelection);
 
+  portfolioBars
+    .append("text")
   //depicting bars for possible increases in current rentals
-  map
+  
+  let increaseBars = map
     .selectAll("increaseBars")
     .data(cities)
     .enter()
+    .append("g")
+  
+  increaseBars
     .append("rect")
     .attr("class", "cityRect increaseRect")
     .attr("width", barWidth)
@@ -1911,6 +1964,8 @@ d3.json(
     .attr("visibility", "hidden")
     .on("mousedown", updateCitySelection);
 
+  increaseBars
+    .append("text")
   ////////
   // FUNCTIONALITY FOR THE BUTTONS
   ////////
