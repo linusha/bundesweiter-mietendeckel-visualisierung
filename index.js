@@ -1926,13 +1926,16 @@ d3.json(
   ////////
 
   function mietsteigerungPressed() {
+    let button = document.getElementById("mietsteigerung") 
     if (mietsteigerungActive) {
-      document.getElementById("mietsteigerung").setAttribute("selected", false);
-      document.getElementById("mietsteigerung").nextElementSibling.className = "closedItem"
+      button.setAttribute("selected", false);
+      button.nextElementSibling.className = "closedItem"
       mietsteigerungActive = false;
+      button.textContent = "▸" + button.textContent.slice(1);
     } else {
-      document.getElementById("mietsteigerung").setAttribute("selected", true);
-      document.getElementById("mietsteigerung").nextElementSibling.className = "openItem"
+      button.textContent = "▾" + button.textContent.slice(1);
+      button.setAttribute("selected", true);
+      button.nextElementSibling.className = "openItem"
       mietsteigerungActive = true;
     }
     updateSubjektfoerderungsShowcase();
@@ -1951,15 +1954,18 @@ d3.json(
   }
 
   function mietabsenkungenPressed() {
+    let button = document
+    .getElementById("mietabsenkungen")
     if (mietabsenkungenActive) {
-      document
-        .getElementById("mietabsenkungen")
+        button
         .setAttribute("selected", false);
       mietabsenkungenActive = false;
-      document.getElementById("mietabsenkungen").nextElementSibling.className = "closedItem"
+      button.nextElementSibling.className = "closedItem"
+      button.textContent = "▸" + button.textContent.slice(1);
     } else {
-      document.getElementById("mietabsenkungen").setAttribute("selected", true);
-      document.getElementById("mietabsenkungen").nextElementSibling.className = "openItem"
+      button.textContent = "▾" + button.textContent.slice(1);
+      button.setAttribute("selected", true);
+      button.nextElementSibling.className = "openItem"
       mietabsenkungenActive = true;
     }
     updateSubjektfoerderungsShowcase();
@@ -1976,16 +1982,19 @@ d3.json(
   }
 
   function mietobergrenzenPressed() {
+    let button = document
+    .getElementById("mietobergrenzen")
     if (mietobergrenzenActive) {
-      document
-        .getElementById("mietobergrenzen")
+        button
         .setAttribute("selected", false);
       mietobergrenzenActive = false;
-      document.getElementById("mietobergrenzen").nextElementSibling.className = "closedItem"
+      button.nextElementSibling.className = "closedItem"
+      button.textContent = "▸" + button.textContent.slice(1);
     } else {
-      document.getElementById("mietobergrenzen").setAttribute("selected", true);
+      button.textContent = "▾" + button.textContent.slice(1);
+      button.setAttribute("selected", true);
       mietobergrenzenActive = true;
-      document.getElementById("mietobergrenzen").nextElementSibling.className = "openItem"
+      button.nextElementSibling.className = "openItem"
     }
     updateSubjektfoerderungsShowcase();
     // adapt rent rects
@@ -2002,18 +2011,19 @@ d3.json(
   }
 
   function wohnungenotgebietePressed() {
+    let button = document.getElementById("wohnungenotgebiete")
     if (wohnungenotgebieteActive) {
-      document
-        .getElementById("wohnungenotgebiete")
+        button
         .setAttribute("selected", false);
       wohnungenotgebieteActive = false;
-      document.getElementById("wohnungenotgebiete").nextElementSibling.className = "closedItem"
+      button.nextElementSibling.className = "closedItem"
+      button.textContent = "▸" + button.textContent.slice(1);
     } else {
-      document
-        .getElementById("wohnungenotgebiete")
+      button.textContent = "▾" + button.textContent.slice(1);
+      button
         .setAttribute("selected", true);
       wohnungenotgebieteActive = true;
-      document.getElementById("wohnungenotgebiete").nextElementSibling.className = "openItem"
+      button.nextElementSibling.className = "openItem"
     }
 
     map
