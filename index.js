@@ -1153,28 +1153,20 @@ let cities = [
  ];
 
 // Map and projection
-const projection = d3
-  .geoMercator()
-  .center([10, 51.38])
-  .scale(1200) // This is like the zoom
-  .translate([400 / 2, 300 / 2]);
 
 // Load external data and boot
 d3.json(
-  "map.geo.json"
-  //"https://www.rosalux.de/fileadmin/static/mietendeckel/map.geo.json"
+  //"map.geo.json"
+  "https://www.rosalux.de/fileadmin/static/mietendeckel/map.geo.json"
 ).then(function (data) {
-  let map = d3
-    .select("#mapContainer")
-    .append("svg")
-    .attr("width", 400)
-    .attr("height", 300)
-    .append("g");
-
   let mietsteigerungActive = false;
-    let mietobergrenzenActive = false;
-    let mietabsenkungenActive = false;
-    let wohnungenotgebieteActive = false;
+  let mietobergrenzenActive = false;
+  let mietabsenkungenActive = false;
+  let wohnungenotgebieteActive = false;
+  let barScale = 5;
+  let width = document.getElementById("customMietendeckelApplet").offsetWidth; 
+  let height = width / 0.625;
+  let map, projection, path, g, tooltip, increaseBars, circleRadius, cityCircles, barWidth, marketBars, portfolioBars;
 
   function showTutorial() {
     document.getElementById("consequences").innerHTML = '<p id="tutorial">Durch klicken kann eine Stadt ausgewählt werden um die Auswirkungen der aktivierten Maßnahmen auf die Stadt genauer zu betrachten.</p>'  
@@ -1666,8 +1658,6 @@ d3.json(
       neuvermietungsTag
     );
   }
-
-  let barScale = 5, width = 400, height = 300;
   
 
   function clicked(event, d, doNotReset) {
@@ -1703,40 +1693,6 @@ d3.json(
       .style("stroke-width", "1px")
       .attr("transform", "");
   }
-
-  // Draw the map
-  var path = d3.geoPath().projection(projection);
-  
-    map.append("rect")
-    .attr("class", "background")
-    .attr("width", width)
-    .attr("height", height)
-    .on("click", reset);
-
-  let g = map
-    .append("g").style("stroke-width", "1px")
-    
-    g.selectAll("path")
-    .data(data.features)
-    .enter()
-    .append("path")
-    .attr("fill", "#d3dfee")
-    .attr("d", path)
-    .attr("class", "feature")
-    .style("stroke", "darkgray")
-    .on("click", clicked);
-
-  let tooltip = d3
-    .select("body")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("position", "absolute")
-    .style("border-radius", "1px")
-    .style("background", "#2b3240")
-    .style("opacity", 0.8)
-    .style("padding", "3px")
-    .style("color", "white")
-    .style("visibility", "hidden");
 
   function citySelected() {
     return cities.some((city) => city.active)
@@ -1871,9 +1827,66 @@ d3.json(
     return "#2b3240"
   }
 
-  let circleRadius = 2;
+  function drawMap(){
+    width = document.getElementById("customMietendeckelApplet").offsetWidth; 
+    height = height = width / 0.625;
+    if (width > 400){
+      width = 500;
+      height = 400 / 0.625;
+    }
+    if (width < 400){
+      height = 500
+    }
+    document.getElementById("mapContainer").innerHTML = "";
+    map = d3
+    .select("#mapContainer")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g");
 
-  let cityCircles = map
+  projection = d3
+  .geoMercator()
+  .center([10, 51.38])
+  .scale(width * 5) // This is like the zoom
+  .translate([width / 2, height / 2]);
+
+  path = d3.geoPath().projection(projection);
+  
+    map.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", reset);
+
+  g = map
+    .append("g").style("stroke-width", "1px")
+    
+    g.selectAll("path")
+    .data(data.features)
+    .enter()
+    .append("path")
+    .attr("fill", "#d3dfee")
+    .attr("d", path)
+    .attr("class", "feature")
+    .style("stroke", "darkgray")
+    .on("click", clicked);
+
+  tooltip = d3
+    .select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("position", "absolute")
+    .style("border-radius", "1px")
+    .style("background", "#2b3240")
+    .style("opacity", 0.8)
+    .style("padding", "3px")
+    .style("color", "white")
+    .style("visibility", "hidden");
+  
+  circleRadius = 3;
+
+  cityCircles = map
     .selectAll("circles")
     .data(cities)
     .enter()
@@ -1896,13 +1909,13 @@ d3.json(
         .style("top", event.pageY - 28 + "px");
     })
     .on("mouseout", function () {
-      tooltip.transition().duration(500).style("visibility", "hidden");
+      tooltip.transition().duration(width).style("visibility", "hidden");
     });
 
-  let barWidth = 10;
+  barWidth = 10;
 
   // depicting bar for new rentals
-  let marketBars = map
+  marketBars = map
     .selectAll("marketBars")
     .data(cities)
     .enter()
@@ -1921,7 +1934,7 @@ d3.json(
     .append("text")
 
   // depicting bar for current rentals
-  let portfolioBars = map
+  portfolioBars = map
     .selectAll("portfolioBars")
     .data(cities)
     .enter()
@@ -1941,7 +1954,7 @@ d3.json(
     .append("text")
   //depicting bars for possible increases in current rentals
   
-  let increaseBars = map
+  increaseBars = map
     .selectAll("increaseBars")
     .data(cities)
     .enter()
@@ -1959,6 +1972,14 @@ d3.json(
 
   increaseBars
     .append("text")
+
+  }
+
+  drawMap()
+  window.addEventListener('resize', function(event) {
+    drawMap()
+  }, true);
+
   ////////
   // FUNCTIONALITY FOR THE BUTTONS
   ////////
