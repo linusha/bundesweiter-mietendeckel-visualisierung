@@ -1620,26 +1620,26 @@ d3.json(
 
   function bestandsMiete(city) {
     if (mietabsenkungenActive) {
-      if (wohnungenotgebieteActive) return city.mietsenkungSollNot;
-      return city.mietsenkungSoll;
+      if (wohnungenotgebieteActive) return city.mietsenkungSollNot.toFixed(2);
+      return city.mietsenkungSoll.toFixed(2);
     }
-    return city.bestandsMiete;
+    return city.bestandsMiete.toFixed(2);
   }
 
   function neuvermietungsMiete(city) {
     if (mietobergrenzenActive) {
-      if (wohnungenotgebieteActive) return city.wiedervermietungSollNot;
-      return city.wiedervermietungSoll;
+      if (wohnungenotgebieteActive) return city.wiedervermietungSollNot.toFixed(2);
+      return city.wiedervermietungSoll.toFixed(2);
     }
-    return city.wiedervermietungIst;
+    return city.wiedervermietungIst.toFixed(2);
   }
 
   function mieterhoehung(city) {
     if (mietsteigerungActive) {
-      if (wohnungenotgebieteActive) return city.kappungSollNot;
-      return city.kappungSoll;
+      if (wohnungenotgebieteActive) return city.kappungSollNot.toFixed(2);
+      return city.kappungSoll.toFixed(2);
     }
-    return city.kappungIst;
+    return city.kappungIst.toFixed(2);
   }
 
   function profitingHouseholds(city) {
