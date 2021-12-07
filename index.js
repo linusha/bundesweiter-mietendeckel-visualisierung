@@ -1152,11 +1152,6 @@ let cities = [
   }
  ];
 
-// set the dimensions and margins of the graph
-var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-  width = 700 - margin.left - margin.right,
-  height = 400 - margin.top - margin.bottom;
-
 // Map and projection
 const projection = d3
   .geoMercator()
@@ -1175,8 +1170,6 @@ d3.json(
     .attr("width", 400)
     .attr("height", 300)
     .append("g");
-  //.attr("transform",
-  //  "translate(" + margin.left + "," + margin.top + ")");
 
   let mietsteigerungActive = false;
     let mietobergrenzenActive = false;
@@ -2053,8 +2046,6 @@ d3.json(
     
     map.selectAll(".cityCircle")
         .attr("fill", colorCityCircles)
-
-        debugger
     // adapt rent rects
     map
       .selectAll(".marketRect")
