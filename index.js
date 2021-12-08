@@ -1150,7 +1150,7 @@ let cities = [
     "leistbarkeitsDifferenzWiedervermietung": 364,
     "haushalte": 169403
   }
- ];
+];
 
 // Map and projection
 
@@ -1164,12 +1164,12 @@ d3.json(
   let mietabsenkungenActive = false;
   let wohnungenotgebieteActive = false;
   let barScale = 5;
-  let width = document.getElementById("customMietendeckelApplet").offsetWidth; 
+  let width = document.getElementById("customMietendeckelApplet").offsetWidth;
   let height = width / 0.625;
   let map, projection, path, g, tooltip, increaseBars, circleRadius, cityCircles, barWidth, marketBars, portfolioBars;
 
   function showTutorial() {
-    document.getElementById("consequences").innerHTML = '<p id="tutorial" class="callout">Wähle eine Stadt aus, um zu sehen wie sich die Maßnahmen auf die Mieten dort auswirken.</p>'  
+    document.getElementById("consequences").innerHTML = '<p id="tutorial" class="callout">Wähle eine Stadt aus, um zu sehen wie sich die Maßnahmen auf die Mieten dort auswirken.</p>'
   }
   // let tutorial be visible in the beginning
 
@@ -1379,9 +1379,9 @@ d3.json(
           cities.map(
             (city) =>
               city.geschütztMietsenkung *
-                city.leistbarkeitsdifferenzMietsenkung +
+              city.leistbarkeitsdifferenzMietsenkung +
               city.geschütztWiedervermietung *
-                city.leistbarkeitsDifferenzWiedervermietung
+              city.leistbarkeitsDifferenzWiedervermietung
           )
         )
       );
@@ -1398,9 +1398,9 @@ d3.json(
           cities.map(
             (city) =>
               city.geschütztMietsenkungNot *
-                city.leistbarkeitsdifferenzMietsenkung +
+              city.leistbarkeitsdifferenzMietsenkung +
               city.geschütztWiedervermietungNot *
-                city.leistbarkeitsDifferenzWiedervermietung
+              city.leistbarkeitsDifferenzWiedervermietung
           )
         )
       );
@@ -1466,7 +1466,7 @@ d3.json(
             (city) =>
               city.geschütztKappungNot * city.leistbarkeitsdifferenzKappung +
               city.geschütztMietsenkungNot *
-                city.leistbarkeitsdifferenzMietsenkung
+              city.leistbarkeitsdifferenzMietsenkung
           )
         )
       );
@@ -1483,7 +1483,7 @@ d3.json(
           cities.map(
             (city) =>
               city.geschütztWiedervermietung *
-                city.leistbarkeitsDifferenzWiedervermietung +
+              city.leistbarkeitsDifferenzWiedervermietung +
               city.geschütztKappung * city.leistbarkeitsdifferenzKappung
           )
         )
@@ -1502,7 +1502,7 @@ d3.json(
             (city) =>
               city.geschütztKappungNot * city.leistbarkeitsdifferenzKappung +
               city.geschütztWiedervermietungNot *
-                city.leistbarkeitsDifferenzWiedervermietung
+              city.leistbarkeitsDifferenzWiedervermietung
           )
         )
       );
@@ -1520,9 +1520,9 @@ d3.json(
             (city) =>
               city.geschütztKappung * city.leistbarkeitsdifferenzKappung +
               city.geschütztMietsenkung *
-                city.leistbarkeitsdifferenzMietsenkung +
+              city.leistbarkeitsdifferenzMietsenkung +
               city.geschütztWiedervermietung *
-                city.leistbarkeitsDifferenzWiedervermietung
+              city.leistbarkeitsDifferenzWiedervermietung
           )
         )
       );
@@ -1540,50 +1540,50 @@ d3.json(
             (city) =>
               city.geschütztKappungNot * city.leistbarkeitsdifferenzKappung +
               city.geschütztMietsenkungNot *
-                city.leistbarkeitsdifferenzMietsenkung +
+              city.leistbarkeitsdifferenzMietsenkung +
               city.geschütztWiedervermietungNot *
-                city.leistbarkeitsDifferenzWiedervermietung
+              city.leistbarkeitsDifferenzWiedervermietung
           )
         )
       );
     }
   }
 
-  function getEquivalentSubjektfoerderungString(){
+  function getEquivalentSubjektfoerderungString() {
     return calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
   }
 
   function updateSubjektfoerderungsShowcase() {
     let text, allBenefiting;
-    if (!mietsteigerungActive && !mietabsenkungenActive && !mietobergrenzenActive){
+    if (!mietsteigerungActive && !mietabsenkungenActive && !mietobergrenzenActive) {
       text =
-      `<p class="callout">Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sie sich insgesamt auswirken.</p>`;
+        `<p class="callout">Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sie sich insgesamt auswirken.</p>`;
     } else {
       allBenefiting = arraySum(cities.map((city) => calculateNewLeistbareWohnverhaeltnisse(city))).toLocaleString("de-DE")
       //Die aktuell ausgewählten Maßnahmen erreichen ${Math.round(((calculateEquivalentSubjektfoerderung()/maximumSubjektfoerderung).toFixed(2) * 100)) }% des Effektes. Dieser entspräche einem Einsatz von ${maximumSubjektfoerderung.toLocaleString("de-DE")} €.
       text = "<h3>So wirken die Maßnahmen insgesamt:</h3><div class='numbers-container'><p class='custom-bold in-box'>Von den aktivierten Maßnahmen profitieren <b>" + allBenefiting + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
-      `Um einen ähnlichen Effekt für die Mietenden durch individuelle Geldzahlungen zu erzielen, müssten pro Jahr <b>${getEquivalentSubjektfoerderungString()}</b> aufgewendet werden.</p></div>`
+        `Um einen ähnlichen Effekt für die Mietenden durch individuelle Geldzahlungen zu erzielen, müssten pro Jahr <b>${getEquivalentSubjektfoerderungString()}</b> aufgewendet werden.</p></div>`
     }
     document.getElementById("subjektfoerderung").innerHTML = text;
   }
 
-  function benefitsFromMietsteigerung(city){
+  function benefitsFromMietsteigerung(city) {
     return city.geschütztKappung > 0;
   }
-  
-  function benefitsFromMietobergrenzen(city){
+
+  function benefitsFromMietobergrenzen(city) {
     return city.geschütztWiedervermietung > 0;
   }
-  
-  function benefitsFromMietabsenkungen(city){
+
+  function benefitsFromMietabsenkungen(city) {
     return city.geschütztMietsenkung > 0;
   }
 
-  function benefitsFromNotgebiete(city){
+  function benefitsFromNotgebiete(city) {
     return city.geschütztKappungNot > 0 || city.geschütztMietsenkungNot > 0 || city.geschütztWiedervermietungNot > 0;
   }
 
-  function benefitingFromCurrentSelection(){
+  function benefitingFromCurrentSelection() {
     let benefitingKappung = [];
     let benefitingWiedervermietung = [];
     let benefitingAbsenkung = [];
@@ -1592,8 +1592,8 @@ d3.json(
     if (mietobergrenzenActive) benefitingWiedervermietung = cities.filter(city => benefitsFromMietobergrenzen(city));
     if (mietabsenkungenActive) benefitingAbsenkung = cities.filter(city => benefitsFromMietabsenkungen(city));
     if (wohnungenotgebieteActive) benefitingNot = cities.filter(city => benefitsFromNotgebiete(city));
-    
-    return [...new Set((benefitingKappung.concat(benefitingWiedervermietung, benefitingAbsenkung, benefitingNot)).map(city => city.name ))]
+
+    return [...new Set((benefitingKappung.concat(benefitingWiedervermietung, benefitingAbsenkung, benefitingNot)).map(city => city.name))]
   }
 
   let maximumSubjektfoerderung =
@@ -1603,10 +1603,10 @@ d3.json(
         cities.map(
           (city) =>
             city.geschütztWiedervermietungNot *
-              city.leistbarkeitsDifferenzWiedervermietung +
+            city.leistbarkeitsDifferenzWiedervermietung +
             city.geschütztKappungNot * city.leistbarkeitsdifferenzKappung +
             city.geschütztMietsenkungNot *
-              city.leistbarkeitsdifferenzMietsenkung
+            city.leistbarkeitsdifferenzMietsenkung
         )
       )
     );
@@ -1636,25 +1636,25 @@ d3.json(
   }
 
   function profitingHouseholds(city) {
-    let percent = calculateNewLeistbareWohnverhaeltnisse(city)/city.haushalte
-    return Math.round(1/percent);
+    let percent = calculateNewLeistbareWohnverhaeltnisse(city) / city.haushalte
+    return Math.round(1 / percent);
   }
 
   function getConsequencesContent(cityData) {
     let nameTag = "<h3>So wirken die Maßnahmen in " + cityData.name + ":</h3>";
     let leistbarNewTag
-    if (calculateNewLeistbareWohnverhaeltnisse(cityData) > 0){
+    if (calculateNewLeistbareWohnverhaeltnisse(cityData) > 0) {
       leistbarNewTag =
-      "<p>" +
-      calculateNewLeistbareWohnverhaeltnisse(cityData).toLocaleString("de-DE") +
-      ` leistbare Mietverhältnisse entstehen in ${cityData.name} oder werden dort erhalten. ` + "<b>Jeder " + profitingHouseholds(cityData) + `. Haushalt in ${cityData.name} profitiert davon.</b>` + "</p>";
+        "<p>" +
+        calculateNewLeistbareWohnverhaeltnisse(cityData).toLocaleString("de-DE") +
+        ` leistbare Mietverhältnisse entstehen in ${cityData.name} oder werden dort erhalten. ` + "<b>Jeder " + profitingHouseholds(cityData) + `. Haushalt in ${cityData.name} profitiert davon.</b>` + "</p>";
     } else {
       leistbarNewTag =
-      `<p>Die ausgewählten Maßnahmen haben keinen Effekt auf die Mietpreise in ${cityData.name}.</p>`;
+        `<p>Die ausgewählten Maßnahmen haben keinen Effekt auf die Mietpreise in ${cityData.name}.</p>`;
     }
-    if (!mietsteigerungActive && !mietabsenkungenActive && !mietobergrenzenActive && !wohnungenotgebieteActive){
+    if (!mietsteigerungActive && !mietabsenkungenActive && !mietobergrenzenActive && !wohnungenotgebieteActive) {
       leistbarNewTag =
-      `<p>Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sich sich auf ${cityData.name} auswirken. Aktuell ist die Lage so:</p>`;
+        `<p>Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sich sich auf ${cityData.name} auswirken. Aktuell ist die Lage so:</p>`;
     }
     let bestandsMietenTag =
       "<p class='in-box'><span style='color:#BD8F56;'>●</span> Durchschnittliche Miete im Bestand: <b>" +
@@ -1671,26 +1671,26 @@ d3.json(
     return (
       nameTag +
       leistbarNewTag +
-      "<div class='numbers-container'>" + 
+      "<div class='numbers-container'>" +
       bestandsMietenTag +
       mieterhoehungsTag +
-      neuvermietungsTag + 
+      neuvermietungsTag +
       "</div>"
     );
   }
-  
+
 
   function clicked(event, d, doNotReset) {
-    if (!doNotReset && active.node() === this){
+    if (!doNotReset && active.node() === this) {
       activeBundesland = null;
       return reset();
     }
     activeBundesland = d;
-    if (!doNotReset){
+    if (!doNotReset) {
       active.classed("active", false);
       active = d3.select(this).classed("active", true);
     }
-    
+
 
     var bounds = path.bounds(d),
       dx = bounds[1][0] - bounds[0][0],
@@ -1708,87 +1708,16 @@ d3.json(
   function reset() {
     active.classed("active", false);
     active = d3.select(null);
-  
+
     map.transition(750)
       .style("stroke-width", "1px")
       .attr("transform", "");
 
-      map.selectAll(".tooltip")
-      .style("visibility", "hidden");
-      
-      map.selectAll("text").style("visibility", "hidden");
-        
-      map
-        .selectAll(".marketRect")
-        .style("visibility", "hidden");
-      map
-        .selectAll(".portfolioRect")
-        .style("visibility", "hidden");
-      map
-        .selectAll(".increaseRect")
-        .style("visibility", "hidden");
-      cityCircles
-        .style("visibility", "visible");
-
-      showTutorial();
-  }
-
-  function citySelected() {
-    return cities.some((city) => city.active)
-  }
-
-  function selectedCity() {
-    return cities.filter((city) => city.active)[0]
-  }
-
-  function updateBarNumbers(city){
-  map.selectAll("text")
-    .style("visibility", "hidden")
-  
-  portfolioBars
-    .selectAll("text")
-    .filter((d) => d.name == city.name)
-    .text((d) => bestandsMiete(d))
-    .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-    .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth + (bestandsMiete(d).toString().length == 5 ? 1 : 2))
-    .style("visibility", "visible")
-    .style("font-size", "2pt")
-    .style("fill", "#2b3240")
-
-  increaseBars
-    .selectAll("text")
-    .filter((d) => d.name == city.name)
-    .text((d) => mieterhoehung(d))
-    .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-    .attr("x", (d) => projection([d.long, d.lat])[0] + (mieterhoehung(d).toString().length == 5 ? 1 : 2))
-    .style("visibility", "visible")
-    .style("font-size", "2pt")
-    .style("fill", "#2b3240")
-
-  marketBars
-    .selectAll("text")
-    .filter((d) => d.name == city.name)
-    .text((d) => neuvermietungsMiete(d))
-    .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-    .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (neuvermietungsMiete(d).toString().length == 5 ? 1 : 2))
-    .style("visibility", "visible")
-    .style("font-size", "2pt")
-    .style("fill", "#2b3240")
-  }
-
-  function updateConsequences(city) {
-    updateBarNumbers(city)
-    document.getElementById("consequences").innerHTML = getConsequencesContent(city)
-  }
-  // a city has been toggled by clicking on it
-  let updateCitySelection = function (event, clickedData) {
-    event.stopPropagation();
-    clickedData.active = !clickedData.active;
-    cities.map(city => city.active = city.name == clickedData.name ? city.active : false)
-    
     map.selectAll(".tooltip")
-    .style("visibility", "hidden");
-    
+      .style("visibility", "hidden");
+
+    map.selectAll("text").style("visibility", "hidden");
+
     map
       .selectAll(".marketRect")
       .style("visibility", "hidden");
@@ -1800,11 +1729,82 @@ d3.json(
       .style("visibility", "hidden");
     cityCircles
       .style("visibility", "visible");
-    
+
+    showTutorial();
+  }
+
+  function citySelected() {
+    return cities.some((city) => city.active)
+  }
+
+  function selectedCity() {
+    return cities.filter((city) => city.active)[0]
+  }
+
+  function updateBarNumbers(city) {
+    map.selectAll("text")
+      .style("visibility", "hidden")
+
+    portfolioBars
+      .selectAll("text")
+      .filter((d) => d.name == city.name)
+      .text((d) => bestandsMiete(d))
+      .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
+      .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth + (bestandsMiete(d).toString().length == 5 ? 1 : 2))
+      .style("visibility", "visible")
+      .style("font-size", "2pt")
+      .style("fill", "#2b3240")
+
+    increaseBars
+      .selectAll("text")
+      .filter((d) => d.name == city.name)
+      .text((d) => mieterhoehung(d))
+      .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
+      .attr("x", (d) => projection([d.long, d.lat])[0] + (mieterhoehung(d).toString().length == 5 ? 1 : 2))
+      .style("visibility", "visible")
+      .style("font-size", "2pt")
+      .style("fill", "#2b3240")
+
+    marketBars
+      .selectAll("text")
+      .filter((d) => d.name == city.name)
+      .text((d) => neuvermietungsMiete(d))
+      .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
+      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (neuvermietungsMiete(d).toString().length == 5 ? 1 : 2))
+      .style("visibility", "visible")
+      .style("font-size", "2pt")
+      .style("fill", "#2b3240")
+  }
+
+  function updateConsequences(city) {
+    updateBarNumbers(city)
+    document.getElementById("consequences").innerHTML = getConsequencesContent(city)
+  }
+  // a city has been toggled by clicking on it
+  let updateCitySelection = function (event, clickedData) {
+    event.stopPropagation();
+    clickedData.active = !clickedData.active;
+    cities.map(city => city.active = city.name == clickedData.name ? city.active : false)
+
+    map.selectAll(".tooltip")
+      .style("visibility", "hidden");
+
+    map
+      .selectAll(".marketRect")
+      .style("visibility", "hidden");
+    map
+      .selectAll(".portfolioRect")
+      .style("visibility", "hidden");
+    map
+      .selectAll(".increaseRect")
+      .style("visibility", "hidden");
+    cityCircles
+      .style("visibility", "visible");
+
     if (citySelected()) {
-    
+
       updateConsequences(clickedData)
-    
+
 
       var dx = 5 * barWidth,
         dy = neuvermietungsMiete(clickedData) * barScale + 10,
@@ -1814,20 +1814,20 @@ d3.json(
         translate = [width / 2 - scale * x, height / 2 - scale * y];
 
       map.transition(750)
-      .style("stroke-width", "0.1px")
-      .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
-    } 
+        .style("stroke-width", "0.1px")
+        .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+    }
     else {
       map.selectAll("text")
         .style("visibility", "hidden")
       showTutorial()
-      if (document.getElementsByClassName("active").length > 0){
+      if (document.getElementsByClassName("active").length > 0) {
         clicked(null, activeBundesland, true);
       }
       else reset();
     };
-    
-    
+
+
     map
       .selectAll(".marketRect")
       .filter((d) => d.name == clickedData.name)
@@ -1869,159 +1869,159 @@ d3.json(
     return "#2b3240"
   }
 
-  function drawMap(){
-    width = document.getElementById("mapContainer").offsetWidth; 
+  function drawMap() {
+    width = document.getElementById("mapContainer").offsetWidth;
     height = height = width / 0.625;
-    if (width > 400){
+    if (width > 400) {
       width = 500;
       height = 400 / 0.625;
     }
-    if (width < 400){
+    if (width < 400) {
       height = 500
     }
     document.getElementById("mapContainer").innerHTML = "";
     map = d3
-    .select("#mapContainer")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g");
+      .select("#mapContainer")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .append("g");
 
-  projection = d3
-  .geoMercator()
-  .center([10, 51.38])
-  .scale(width * 5) // This is like the zoom
-  .translate([width / 2, height / 2]);
+    projection = d3
+      .geoMercator()
+      .center([10, 51.38])
+      .scale(width * 5) // This is like the zoom
+      .translate([width / 2, height / 2]);
 
-  path = d3.geoPath().projection(projection);
-  
+    path = d3.geoPath().projection(projection);
+
     map.append("rect")
-    .attr("class", "background")
-    .attr("width", width)
-    .attr("height", height)
-    .on("click", reset);
+      .attr("class", "background")
+      .attr("width", width)
+      .attr("height", height)
+      .on("click", reset);
 
-  g = map
-    .append("g").style("stroke-width", "1px")
-    
+    g = map
+      .append("g").style("stroke-width", "1px")
+
     g.selectAll("path")
-    .data(data.features)
-    .enter()
-    .append("path")
-    .attr("fill", "#d3dfee")
-    .attr("d", path)
-    .attr("class", "feature")
-    .style("stroke", "darkgray")
-    .on("click", clicked);
+      .data(data.features)
+      .enter()
+      .append("path")
+      .attr("fill", "#d3dfee")
+      .attr("d", path)
+      .attr("class", "feature")
+      .style("stroke", "darkgray")
+      .on("click", clicked);
 
-  tooltip = d3
-    .select("body")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("position", "absolute")
-    .style("border-radius", "1px")
-    .style("background", "#2b3240")
-    .style("opacity", 0.8)
-    .style("padding", "3px")
-    .style("color", "white")
-    .style("visibility", "hidden");
-  
-  circleRadius = 3;
+    tooltip = d3
+      .select("body")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("position", "absolute")
+      .style("border-radius", "1px")
+      .style("background", "#2b3240")
+      .style("opacity", 0.8)
+      .style("padding", "3px")
+      .style("color", "white")
+      .style("visibility", "hidden");
 
-  cityCircles = map
-    .selectAll("circles")
-    .data(cities)
-    .enter()
-    .append("circle")
-    .attr("class", "cityCircle")
-    .attr("cx", function (d) {
-      return projection([d.long, d.lat])[0];
-    })
-    .attr("cy", function (d) {
-      return projection([d.long, d.lat])[1];
-    })
-    .attr("r", circleRadius)
-    .attr("fill", colorCityCircles)
-    .on("mousedown", updateCitySelection)
-    .on("mouseover", function (event, d) {
-      tooltip.transition().duration(200).style("visibility", "visible");
-      tooltip
-        .html(d.name)
-        .style("left", event.pageX + "px")
-        .style("top", event.pageY - 28 + "px");
-    })
-    .on("mouseout", function () {
-      tooltip.transition().duration(200).style("visibility", "hidden");
-    })
-    .on("touchstart", function (){
-      tooltip.transition().duration(0).style("visibility", "hidden");
-    })
+    circleRadius = 3;
 
-  barWidth = 10;
+    cityCircles = map
+      .selectAll("circles")
+      .data(cities)
+      .enter()
+      .append("circle")
+      .attr("class", "cityCircle")
+      .attr("cx", function (d) {
+        return projection([d.long, d.lat])[0];
+      })
+      .attr("cy", function (d) {
+        return projection([d.long, d.lat])[1];
+      })
+      .attr("r", circleRadius)
+      .attr("fill", colorCityCircles)
+      .on("mousedown", updateCitySelection)
+      .on("mouseover", function (event, d) {
+        tooltip.transition().duration(200).style("visibility", "visible");
+        tooltip
+          .html(d.name)
+          .style("left", event.pageX + "px")
+          .style("top", event.pageY - 28 + "px");
+      })
+      .on("mouseout", function () {
+        tooltip.transition().duration(200).style("visibility", "hidden");
+      })
+      .on("touchstart", function () {
+        tooltip.transition().duration(0).style("visibility", "hidden");
+      })
 
-  // depicting bar for new rentals
-  marketBars = map
-    .selectAll("marketBars")
-    .data(cities)
-    .enter()
-    .append("g")
+    barWidth = 10;
 
-   marketBars.append("rect")
-    .attr("class", "cityRect marketRect")
-    .attr("width", barWidth)
-    .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth)
-    .attr("y", (d) => projection([d.long, d.lat])[1])
-    .attr("fill", "#BD56B8")
-    .attr("visibility", "hidden")
-    .on("mousedown", updateCitySelection)
-  
-  marketBars
-    .append("text")
+    // depicting bar for new rentals
+    marketBars = map
+      .selectAll("marketBars")
+      .data(cities)
+      .enter()
+      .append("g")
 
-  // depicting bar for current rentals
-  portfolioBars = map
-    .selectAll("portfolioBars")
-    .data(cities)
-    .enter()
-    .append("g")
+    marketBars.append("rect")
+      .attr("class", "cityRect marketRect")
+      .attr("width", barWidth)
+      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth)
+      .attr("y", (d) => projection([d.long, d.lat])[1])
+      .attr("fill", "#BD56B8")
+      .attr("visibility", "hidden")
+      .on("mousedown", updateCitySelection)
 
-  portfolioBars
-    .append("rect")
-    .attr("class", "cityRect portfolioRect")
-    .attr("width", barWidth)
-    .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth)
-    .attr("y", (d) => projection([d.long, d.lat])[1])
-    .attr("fill", "#BD8F56")
-    .attr("visibility", "hidden")
-    .on("mousedown", updateCitySelection);
+    marketBars
+      .append("text")
 
-  portfolioBars
-    .append("text")
-  //depicting bars for possible increases in current rentals
-  
-  increaseBars = map
-    .selectAll("increaseBars")
-    .data(cities)
-    .enter()
-    .append("g")
-  
-  increaseBars
-    .append("rect")
-    .attr("class", "cityRect increaseRect")
-    .attr("width", barWidth)
-    .attr("x", (d) => projection([d.long, d.lat])[0])
-    .attr("y", (d) => projection([d.long, d.lat])[1])
-    .attr("fill", "#56BD5B")
-    .attr("visibility", "hidden")
-    .on("mousedown", updateCitySelection);
+    // depicting bar for current rentals
+    portfolioBars = map
+      .selectAll("portfolioBars")
+      .data(cities)
+      .enter()
+      .append("g")
 
-  increaseBars
-    .append("text")
+    portfolioBars
+      .append("rect")
+      .attr("class", "cityRect portfolioRect")
+      .attr("width", barWidth)
+      .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth)
+      .attr("y", (d) => projection([d.long, d.lat])[1])
+      .attr("fill", "#BD8F56")
+      .attr("visibility", "hidden")
+      .on("mousedown", updateCitySelection);
+
+    portfolioBars
+      .append("text")
+    //depicting bars for possible increases in current rentals
+
+    increaseBars = map
+      .selectAll("increaseBars")
+      .data(cities)
+      .enter()
+      .append("g")
+
+    increaseBars
+      .append("rect")
+      .attr("class", "cityRect increaseRect")
+      .attr("width", barWidth)
+      .attr("x", (d) => projection([d.long, d.lat])[0])
+      .attr("y", (d) => projection([d.long, d.lat])[1])
+      .attr("fill", "#56BD5B")
+      .attr("visibility", "hidden")
+      .on("mousedown", updateCitySelection);
+
+    increaseBars
+      .append("text")
 
   }
 
   drawMap()
-  window.addEventListener('resize', function(event) {
+  window.addEventListener('resize', function (event) {
     drawMap()
   }, true);
 
@@ -2030,7 +2030,7 @@ d3.json(
   ////////
 
   function mietsteigerungPressed() {
-    let button = document.getElementById("mietsteigerung") 
+    let button = document.getElementById("mietsteigerung")
     if (mietsteigerungActive) {
       button.setAttribute("selected", false);
       button.nextElementSibling.className = "closedItem"
@@ -2043,9 +2043,9 @@ d3.json(
       mietsteigerungActive = true;
     }
     updateSubjektfoerderungsShowcase();
-  
+
     map.selectAll(".cityCircle")
-        .attr("fill", colorCityCircles)
+      .attr("fill", colorCityCircles)
 
     map
       .selectAll(".increaseRect")
@@ -2057,14 +2057,14 @@ d3.json(
         (d) => projection([d.long, d.lat])[1] - mieterhoehung(d) * barScale
       );
 
-      if (citySelected()) updateConsequences(selectedCity());
+    if (citySelected()) updateConsequences(selectedCity());
   }
 
   function mietabsenkungenPressed() {
     let button = document
-    .getElementById("mietabsenkungen")
+      .getElementById("mietabsenkungen")
     if (mietabsenkungenActive) {
-        button
+      button
         .setAttribute("selected", false);
       mietabsenkungenActive = false;
       button.nextElementSibling.className = "closedItem"
@@ -2076,9 +2076,9 @@ d3.json(
       mietabsenkungenActive = true;
     }
     updateSubjektfoerderungsShowcase();
-    
+
     map.selectAll(".cityCircle")
-        .attr("fill", colorCityCircles)
+      .attr("fill", colorCityCircles)
 
     map
       .selectAll(".portfolioRect")
@@ -2089,14 +2089,14 @@ d3.json(
         "y",
         (d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale
       );
-      if (citySelected()) updateConsequences(selectedCity());
+    if (citySelected()) updateConsequences(selectedCity());
   }
 
   function mietobergrenzenPressed() {
     let button = document
-    .getElementById("mietobergrenzen")
+      .getElementById("mietobergrenzen")
     if (mietobergrenzenActive) {
-        button
+      button
         .setAttribute("selected", false);
       mietobergrenzenActive = false;
       button.nextElementSibling.className = "closedItem"
@@ -2109,9 +2109,9 @@ d3.json(
     }
 
     updateSubjektfoerderungsShowcase();
-    
+
     map.selectAll(".cityCircle")
-        .attr("fill", colorCityCircles)
+      .attr("fill", colorCityCircles)
     // adapt rent rects
     map
       .selectAll(".marketRect")
@@ -2122,13 +2122,13 @@ d3.json(
         "y",
         (d) => projection([d.long, d.lat])[1] - neuvermietungsMiete(d) * barScale
       );
-      if (citySelected()) updateConsequences(selectedCity());
+    if (citySelected()) updateConsequences(selectedCity());
   }
 
   function wohnungenotgebietePressed() {
     let button = document.getElementById("wohnungenotgebiete")
     if (wohnungenotgebieteActive) {
-        button
+      button
         .setAttribute("selected", false);
       wohnungenotgebieteActive = false;
       button.nextElementSibling.className = "closedItem"
@@ -2142,7 +2142,7 @@ d3.json(
     }
     map.selectAll(".cityCircle")
       .attr("fill", colorCityCircles)
-    
+
     map
       .selectAll(".increaseRect")
       .transition()
@@ -2174,7 +2174,7 @@ d3.json(
       );
 
     updateSubjektfoerderungsShowcase();
-      if (citySelected()) updateConsequences(selectedCity());
+    if (citySelected()) updateConsequences(selectedCity());
   }
 
   ////////
