@@ -1714,7 +1714,7 @@ d3.json(
     .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth + (bestandsMiete(d).toString().length == 5 ? 1 : 2))
     .style("visibility", "visible")
     .style("font-size", "2pt")
-    .style("z-index", "-1")
+    .style("fill", "#2b3240")
 
   increaseBars
     .selectAll("text")
@@ -1724,7 +1724,7 @@ d3.json(
     .attr("x", (d) => projection([d.long, d.lat])[0] + (mieterhoehung(d).toString().length == 5 ? 1 : 2))
     .style("visibility", "visible")
     .style("font-size", "2pt")
-    .style("z-index", "-1")
+    .style("fill", "#2b3240")
 
   marketBars
     .selectAll("text")
@@ -1734,7 +1734,7 @@ d3.json(
     .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (neuvermietungsMiete(d).toString().length == 5 ? 1 : 2))
     .style("visibility", "visible")
     .style("font-size", "2pt")
-    .style("z-index", "-1")
+    .style("fill", "#2b3240")
   }
 
   function updateConsequences(city) {
@@ -1828,7 +1828,7 @@ d3.json(
   }
 
   function drawMap(){
-    width = document.getElementById("customMietendeckelApplet").offsetWidth; 
+    width = document.getElementById("mapContainer").offsetWidth; 
     height = height = width / 0.625;
     if (width > 400){
       width = 500;

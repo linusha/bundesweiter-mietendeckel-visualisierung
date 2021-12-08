@@ -1,6 +1,12 @@
 svg {
-    border: 1px solid black;
-    fill: white;
+    fill: rgba(255, 255, 255, 0);
+    margin: auto;
+    
+}
+
+.custom-h2 {
+    padding-top: 2% !important;
+    font-size: x-large !important;
 }
 
 .measureSelection {
@@ -23,14 +29,13 @@ svg {
     fill: #779CCA;
   }
 
-#content {
-    display: flex; 
-    flex-direction: row;
-}
-
-@media (max-width:800px)  { 
+@media (max-width:835px)  { 
     #content {
         flex-direction: column;
+    }
+
+    .custom-h2 {
+        font-size: large !important;
     }
 }
 
@@ -58,3 +63,30 @@ svg {
 	-ms-transition: -ms-transform 0.4s ease;
 	transition: transform 0.4s ease;
 }
+
+h1, p, h2, h3 {
+color: white;
+}
+
+#customMietendeckelApplet {
+    background: RGBA(43, 50, 64, 0.8);
+}
+
+#content{
+    padding: 5%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+  
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+}
+  
