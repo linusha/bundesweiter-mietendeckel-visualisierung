@@ -78,7 +78,7 @@ color: white;
 }
 
 #content{
-    padding: 5%;
+    padding: 0 5% 5% 5%;
 }
 
 .row {
@@ -101,19 +101,24 @@ color: white;
   flex-direction: column;
   justify-content: space-evenly;
   padding: 1%;
+  border-right: 5px #ff3300 solid;
 }
 
 .in-box {
     margin: 1%;
 }
 
-.in-box > b {
+.in-box > b, .custom-bold > b {
     font-weight: 900;
 }
 
-#tutorial {
+.callout {
   border-left: 5px #ff3300 solid;
   padding-left: 2%;
   font-size: large;
   font-weight: 900;
+}
+
+#disclaimer {
+    padding: 5% 5% 0 5%;
 }

@@ -1169,7 +1169,7 @@ d3.json(
   let map, projection, path, g, tooltip, increaseBars, circleRadius, cityCircles, barWidth, marketBars, portfolioBars;
 
   function showTutorial() {
-    document.getElementById("consequences").innerHTML = '<p id="tutorial">Wähle eine Stadt aus, um zu sehen wie sich die Maßnahmen auf die Mieten dort auswirken.</p>'  
+    document.getElementById("consequences").innerHTML = '<p id="tutorial" class="callout">Wähle eine Stadt aus, um zu sehen wie sich die Maßnahmen auf die Mieten dort auswirken.</p>'  
   }
   // let tutorial be visible in the beginning
 
@@ -1554,9 +1554,17 @@ d3.json(
   }
 
   function updateSubjektfoerderungsShowcase() {
-    let befitingCities = `Von den ausgewählten Maßnahmen profitieren Haushalte in ${benefitingFromCurrentSelection().length} Städten. `
-    let subjektfoerderung = `Um den Effekt der gerade ausgewählten Maßnahmen durch die Zahlung von Subjektfoederung zu erzielen, müssten pro Jahr ${getEquivalentSubjektfoerderungString()} aufgewendet werden. Die aktuell ausgewählten Maßnahmen erreichen ${Math.round(((calculateEquivalentSubjektfoerderung()/maximumSubjektfoerderung).toFixed(2) * 100)) }% des nach dem Konzept maximal möglichen Effektes. Dieser entspräche einem Einsatz von ${maximumSubjektfoerderung.toLocaleString("de-DE")} €.`
-    document.getElementById("subjektfoerderung").textContent = befitingCities + subjektfoerderung 
+    let text, allBenefiting;
+    if (!mietsteigerungActive && !mietabsenkungenActive && !mietobergrenzenActive){
+      text =
+      `<p class="callout">Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sie sich insgesamt auswirken.</p>`;
+    } else {
+      allBenefiting = arraySum(cities.map((city) => calculateNewLeistbareWohnverhaeltnisse(city))).toLocaleString("de-DE")
+      //Die aktuell ausgewählten Maßnahmen erreichen ${Math.round(((calculateEquivalentSubjektfoerderung()/maximumSubjektfoerderung).toFixed(2) * 100)) }% des Effektes. Dieser entspräche einem Einsatz von ${maximumSubjektfoerderung.toLocaleString("de-DE")} €.
+      text = "<h3>So wirken die Maßnahmen insgesamt:</h3><div class='numbers-container'><p class='custom-bold in-box'>Von den aktivierten Maßnahmen profitieren <b>" + allBenefiting + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
+      `Um einen ähnlichen Effekt für die Mietenden durch individuelle Geldzahlungen zu erzielen, müssten pro Jahr <b>${getEquivalentSubjektfoerderungString()}</b> aufgewendet werden.</p></div>`
+    }
+    document.getElementById("subjektfoerderung").innerHTML = text;
   }
 
   function benefitsFromMietsteigerung(city){
@@ -1633,13 +1641,13 @@ d3.json(
   }
 
   function getConsequencesContent(cityData) {
-    let nameTag = "<h3>Effekte in " + cityData.name + "</h3>";
+    let nameTag = "<h3>So wirken die Maßnahmen in " + cityData.name + ":</h3>";
     let leistbarNewTag
     if (calculateNewLeistbareWohnverhaeltnisse(cityData) > 0){
       leistbarNewTag =
       "<p>" +
       calculateNewLeistbareWohnverhaeltnisse(cityData).toLocaleString("de-DE") +
-      ` leistbare Mietverhältnisse entstehen in ${cityData.name} oder werden dort erhalten. ` + "Das ist jeder " + profitingHouseholds(cityData) + ". Haushalt." + "</p>";
+      ` leistbare Mietverhältnisse entstehen in ${cityData.name} oder werden dort erhalten. ` + "<b>Jeder " + profitingHouseholds(cityData) + `. Haushalt in ${cityData.name} profitiert davon.</b>` + "</p>";
     } else {
       leistbarNewTag =
       `<p>Die ausgewählten Maßnahmen haben keinen Effekt auf die Mietpreise in ${cityData.name}.</p>`;
