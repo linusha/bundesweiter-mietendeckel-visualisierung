@@ -9,20 +9,23 @@ svg {
     font-size: x-large !important;
 }
 
+#consequences {
+    margin-bottom: 2%;
+}
+
 .measureSelection {
-    background: #ff3300;
+    background: #b32400;
     border-radius: 4px;
     border-style: none;
     color: white;
+    padding: 1%;
+    width: 100%;
+    text-align: left;
 }
 
 .measureSelection[selected=true] {
-    background: #b32400;
+    background: #ff3300;
     color: white;
-}
-
-#consequences {
-    border: 1px solid black;
 }
 
 .feature.active {
@@ -90,3 +93,18 @@ color: white;
   flex: 1;
 }
   
+.numbers-container {
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 1%;
+}
+
+.in-box {
+    margin: 1%;
+}
+
+.in-box > b {
+    font-weight: 900;
+}

@@ -1169,7 +1169,7 @@ d3.json(
   let map, projection, path, g, tooltip, increaseBars, circleRadius, cityCircles, barWidth, marketBars, portfolioBars;
 
   function showTutorial() {
-    document.getElementById("consequences").innerHTML = '<p id="tutorial">Durch klicken kann eine Stadt ausgewählt werden um die Auswirkungen der aktivierten Maßnahmen auf die Stadt genauer zu betrachten.</p>'  
+    document.getElementById("consequences").innerHTML = '<p id="tutorial">Wähle eine Stadt aus, um zu sehen wie sich die Maßnahmen auf die Mieten dort auswirken.</p>'  
   }
   // let tutorial be visible in the beginning
 
@@ -1633,29 +1633,41 @@ d3.json(
   }
 
   function getConsequencesContent(cityData) {
-    let nameTag = "<p style='font-weight: bold;'>" + cityData.name + "</p>";
-    let leistbarNewTag =
+    let nameTag = "<h3>Effekte in " + cityData.name + "</h3>";
+    let leistbarNewTag
+    if (calculateNewLeistbareWohnverhaeltnisse(cityData) > 0){
+      leistbarNewTag =
       "<p>" +
       calculateNewLeistbareWohnverhaeltnisse(cityData).toLocaleString("de-DE") +
-      " leistbare Mietverhältnisse entstehen oder werden erhalten. Das ist jeder " + profitingHouseholds(cityData) + ". Haushalt." + "</p>";
+      ` leistbare Mietverhältnisse entstehen in ${cityData.name} oder werden dort erhalten. ` + "Das ist jeder " + profitingHouseholds(cityData) + ". Haushalt." + "</p>";
+    } else {
+      leistbarNewTag =
+      `<p>Die ausgewählten Maßnahmen haben keinen Effekt auf die Mietpreise in ${cityData.name}.</p>`;
+    }
+    if (!mietsteigerungActive && !mietabsenkungenActive && !mietobergrenzenActive && !wohnungenotgebieteActive){
+      leistbarNewTag =
+      `<p>Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sich sich auf ${cityData.name} auswirken. Aktuell ist die Lage so:</p>`;
+    }
     let bestandsMietenTag =
-      "<p>Durchschnittliche Miete im Bestand: " +
+      "<p class='in-box'><span style='color:#BD8F56;'>●</span> Durchschnittliche Miete im Bestand: <b>" +
       bestandsMiete(cityData) +
-      " €/m²<span style='color:#BD8F56;'>●</span></p>" + "<p style='color=#BD8F56'></p>";
+      "</b>€/m²</p>";
     let neuvermietungsTag =
-      "<p>Durchschnittliche Neuvermietungsmiete: " +
+      "<p class='in-box'><span style='color:#BD56B8;'>●</span> Durchschnittliche Neuvermietungsmiete: <b>" +
       neuvermietungsMiete(cityData) +
-      " €/m²<span style='color:#BD56B8;'>●</span></p>";
+      "</b>€/m²</p>";
     let mieterhoehungsTag =
-      "<p>Durchschnittlich mögliche Mieterhöhung auf: " +
+      "<p class='in-box'><span style='color:#56BD5B;'>●</span> Durchschnittlich mögliche Mieterhöhung auf: <b>" +
       mieterhoehung(cityData) +
-      " €/m²<span style='color:#56BD5B;'>●</span></p>";
+      "</b>€/m²</p>";
     return (
       nameTag +
       leistbarNewTag +
+      "<div class='numbers-container'>" + 
       bestandsMietenTag +
       mieterhoehungsTag +
-      neuvermietungsTag
+      neuvermietungsTag + 
+      "</div>"
     );
   }
   
@@ -1709,6 +1721,8 @@ d3.json(
         .style("visibility", "hidden");
       cityCircles
         .style("visibility", "visible");
+
+      showTutorial();
   }
 
   function citySelected() {
