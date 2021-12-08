@@ -1692,6 +1692,23 @@ d3.json(
     map.transition(750)
       .style("stroke-width", "1px")
       .attr("transform", "");
+
+      map.selectAll(".tooltip")
+      .style("visibility", "hidden");
+      
+      map.selectAll("text").style("visibility", "hidden");
+        
+      map
+        .selectAll(".marketRect")
+        .style("visibility", "hidden");
+      map
+        .selectAll(".portfolioRect")
+        .style("visibility", "hidden");
+      map
+        .selectAll(".increaseRect")
+        .style("visibility", "hidden");
+      cityCircles
+        .style("visibility", "visible");
   }
 
   function citySelected() {
@@ -1746,6 +1763,9 @@ d3.json(
     event.stopPropagation();
     clickedData.active = !clickedData.active;
     cities.map(city => city.active = city.name == clickedData.name ? city.active : false)
+    
+    map.selectAll(".tooltip")
+    .style("visibility", "hidden");
     
     map
       .selectAll(".marketRect")
@@ -1909,8 +1929,11 @@ d3.json(
         .style("top", event.pageY - 28 + "px");
     })
     .on("mouseout", function () {
-      tooltip.transition().duration(width).style("visibility", "hidden");
-    });
+      tooltip.transition().duration(200).style("visibility", "hidden");
+    })
+    .on("touchstart", function (){
+      tooltip.transition().duration(0).style("visibility", "hidden");
+    })
 
   barWidth = 10;
 
