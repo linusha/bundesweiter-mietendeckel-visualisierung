@@ -51,6 +51,8 @@ svg {
 }
 
 .openItem {
+    margin: 1em;
+
     -webkit-transform: scaleY(1);
 	-o-transform: scaleY(1);
 	-ms-transform: scaleY(1);
@@ -107,4 +109,11 @@ color: white;
 
 .in-box > b {
     font-weight: 900;
+}
+
+#tutorial {
+  border-left: 5px #ff3300 solid;
+  padding-left: 2%;
+  font-size: large;
+  font-weight: 900;
 }
