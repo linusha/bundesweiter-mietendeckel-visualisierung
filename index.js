@@ -1865,10 +1865,10 @@ d3.json(
   };
 
   function colorCityCircles(d) {
-    if (wohnungenotgebieteActive && d.marketCategory == 3) return "#ff3300";
-    if (mietsteigerungActive && d.kappungIst > d.kappungSoll) return "#ff3300";
-    if (mietobergrenzenActive && d.wiedervermietungIst > d.wiedervermietungSoll) return "#ff3300";
-    if (mietabsenkungenActive && d.bestandsMiete > d.mietsenkungSoll) return "#ff3300";
+    if (wohnungenotgebieteActive && !mietsteigerungActive && !mietabsenkungenActive && !mietobergrenzenActive){
+      if (d.marketCategory == 3) return "#ff3300"
+    } 
+    else if (benefitingFromCurrentSelection().includes(d.name)) return "#ff3300";
     return "#2b3240"
   }
 
