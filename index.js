@@ -1656,16 +1656,19 @@ d3.json(
       leistbarNewTag =
         `<p>Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sich sich auf ${cityData.name} auswirken. Aktuell ist die Lage so:</p>`;
     }
+    let bestandsText = mietabsenkungenActive ? "Maximal mögliche Miete im Bestand" : "Durchschnittliche Miete im Bestand"
     let bestandsMietenTag =
-      "<p class='in-box'><span style='color:#BD8F56;'>●</span> Durchschnittliche Miete im Bestand: <b>" +
+      `<p class='in-box'><span style='color:#BD8F56;'>●</span> ${bestandsText}: <b>` +
       bestandsMiete(cityData) +
       "</b>€/m²</p>";
+    let neuvermietungsText = mietobergrenzenActive ? "Maximal mögliche Neuvermietungsmiete" : "Durchschnittliche Neuvermietungsmiete"
     let neuvermietungsTag =
-      "<p class='in-box'><span style='color:#BD56B8;'>●</span> Durchschnittliche Neuvermietungsmiete: <b>" +
+      `<p class='in-box'><span style='color:#BD56B8;'>●</span> ${neuvermietungsText}: <b>` +
       neuvermietungsMiete(cityData) +
       "</b>€/m²</p>";
+    let mieterhoehungsText = mietsteigerungActive ? "Maximal mögliche Mieterhöhung auf" : "Durchschnittlich mögliche Mieterhöhung auf"
     let mieterhoehungsTag =
-      "<p class='in-box'><span style='color:#56BD5B;'>●</span> Durchschnittlich mögliche Mieterhöhung auf: <b>" +
+      `<p class='in-box'><span style='color:#56BD5B;'>●</span> ${mieterhoehungsText}: <b>` +
       mieterhoehung(cityData) +
       "</b>€/m²</p>";
     return (
