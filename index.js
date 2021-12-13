@@ -1,20 +1,13 @@
-// Code partially from d3-graph-gallery.com
-// https://www.d3-graph-gallery.com/graph/backgroundmap_country.html
-// https://bl.ocks.org/mbostock/4699541 [GPLv3]
-
 import * as d3 from "d3";
-
-let active = d3.select(null);
-let activeBundesland = undefined;
 
 function arraySum(array) {
   return array.reduce((accumVariable, curValue) => accumVariable + curValue, 0);
 }
+
 // marketCategory:
 // 1 - balanced market
 // 2 - strained market
-// 3 - distress market
-// for balanced markets is maximalRent == increasedRent
+// 3 - distressed market
 let cities = [
   {
     "name": "Bochum",
@@ -1152,14 +1145,12 @@ let cities = [
   }
 ];
 
-// Map and projection
-
-// Load external data and boot
 d3.json(
-  //"map.geo.json"
   "https://www.rosalux.de/fileadmin/static/mietendeckel/map.geo.json"
 ).then(function (data) {
-  let mietsteigerungActive = false;
+  let active = d3.select(null);
+  let activeBundesland = undefined;
+  let kappungsgrenzeActive = false;
   let mietobergrenzenActive = false;
   let mietabsenkungenActive = false;
   let wohnungenotgebieteActive = false;
@@ -1168,59 +1159,54 @@ d3.json(
   let height = width / 0.625;
   let map, projection, path, g, tooltip, increaseBars, circleRadius, cityCircles, barWidth, marketBars, portfolioBars;
 
-  function showTutorial() {
-    document.getElementById("consequences").innerHTML = '<p id="tutorial" class="callout">Wähle eine Stadt aus, um zu sehen wie sich die Maßnahmen auf die Mieten dort auswirken.</p>'
-  }
-  // let tutorial be visible in the beginning
+  //////
+  // Methods related to calculations and data
+  //////
 
-  showTutorial()
-  //////
-  // HELPER METHODS
-  //////
   function calculateNewLeistbareWohnverhaeltnisse(cityData) {
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       !mietabsenkungenActive
     )
       return 0;
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       mietabsenkungenActive &&
       !wohnungenotgebieteActive
     )
       return cityData.geschütztMietsenkung;
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       mietabsenkungenActive &&
       wohnungenotgebieteActive
     )
       return cityData.geschütztMietsenkungNot;
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       mietobergrenzenActive &&
       !mietabsenkungenActive &&
       !wohnungenotgebieteActive
     )
       return cityData.geschütztWiedervermietung;
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       mietobergrenzenActive &&
       !mietabsenkungenActive &&
       wohnungenotgebieteActive
     )
       return cityData.geschütztWiedervermietungNot;
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       mietobergrenzenActive &&
       mietabsenkungenActive &&
       !wohnungenotgebieteActive
     )
       return cityData.geschütztMietsenkung + cityData.geschütztWiedervermietung;
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       mietobergrenzenActive &&
       mietabsenkungenActive &&
       wohnungenotgebieteActive
@@ -1229,42 +1215,42 @@ d3.json(
         cityData.geschütztMietsenkungNot + cityData.geschütztWiedervermietungNot
       );
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       !mietabsenkungenActive &&
       !wohnungenotgebieteActive
     )
       return cityData.geschütztKappung;
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       !mietabsenkungenActive &&
       wohnungenotgebieteActive
     )
       return cityData.geschütztKappungNot;
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       mietabsenkungenActive &&
       !wohnungenotgebieteActive
     )
       return cityData.geschütztKappung + cityData.geschütztMietsenkung;
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       mietabsenkungenActive &&
       wohnungenotgebieteActive
     )
       return cityData.geschütztKappungNot + cityData.geschütztMietsenkungNot;
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       mietobergrenzenActive &&
       !mietabsenkungenActive &&
       !wohnungenotgebieteActive
     )
       return cityData.geschütztWiedervermietung + cityData.geschütztKappung;
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       mietobergrenzenActive &&
       !mietabsenkungenActive &&
       wohnungenotgebieteActive
@@ -1273,7 +1259,7 @@ d3.json(
         cityData.geschütztKappungNot + cityData.geschütztWiedervermietungNot
       );
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       mietobergrenzenActive &&
       mietabsenkungenActive &&
       !wohnungenotgebieteActive
@@ -1284,7 +1270,7 @@ d3.json(
         cityData.geschütztWiedervermietung
       );
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       mietobergrenzenActive &&
       mietabsenkungenActive &&
       wohnungenotgebieteActive
@@ -1298,13 +1284,13 @@ d3.json(
 
   function calculateEquivalentSubjektfoerderung() {
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       !mietabsenkungenActive
     )
       return 0;
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       mietabsenkungenActive &&
       !wohnungenotgebieteActive
@@ -1317,7 +1303,7 @@ d3.json(
       );
     }
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       mietabsenkungenActive &&
       wohnungenotgebieteActive
@@ -1334,7 +1320,7 @@ d3.json(
       );
     }
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       mietobergrenzenActive &&
       !mietabsenkungenActive &&
       !wohnungenotgebieteActive
@@ -1351,7 +1337,7 @@ d3.json(
       );
     }
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       mietobergrenzenActive &&
       !mietabsenkungenActive &&
       wohnungenotgebieteActive
@@ -1368,7 +1354,7 @@ d3.json(
       );
     }
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       mietobergrenzenActive &&
       mietabsenkungenActive &&
       !wohnungenotgebieteActive
@@ -1387,7 +1373,7 @@ d3.json(
       );
     }
     if (
-      !mietsteigerungActive &&
+      !kappungsgrenzeActive &&
       mietobergrenzenActive &&
       mietabsenkungenActive &&
       wohnungenotgebieteActive
@@ -1406,7 +1392,7 @@ d3.json(
       );
     }
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       !mietabsenkungenActive &&
       !wohnungenotgebieteActive
@@ -1421,7 +1407,7 @@ d3.json(
       );
     }
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       !mietabsenkungenActive &&
       wohnungenotgebieteActive
@@ -1437,7 +1423,7 @@ d3.json(
       );
     }
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       mietabsenkungenActive &&
       !wohnungenotgebieteActive
@@ -1454,7 +1440,7 @@ d3.json(
       );
     }
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       !mietobergrenzenActive &&
       mietabsenkungenActive &&
       wohnungenotgebieteActive
@@ -1472,7 +1458,7 @@ d3.json(
       );
     }
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       mietobergrenzenActive &&
       !mietabsenkungenActive &&
       !wohnungenotgebieteActive
@@ -1490,7 +1476,7 @@ d3.json(
       );
     }
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       mietobergrenzenActive &&
       !mietabsenkungenActive &&
       wohnungenotgebieteActive
@@ -1508,7 +1494,7 @@ d3.json(
       );
     }
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       mietobergrenzenActive &&
       mietabsenkungenActive &&
       !wohnungenotgebieteActive
@@ -1528,7 +1514,7 @@ d3.json(
       );
     }
     if (
-      mietsteigerungActive &&
+      kappungsgrenzeActive &&
       mietobergrenzenActive &&
       mietabsenkungenActive &&
       wohnungenotgebieteActive
@@ -1553,21 +1539,7 @@ d3.json(
     return calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
   }
 
-  function updateSubjektfoerderungsShowcase() {
-    let text, allBenefiting;
-    if (!mietsteigerungActive && !mietabsenkungenActive && !mietobergrenzenActive) {
-      text =
-        `<p class="callout">Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sie sich insgesamt auswirken.</p>`;
-    } else {
-      allBenefiting = arraySum(cities.map((city) => calculateNewLeistbareWohnverhaeltnisse(city))).toLocaleString("de-DE")
-      //Die aktuell ausgewählten Maßnahmen erreichen ${Math.round(((calculateEquivalentSubjektfoerderung()/maximumSubjektfoerderung).toFixed(2) * 100)) }% des Effektes. Dieser entspräche einem Einsatz von ${maximumSubjektfoerderung.toLocaleString("de-DE")} €.
-      text = "<h3>So wirken die Maßnahmen insgesamt:</h3><div class='numbers-container'><p class='custom-bold in-box'>Von den aktivierten Maßnahmen profitieren <b>" + allBenefiting + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
-        `Um einen ähnlichen Effekt für die Mietenden durch individuelle Geldzahlungen zu erzielen, müssten pro Jahr <b>${getEquivalentSubjektfoerderungString()}</b> aufgewendet werden.</p></div>`
-    }
-    document.getElementById("subjektfoerderung").innerHTML = text;
-  }
-
-  function benefitsFromMietsteigerung(city) {
+  function benefitsFromKappungsgrenze(city) {
     return city.geschütztKappung > 0;
   }
 
@@ -1588,28 +1560,13 @@ d3.json(
     let benefitingWiedervermietung = [];
     let benefitingAbsenkung = [];
     let benefitingNot = [];
-    if (mietsteigerungActive) benefitingKappung = cities.filter(city => benefitsFromMietsteigerung(city));
+    if (kappungsgrenzeActive) benefitingKappung = cities.filter(city => benefitsFromKappungsgrenze(city));
     if (mietobergrenzenActive) benefitingWiedervermietung = cities.filter(city => benefitsFromMietobergrenzen(city));
     if (mietabsenkungenActive) benefitingAbsenkung = cities.filter(city => benefitsFromMietabsenkungen(city));
     if (wohnungenotgebieteActive) benefitingNot = cities.filter(city => benefitsFromNotgebiete(city));
 
     return [...new Set((benefitingKappung.concat(benefitingWiedervermietung, benefitingAbsenkung, benefitingNot)).map(city => city.name))]
   }
-
-  let maximumSubjektfoerderung =
-    (
-      12 *
-      arraySum(
-        cities.map(
-          (city) =>
-            city.geschütztWiedervermietungNot *
-            city.leistbarkeitsDifferenzWiedervermietung +
-            city.geschütztKappungNot * city.leistbarkeitsdifferenzKappung +
-            city.geschütztMietsenkungNot *
-            city.leistbarkeitsdifferenzMietsenkung
-        )
-      )
-    );
 
   function bestandsMiete(city) {
     if (mietabsenkungenActive) {
@@ -1628,7 +1585,7 @@ d3.json(
   }
 
   function mieterhoehung(city) {
-    if (mietsteigerungActive) {
+    if (kappungsgrenzeActive) {
       if (wohnungenotgebieteActive) return city.kappungSollNot.toFixed(2);
       return city.kappungSoll.toFixed(2);
     }
@@ -1638,6 +1595,28 @@ d3.json(
   function profitingHouseholds(city) {
     let percent = calculateNewLeistbareWohnverhaeltnisse(city) / city.haushalte
     return Math.round(1 / percent);
+  }
+
+  //////
+  // Methods related to the visualization
+  //////
+
+  function showHintNoSelectedCity() {
+    document.getElementById("consequences").innerHTML = '<p id="tutorial" class="callout">Wähle eine Stadt aus, um zu sehen wie sich die Maßnahmen auf die Mieten dort auswirken.</p>'
+  }
+
+  function updateSubjektfoerderungsCallout() {
+    let text, allBenefiting;
+    if (!kappungsgrenzeActive && !mietabsenkungenActive && !mietobergrenzenActive) {
+      text =
+        `<p class="callout">Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sie sich insgesamt auswirken.</p>`;
+    } else {
+      allBenefiting = arraySum(cities.map((city) => calculateNewLeistbareWohnverhaeltnisse(city))).toLocaleString("de-DE")
+      //Die aktuell ausgewählten Maßnahmen erreichen ${Math.round(((calculateEquivalentSubjektfoerderung()/maximumSubjektfoerderung).toFixed(2) * 100)) }% des Effektes. Dieser entspräche einem Einsatz von ${maximumSubjektfoerderung.toLocaleString("de-DE")} €.
+      text = "<h3>So wirken die Maßnahmen insgesamt:</h3><div class='numbers-container'><p class='custom-bold in-box'>Von den aktivierten Maßnahmen profitieren <b>" + allBenefiting + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
+        `Um einen ähnlichen Effekt für die Mietenden durch individuelle Geldzahlungen zu erzielen, müssten pro Jahr <b>${getEquivalentSubjektfoerderungString()}</b> aufgewendet werden.</p></div>`
+    }
+    document.getElementById("subjektfoerderung").innerHTML = text;
   }
 
   function getConsequencesContent(cityData) {
@@ -1652,7 +1631,7 @@ d3.json(
       leistbarNewTag =
         `<p>Die ausgewählten Maßnahmen haben keinen Effekt auf die Mietpreise in ${cityData.name}.</p>`;
     }
-    if (!mietsteigerungActive && !mietabsenkungenActive && !mietobergrenzenActive && !wohnungenotgebieteActive) {
+    if (!kappungsgrenzeActive && !mietabsenkungenActive && !mietobergrenzenActive && !wohnungenotgebieteActive) {
       leistbarNewTag =
         `<p>Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sich sich auf ${cityData.name} auswirken. Aktuell ist die Lage so:</p>`;
     }
@@ -1666,7 +1645,7 @@ d3.json(
       `<p class='in-box'><span style='color:#BD56B8;'>●</span> ${neuvermietungsText}: <b>` +
       neuvermietungsMiete(cityData) +
       "</b>€/m²</p>";
-    let mieterhoehungsText = mietsteigerungActive ? "Maximal mögliche Mieterhöhung auf" : "Durchschnittlich mögliche Mieterhöhung auf"
+    let mieterhoehungsText = kappungsgrenzeActive ? "Maximal mögliche Mieterhöhung auf" : "Durchschnittlich mögliche Mieterhöhung auf"
     let mieterhoehungsTag =
       `<p class='in-box'><span style='color:#56BD5B;'>●</span> ${mieterhoehungsText}: <b>` +
       mieterhoehung(cityData) +
@@ -1733,7 +1712,7 @@ d3.json(
     cityCircles
       .style("visibility", "visible");
 
-    showTutorial();
+    showHintNoSelectedCity();
   }
 
   function citySelected() {
@@ -1783,7 +1762,7 @@ d3.json(
     updateBarNumbers(city)
     document.getElementById("consequences").innerHTML = getConsequencesContent(city)
   }
-  // a city has been toggled by clicking on it
+
   let updateCitySelection = function (event, clickedData) {
     event.stopPropagation();
     clickedData.active = !clickedData.active;
@@ -1823,7 +1802,7 @@ d3.json(
     else {
       map.selectAll("text")
         .style("visibility", "hidden")
-      showTutorial()
+      showHintNoSelectedCity()
       if (document.getElementsByClassName("active").length > 0) {
         clicked(null, activeBundesland, true);
       }
@@ -1865,9 +1844,9 @@ d3.json(
   };
 
   function colorCityCircles(d) {
-    if (wohnungenotgebieteActive && !mietsteigerungActive && !mietabsenkungenActive && !mietobergrenzenActive){
+    if (wohnungenotgebieteActive && !kappungsgrenzeActive && !mietabsenkungenActive && !mietobergrenzenActive) {
       if (d.marketCategory == 3) return "#ff3300"
-    } 
+    }
     else if (benefitingFromCurrentSelection().includes(d.name)) return "#ff3300";
     return "#2b3240"
   }
@@ -2023,29 +2002,25 @@ d3.json(
 
   }
 
-  drawMap()
-  window.addEventListener('resize', function (event) {
-    drawMap()
-  }, true);
 
   ////////
-  // FUNCTIONALITY FOR THE BUTTONS
+  // Functionality for the buttons
   ////////
 
-  function mietsteigerungPressed() {
-    let button = document.getElementById("mietsteigerung")
-    if (mietsteigerungActive) {
+  function kappungsgrenzePressed() {
+    let button = document.getElementById("kappungsgrenzen")
+    if (kappungsgrenzeActive) {
       button.setAttribute("selected", false);
       button.nextElementSibling.className = "closedItem"
-      mietsteigerungActive = false;
+      kappungsgrenzeActive = false;
       button.textContent = "▸" + button.textContent.slice(1);
     } else {
       button.textContent = "▾" + button.textContent.slice(1);
       button.setAttribute("selected", true);
       button.nextElementSibling.className = "openItem"
-      mietsteigerungActive = true;
+      kappungsgrenzeActive = true;
     }
-    updateSubjektfoerderungsShowcase();
+    updateSubjektfoerderungsCallout();
 
     map.selectAll(".cityCircle")
       .attr("fill", colorCityCircles)
@@ -2078,7 +2053,7 @@ d3.json(
       button.nextElementSibling.className = "openItem"
       mietabsenkungenActive = true;
     }
-    updateSubjektfoerderungsShowcase();
+    updateSubjektfoerderungsCallout();
 
     map.selectAll(".cityCircle")
       .attr("fill", colorCityCircles)
@@ -2111,7 +2086,7 @@ d3.json(
       button.nextElementSibling.className = "openItem"
     }
 
-    updateSubjektfoerderungsShowcase();
+    updateSubjektfoerderungsCallout();
 
     map.selectAll(".cityCircle")
       .attr("fill", colorCityCircles)
@@ -2176,16 +2151,25 @@ d3.json(
         (d) => projection([d.long, d.lat])[1] - neuvermietungsMiete(d) * barScale
       );
 
-    updateSubjektfoerderungsShowcase();
+    updateSubjektfoerderungsCallout();
     if (citySelected()) updateConsequences(selectedCity());
   }
 
-  ////////
-  // WIRE UP BUTTONS AND THEIR METHODS
-  ////////
-  document.getElementById("mietsteigerung").onclick = mietsteigerungPressed;
+  //////
+  // Bootstrap Visualization
+  //////
+
+  // let hint be visible in the beginning
+  showHintNoSelectedCity()
+  drawMap()
+  // make map responsive
+  window.addEventListener('resize', function (event) {
+    drawMap()
+  }, true);
+
+  document.getElementById("kappungsgrenzen").onclick = kappungsgrenzePressed;
   document.getElementById("mietobergrenzen").onclick = mietobergrenzenPressed;
   document.getElementById("mietabsenkungen").onclick = mietabsenkungenPressed;
   document.getElementById("wohnungenotgebiete").onclick = wohnungenotgebietePressed;
-  updateSubjektfoerderungsShowcase();
+  updateSubjektfoerderungsCallout();
 });
