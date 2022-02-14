@@ -1734,9 +1734,12 @@ d3.json(
     portfolioBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => bestandsMiete(d).toString().replace('.',','))
+      .text((d) => (mietabsenkungenActive ? '' : 'Ø ') + bestandsMiete(d).toString().replace('.',','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-      .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth + (bestandsMiete(d).toString().length == 5 ? 1 : 2))
+      .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth + (bestandsMiete(d).toString().length == 5 ?
+        (mietabsenkungenActive ? 1 : 0.5) :
+        (mietabsenkungenActive ? 2 : 1))
+      )
       .style("visibility", "visible")
       .style("font-size", "2pt")
       .style("fill", "#2b3240")
@@ -1744,9 +1747,12 @@ d3.json(
     increaseBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => mieterhoehung(d).toString().replace('.',','))
+      .text((d) => (kappungsgrenzeActive ? '' : 'Ø ') + mieterhoehung(d).toString().replace('.',','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-      .attr("x", (d) => projection([d.long, d.lat])[0] + (mieterhoehung(d).toString().length == 5 ? 1 : 2))
+      .attr("x", (d) => projection([d.long, d.lat])[0] + (mieterhoehung(d).toString().length == 5 ?
+        (kappungsgrenzeActive ? 1 : 0.5) :
+        (kappungsgrenzeActive ? 2 : 1))
+      )
       .style("visibility", "visible")
       .style("font-size", "2pt")
       .style("fill", "#2b3240")
@@ -1754,9 +1760,12 @@ d3.json(
     marketBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => wiedervermietungsMiete(d).toString().replace('.',','))
+      .text((d) => (mietobergrenzenActive ? '' : 'Ø ') + wiedervermietungsMiete(d).toString().replace('.',','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (wiedervermietungsMiete(d).toString().length == 5 ? 1 : 2))
+      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (wiedervermietungsMiete(d).toString().length == 5 ?
+        (mietobergrenzenActive ? 1 : 0.5) :
+        (mietobergrenzenActive ? 2 : 1))
+      )
       .style("visibility", "visible")
       .style("font-size", "2pt")
       .style("fill", "#2b3240")
