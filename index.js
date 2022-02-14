@@ -1580,7 +1580,7 @@ d3.json(
     return city.bestandsMiete.toFixed(2);
   }
 
-  function neuvermietungsMiete(city) {
+  function wiedervermietungsMiete(city) {
     if (mietobergrenzenActive) {
       if (wohnungenotgebieteActive) return city.wiedervermietungSollNot.toFixed(2);
       return city.wiedervermietungSoll.toFixed(2);
@@ -1649,10 +1649,10 @@ d3.json(
       `<p class='in-box'><span style='color:#EBE415;'>●</span> ${mieterhoehungsText}: <b>` +
       mieterhoehung(cityData).toString().replace('.',',') +
       "</b>€/m²</p>";
-    let neuvermietungsText = mietobergrenzenActive ? "Maximal mögliche Neuvermietungsmiete" : "Durchschnittliche Neuvermietungsmiete"
+    let neuvermietungsText = mietobergrenzenActive ? "Maximal mögliche Miete bei Wiedervermietung" : "Durchschnittliche Miete bei Wiedervermietung"
     let neuvermietungsTag =
       `<p class='in-box'><span style='color:#0084FF;'>●</span> ${neuvermietungsText}: <b>` +
-      neuvermietungsMiete(cityData).toString().replace('.',',') +
+      wiedervermietungsMiete(cityData).toString().replace('.',',') +
       "</b>€/m²</p>";
     return (
       nameTag +
@@ -1754,9 +1754,9 @@ d3.json(
     marketBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => neuvermietungsMiete(d).toString().replace('.',','))
+      .text((d) => wiedervermietungsMiete(d).toString().replace('.',','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (neuvermietungsMiete(d).toString().length == 5 ? 1 : 2))
+      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (wiedervermietungsMiete(d).toString().length == 5 ? 1 : 2))
       .style("visibility", "visible")
       .style("font-size", "2pt")
       .style("fill", "#2b3240")
@@ -1793,7 +1793,7 @@ d3.json(
 
 
       var dx = 5 * barWidth,
-        dy = neuvermietungsMiete(clickedData) * barScale + 10,
+        dy = wiedervermietungsMiete(clickedData) * barScale + 10,
         x = ((projection([clickedData.long, clickedData.lat])[0] - barWidth) + projection([clickedData.long, clickedData.lat])[0] + barWidth) / 2,
         y = ((projection([clickedData.long, clickedData.lat])[1]) + projection([clickedData.long, clickedData.lat])[1] - dy) / 2,
         scale = .9 / Math.max(dx / width, dy / height),
@@ -1818,8 +1818,8 @@ d3.json(
       .selectAll(".marketRect")
       .filter((d) => d.name == clickedData.name)
       .transition(2000)
-      .attr("height", (d) => neuvermietungsMiete(d) * barScale)
-      .attr("y", (d) => projection([d.long, d.lat])[1] - neuvermietungsMiete(d) * barScale)
+      .attr("height", (d) => wiedervermietungsMiete(d) * barScale)
+      .attr("y", (d) => projection([d.long, d.lat])[1] - wiedervermietungsMiete(d) * barScale)
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
     map
@@ -2099,10 +2099,10 @@ d3.json(
       .selectAll(".marketRect")
       .transition()
       .duration(1000)
-      .attr("height", (d) => neuvermietungsMiete(d) * barScale)
+      .attr("height", (d) => wiedervermietungsMiete(d) * barScale)
       .attr(
         "y",
-        (d) => projection([d.long, d.lat])[1] - neuvermietungsMiete(d) * barScale
+        (d) => projection([d.long, d.lat])[1] - wiedervermietungsMiete(d) * barScale
       );
     if (citySelected()) updateConsequences(selectedCity());
   }
@@ -2149,10 +2149,10 @@ d3.json(
       .selectAll(".marketRect")
       .transition()
       .duration(1000)
-      .attr("height", (d) => neuvermietungsMiete(d) * barScale)
+      .attr("height", (d) => wiedervermietungsMiete(d) * barScale)
       .attr(
         "y",
-        (d) => projection([d.long, d.lat])[1] - neuvermietungsMiete(d) * barScale
+        (d) => projection([d.long, d.lat])[1] - wiedervermietungsMiete(d) * barScale
       );
 
     updateSubjektfoerderungsCallout();
