@@ -1613,12 +1613,12 @@ d3.json(
     let text, allBenefiting;
     if (!kappungsgrenzeActive && !mietabsenkungenActive && !mietobergrenzenActive) {
       text =
-        `<p class="callout">Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sie sich insgesamt auswirken.</p>`;
+        `<p class="callout">Aktiviere eine oder mehrere der Maßnahmen, um zu sehen, wie sie sich insgesamt auswirken.</p>`;
     } else {
       allBenefiting = arraySum(cities.map((city) => calculateNewLeistbareWohnverhaeltnisse(city))).toLocaleString("de-DE")
       //Die aktuell ausgewählten Maßnahmen erreichen ${Math.round(((calculateEquivalentSubjektfoerderung()/maximumSubjektfoerderung).toFixed(2) * 100)) }% des Effektes. Dieser entspräche einem Einsatz von ${maximumSubjektfoerderung.toLocaleString("de-DE")} €.
-      text = "<h3>So wirken die Maßnahmen insgesamt:</h3><div class='numbers-container'><p class='custom-bold in-box'>Von den aktivierten Maßnahmen profitieren <b>" + allBenefiting.toString().replaceAll('.', ' ') + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
-        `Um einen ähnlichen Effekt für die Mietenden durch individuelle Geldzahlungen zu erzielen, müssten pro Jahr <b>${getEquivalentSubjektfoerderungString()}</b> aufgewendet werden.</p></div>`
+      text = "<h3>So wirken die ausgewähleten Mietendeckel-Maßnahmen:</h3><div class='numbers-container'><p class='custom-bold in-box'>Die aktivierten Maßnahmen entlasten <b>" + allBenefiting.toString().replaceAll('.', ' ') + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
+        `Um eine ähnlichen Entlastung für die Haushalte zu erzielen müssten pro Jahr zusätzlich <b>${getEquivalentSubjektfoerderungString()}</b> an Mietzuschüssen (zum Beispiel durch Wohngeld) aufgewendet werden.</p></div>`
     }
     document.getElementById("subjektfoerderung").innerHTML = text;
   }
