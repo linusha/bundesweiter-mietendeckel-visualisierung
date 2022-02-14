@@ -1637,18 +1637,18 @@ d3.json(
     }
     let bestandsText = mietabsenkungenActive ? "Maximal mögliche Miete im Bestand" : "Durchschnittliche Miete im Bestand"
     let bestandsMietenTag =
-      `<p class='in-box'><span style='color:#BD8F56;'>●</span> ${bestandsText}: <b>` +
+      `<p class='in-box'><span style='color:#FF3300;'>●</span> ${bestandsText}: <b>` +
       bestandsMiete(cityData) +
-      "</b>€/m²</p>";
-    let neuvermietungsText = mietobergrenzenActive ? "Maximal mögliche Neuvermietungsmiete" : "Durchschnittliche Neuvermietungsmiete"
-    let neuvermietungsTag =
-      `<p class='in-box'><span style='color:#BD56B8;'>●</span> ${neuvermietungsText}: <b>` +
-      neuvermietungsMiete(cityData) +
       "</b>€/m²</p>";
     let mieterhoehungsText = kappungsgrenzeActive ? "Maximal mögliche Mieterhöhung auf" : "Durchschnittlich mögliche Mieterhöhung auf"
     let mieterhoehungsTag =
-      `<p class='in-box'><span style='color:#56BD5B;'>●</span> ${mieterhoehungsText}: <b>` +
+      `<p class='in-box'><span style='color:#EBE415;'>●</span> ${mieterhoehungsText}: <b>` +
       mieterhoehung(cityData) +
+      "</b>€/m²</p>";
+    let neuvermietungsText = mietobergrenzenActive ? "Maximal mögliche Neuvermietungsmiete" : "Durchschnittliche Neuvermietungsmiete"
+    let neuvermietungsTag =
+      `<p class='in-box'><span style='color:#0084FF;'>●</span> ${neuvermietungsText}: <b>` +
+      neuvermietungsMiete(cityData) +
       "</b>€/m²</p>";
     return (
       nameTag +
@@ -1953,7 +1953,7 @@ d3.json(
       .attr("width", barWidth)
       .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth)
       .attr("y", (d) => projection([d.long, d.lat])[1])
-      .attr("fill", "#BD56B8")
+      .attr("fill", "#0084FF")
       .attr("visibility", "hidden")
       .on("mousedown", updateCitySelection)
 
@@ -1973,7 +1973,7 @@ d3.json(
       .attr("width", barWidth)
       .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth)
       .attr("y", (d) => projection([d.long, d.lat])[1])
-      .attr("fill", "#BD8F56")
+      .attr("fill", "#FF3300")
       .attr("visibility", "hidden")
       .on("mousedown", updateCitySelection);
 
@@ -1993,7 +1993,7 @@ d3.json(
       .attr("width", barWidth)
       .attr("x", (d) => projection([d.long, d.lat])[0])
       .attr("y", (d) => projection([d.long, d.lat])[1])
-      .attr("fill", "#56BD5B")
+      .attr("fill", "#EBE415")
       .attr("visibility", "hidden")
       .on("mousedown", updateCitySelection);
 
