@@ -1613,7 +1613,7 @@ d3.json(
     } else {
       allBenefiting = arraySum(cities.map((city) => calculateNewLeistbareWohnverhaeltnisse(city))).toLocaleString("de-DE")
       //Die aktuell ausgewählten Maßnahmen erreichen ${Math.round(((calculateEquivalentSubjektfoerderung()/maximumSubjektfoerderung).toFixed(2) * 100)) }% des Effektes. Dieser entspräche einem Einsatz von ${maximumSubjektfoerderung.toLocaleString("de-DE")} €.
-      text = "<h3>So wirken die Maßnahmen insgesamt:</h3><div class='numbers-container'><p class='custom-bold in-box'>Von den aktivierten Maßnahmen profitieren <b>" + allBenefiting + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
+      text = "<h3>So wirken die Maßnahmen insgesamt:</h3><div class='numbers-container'><p class='custom-bold in-box'>Von den aktivierten Maßnahmen profitieren <b>" + allBenefiting.toString().replaceAll('.', ' ') + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
         `Um einen ähnlichen Effekt für die Mietenden durch individuelle Geldzahlungen zu erzielen, müssten pro Jahr <b>${getEquivalentSubjektfoerderungString()}</b> aufgewendet werden.</p></div>`
     }
     document.getElementById("subjektfoerderung").innerHTML = text;
@@ -1638,17 +1638,17 @@ d3.json(
     let bestandsText = mietabsenkungenActive ? "Maximal mögliche Miete im Bestand" : "Durchschnittliche Miete im Bestand"
     let bestandsMietenTag =
       `<p class='in-box'><span style='color:#FF3300;'>●</span> ${bestandsText}: <b>` +
-      bestandsMiete(cityData) +
+      bestandsMiete(cityData).toString().replace('.',',') +
       "</b>€/m²</p>";
     let mieterhoehungsText = kappungsgrenzeActive ? "Maximal mögliche Mieterhöhung auf" : "Durchschnittlich mögliche Mieterhöhung auf"
     let mieterhoehungsTag =
       `<p class='in-box'><span style='color:#EBE415;'>●</span> ${mieterhoehungsText}: <b>` +
-      mieterhoehung(cityData) +
+      mieterhoehung(cityData).toString().replace('.',',') +
       "</b>€/m²</p>";
     let neuvermietungsText = mietobergrenzenActive ? "Maximal mögliche Neuvermietungsmiete" : "Durchschnittliche Neuvermietungsmiete"
     let neuvermietungsTag =
       `<p class='in-box'><span style='color:#0084FF;'>●</span> ${neuvermietungsText}: <b>` +
-      neuvermietungsMiete(cityData) +
+      neuvermietungsMiete(cityData).toString().replace('.',',') +
       "</b>€/m²</p>";
     return (
       nameTag +
@@ -1730,7 +1730,7 @@ d3.json(
     portfolioBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => bestandsMiete(d))
+      .text((d) => bestandsMiete(d).toString().replace('.',','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
       .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth + (bestandsMiete(d).toString().length == 5 ? 1 : 2))
       .style("visibility", "visible")
@@ -1740,7 +1740,7 @@ d3.json(
     increaseBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => mieterhoehung(d))
+      .text((d) => mieterhoehung(d).toString().replace('.',','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
       .attr("x", (d) => projection([d.long, d.lat])[0] + (mieterhoehung(d).toString().length == 5 ? 1 : 2))
       .style("visibility", "visible")
@@ -1750,7 +1750,7 @@ d3.json(
     marketBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => neuvermietungsMiete(d))
+      .text((d) => neuvermietungsMiete(d).toString().replace('.',','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
       .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (neuvermietungsMiete(d).toString().length == 5 ? 1 : 2))
       .style("visibility", "visible")
