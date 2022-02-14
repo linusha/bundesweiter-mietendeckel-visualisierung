@@ -1536,7 +1536,11 @@ d3.json(
   }
 
   function getEquivalentSubjektfoerderungString() {
-    return calculateEquivalentSubjektfoerderung().toLocaleString("de-DE") + "€";
+    const sum = calculateEquivalentSubjektfoerderung();
+    if (sum > 1_000_000_000) { // more than one billion
+     return (sum / 1_000_000_000).toFixed(1).toString().replace('.', ',') + ' Milliarden €' 
+    }
+    return (sum / 1_000_000).toFixed(1).toString().replace('.', ',') + ' Millionen €'
   }
 
   function benefitsFromKappungsgrenze(city) {
