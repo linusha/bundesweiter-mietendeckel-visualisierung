@@ -1617,9 +1617,8 @@ d3.json(
         `<p class="callout">Aktiviere eine oder mehrere der Maßnahmen, um zu sehen, wie sie sich insgesamt auswirken.</p>`;
     } else {
       allBenefiting = arraySum(cities.map((city) => calculateNewLeistbareWohnverhaeltnisse(city))).toLocaleString("de-DE")
-      //Die aktuell ausgewählten Maßnahmen erreichen ${Math.round(((calculateEquivalentSubjektfoerderung()/maximumSubjektfoerderung).toFixed(2) * 100)) }% des Effektes. Dieser entspräche einem Einsatz von ${maximumSubjektfoerderung.toLocaleString("de-DE")} €.
       text = "<h3>So wirken die ausgewähleten Mietendeckel-Maßnahmen:</h3><div class='numbers-container'><p class='custom-bold in-box'>Die aktivierten Maßnahmen entlasten <b>" + allBenefiting.toString().replaceAll('.', ' ') + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
-        `Um eine ähnlichen Entlastung für die Haushalte zu erzielen müssten pro Jahr zusätzlich <b>${getEquivalentSubjektfoerderungString()}</b> an Mietzuschüssen (zum Beispiel durch Wohngeld) aufgewendet werden.</p></div>`
+        `Um eine ähnlichen Entlastung für die Haushalte zu erzielen müssten pro Jahr zusätzlich <b>${getEquivalentSubjektfoerderungString()}</b> an <a href="https://www.rosalux.de/?id=29945#c52747">Mietzuschüssen (zum Beispiel durch Wohngeld)</a> aufgewendet werden.</p></div>`
     }
     document.getElementById("subjektfoerderung").innerHTML = text;
   }
@@ -2178,7 +2177,8 @@ d3.json(
   document.getElementById('modal-average-rent').onclick = () => {
     Swal.fire({
       title: 'Örtliche Durchschnittsmiete',
-      text: 'In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.',
+      html: '<p style="color: #545454;">In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.<br>' +
+      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741">Glossar</a>.<p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
@@ -2195,7 +2195,8 @@ d3.json(
     Swal.fire({
       title: 'Konzept für einen bundesweiten Mietendeckel',
       html: '<p style="color: #545454;">Diese Darstellung basiert auf einem Konzept das von Andrej Holm und Benjamin Raabe in ihrer Studie <a href="https://www.rosalux.de/publikation/id/44898/bundesweiter-mietendeckel-noetig-und-moeglich">' +
-        '\"Bundesweiter Mietendeckel - Regelungsmöglichkeiten und Beitrag für eine soziale Wohnraumversorgung\"</a> erarbeitet wurde.</p>',
+        '\"Bundesweiter Mietendeckel - Regelungsmöglichkeiten und Beitrag für eine soziale Wohnraumversorgung\"</a> erarbeitet wurde.<br>' +
+        'Als Einführung in das Konzept haben die Autoren außerdem einen <a href="">Standpunkte-Text</a> verfasst.</p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
@@ -2211,7 +2212,8 @@ d3.json(
   document.getElementById('modal-affordable-rent').onclick = () => {
     Swal.fire({
       title: 'Leistbare Miete',
-      text: 'Die leistbare Miete wird, anders als die Durchschnittsmiete, anhand der verfügbaren Einkommen berechnet. Als leistbar gilt eine Miete, wenn sie höchstens 30 Prozent des durchschnittlichen Nettohaushaltseinkommens in der Kommune beträgt.',
+      html: '<p style="color: #545454;">Die leistbare Miete wird, anders als die Durchschnittsmiete, anhand der verfügbaren Einkommen berechnet. Als leistbar gilt eine Miete, wenn sie höchstens 30 Prozent des durchschnittlichen Nettohaushaltseinkommens in der Kommune beträgt.<br>' +
+      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52743">Glossar</a>.<p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
