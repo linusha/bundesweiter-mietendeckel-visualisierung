@@ -2174,6 +2174,10 @@ d3.json(
   document.getElementById("mietobergrenzen").onclick = mietobergrenzenPressed;
   document.getElementById("mietabsenkungen").onclick = mietabsenkungenPressed;
   document.getElementById("wohnungenotgebiete").onclick = wohnungenotgebietePressed;
+  document.getElementById("citySelector").addEventListener("change", (event) => {
+    const selectedCity = event.target.value;
+    updateCitySelection(null, cities.find(city => city.name === selectedCity));
+  });
   document.getElementById('modal-average-rent').onclick = () => {
     Swal.fire({
       title: 'Örtliche Durchschnittsmiete',
