@@ -1881,7 +1881,7 @@ d3.json(
       .data(data.features)
       .enter()
       .append("path")
-      .attr("fill", "#d3dfee")
+      .attr("fill", "#FFFFFF")
       .attr("d", path)
       .attr("class", "feature")
       .style("stroke", "darkgray")
