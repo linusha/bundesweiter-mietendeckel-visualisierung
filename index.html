@@ -74,40 +74,69 @@
 
         <div class="column">
           <div id="measureControls">
-            <div>
-              <button class="measureSelection" id="kappungsgrenzen" selected="false" style="margin-top: 2%">▸ Mieterhöhungen
-                begrenzen</button>
-              <p class="closedItem">
-                In angespannten Wohnungsmärkten dürfen die Mieten in laufenden Mietverhältnissen nur noch
-                in Höhe der Inflation steigen.
-              </p>
+            <div style="display: inline-grid;">
+              <button class="measureSelection" id="kappungsgrenzen" style="margin-top: 2%; margin-bottom: 5%;">
+              ▸ Mieterhöhungen begrenzen
+              </button>
+              <div class="closedItem">
+                <label class="switch">
+                  <input type="checkbox" id="kappungsgrenzenCheckbox">
+                  <span class="slider round"></span>
+                </label>
+                <p style="float: right;width: 80%;">
+                  In <a href="https://www.rosalux.de/?id=29945#c52740">angespannten Wohnungsmärkten</a> dürfen die Mieten in laufenden Mietverhältnissen nur noch
+                  in Höhe der Inflation steigen.
+                </p>
+              </div>
             </div>
-            <div>
-              <button class="measureSelection" id="mietobergrenzen" selected="false">▸ Mietobergrenzen</button>
-              <p class="closedItem">
-                Bei Vertragsabschluss dürfen die Mieten in angespannten Wohnungsmärkten nicht mehr als 10 % über der
-                <span class="infolink" id="modal-average-rent"><span>örtlichen Durchschnittsmiete</span></span> liegen - ohne die bei der „Mietpreisbremse“ geltenden Ausnahmen für modernisierte
-                oder vorher überteuerte Wohnungen.
-              </p>
+            <div style="display: inline-grid;">
+              <button class="measureSelection" id="mietobergrenzen" style="margin-bottom: 5%;">
+              ▸ Mietobergrenzen
+              </button>
+              <div class="closedItem">
+                <label class="switch">
+                  <input type="checkbox" id="mietobergrenzenCheckbox">
+                  <span class="slider round"></span>
+                </label>
+                <p style="float: right;width: 80%;">
+                  Bei Vertragsabschluss dürfen die Mieten in <a href="https://www.rosalux.de/?id=29945#c52740">angespannten Wohnungsmärkten</a> nicht mehr als 10 % über der
+                  <span class="infolink" id="modal-average-rent"><span>örtlichen Durchschnittsmiete</span></span> liegen - ohne die bei der <a href="https://www.rosalux.de/?id=29945#c52744">„Mietpreisbremse“</a> geltenden Ausnahmen für modernisierte
+                  oder vorher überteuerte Wohnungen.
+                </p>
+              </div>
             </div>
-            <div>
-              <button class="measureSelection" id="mietabsenkungen" selected="false">▸ Mietsenkungen</button>
-              <p class="closedItem">
-                Überhöhte Mieten können auf 20 % über der örtlichen Durchschnittsmiete gesenkt werden.
-                Mieter:innen können sich dafür an die örtlichen Behörden wenden. 
-              </p>
+            <div style="display: inline-grid;">
+              <button class="measureSelection" id="mietabsenkungen" style="margin-bottom: 5%;">
+              ▸ Mietsenkungen
+              </button>
+              <div class="closedItem">
+                <label class="switch">
+                  <input type="checkbox" id="mietabsenkungenCheckbox">
+                  <span class="slider round"></span>
+                </label>
+                <p style="float: right;width: 80%;">
+                  Überhöhte Mieten können auf 20 % über der <a href="https://www.rosalux.de/?id=29945#c52741">örtlichen Durchschnittsmiete</a> <a href="https://www.rosalux.de/?id=29945#c52745">gesenkt</a> werden.
+                  Mieter:innen können sich dafür an die örtlichen Behörden wenden.
+                </p>
+              </div>
             </div>
-            <div>
-              <button class="measureSelection" id="wohnungenotgebiete" selected="false">▸ Wohnungsnotgebiete
-                ausweisen</button>
-              <p class="closedItem">
-                In Wohnungsnotgebieten werden die oberen drei Maßnahmen verschärft.
+            <div style="display: inline-grid;">
+              <button class="measureSelection" id="wohnungenotgebiete" style="margin-bottom: 5%;">
+              ▸ Wohnungsnotgebiete ausweisen
+              </button>
+              <div class="closedItem">
+                <label class="switch">
+                  <input type="checkbox" id="wohnungsnotgebieteCheckbox">
+                  <span class="slider round"></span>
+                </label>
+                <p style="float: right;width: 80%;">
+                In <a href="https://www.rosalux.de/?id=29945#c52749">Wohnungsnotgebieten</a> werden die oberen drei Maßnahmen verschärft.
                 Hier gilt ein Mietenstopp - Mieterhöhungen sind vollständig ausgeschlossen.
-                Bei neu abgeschlossenen Verträgen dürfen die Mieten die örtliche Durchschnittsmiete nicht übersteigen.
-                Überhöhte Miete werden stärker abgesenkt: Keine Miete darf die örtlich <span id="modal-affordable-rent" class="infolink"><span>leistbare Miete</span></span> um mehr als 20 % überschreiten.
-              </p>
+                Bei neu abgeschlossenen Verträgen dürfen die Mieten die <a href="https://www.rosalux.de/?id=29945#c52741">örtliche Durchschnittsmiete</a> nicht übersteigen.
+                Überhöhte Miete werden stärker <a href="https://www.rosalux.de/?id=29945#c52745">abgesenkt</a>: Keine Miete darf die örtlich <span id="modal-affordable-rent" class="infolink"><span>leistbare Miete</span></span> um mehr als 20 % überschreiten.
+                </p>
+              </div>
             </div>
-
           </div>
          
           <div id="consequences"></div>

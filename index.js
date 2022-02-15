@@ -2000,17 +2000,17 @@ d3.json(
 
   function kappungsgrenzePressed() {
     let button = document.getElementById("kappungsgrenzen")
-    if (kappungsgrenzeActive) {
-      button.setAttribute("selected", false);
+    if (button.nextElementSibling.className !== "closedItem") {
       button.nextElementSibling.className = "closedItem"
-      kappungsgrenzeActive = false;
-      button.textContent = "▸" + button.textContent.slice(1);
+      button.textContent = "▸ " + 'Mieterhöhungen begrenzen';
     } else {
-      button.textContent = "▾" + button.textContent.slice(1);
-      button.setAttribute("selected", true);
+      button.textContent = "▾ " + 'Mieterhöhungen begrenzen';
       button.nextElementSibling.className = "openItem"
-      kappungsgrenzeActive = true;
     }
+  }
+
+  function kappungsgrenzeToggled (status) {
+    kappungsgrenzeActive = status;
     updateSubjektfoerderungsCallout();
 
     map.selectAll(".cityCircle")
@@ -2032,18 +2032,18 @@ d3.json(
   function mietabsenkungenPressed() {
     let button = document
       .getElementById("mietabsenkungen")
-    if (mietabsenkungenActive) {
-      button
-        .setAttribute("selected", false);
-      mietabsenkungenActive = false;
+    if (button.nextElementSibling.className !== "closedItem") {
       button.nextElementSibling.className = "closedItem"
-      button.textContent = "▸" + button.textContent.slice(1);
+      button.textContent = "▸ " + button.textContent.replace(/ /g,'').replace(/\n/g,'').slice(1);
     } else {
-      button.textContent = "▾" + button.textContent.slice(1);
-      button.setAttribute("selected", true);
+      button.textContent = "▾ " + button.textContent.replace(/ /g,'').replace(/\n/g,'').slice(1);
       button.nextElementSibling.className = "openItem"
-      mietabsenkungenActive = true;
     }
+    
+  }
+
+  function mietabsenkungenToggled(status) {
+    mietabsenkungenActive = status;
     updateSubjektfoerderungsCallout();
 
     map.selectAll(".cityCircle")
@@ -2064,19 +2064,17 @@ d3.json(
   function mietobergrenzenPressed() {
     let button = document
       .getElementById("mietobergrenzen")
-    if (mietobergrenzenActive) {
-      button
-        .setAttribute("selected", false);
-      mietobergrenzenActive = false;
+    if (button.nextElementSibling.className !== "closedItem") {
       button.nextElementSibling.className = "closedItem"
-      button.textContent = "▸" + button.textContent.slice(1);
+      button.textContent = "▸ " + button.textContent.replace(/ /g,'').replace(/\n/g,'').slice(1);
     } else {
-      button.textContent = "▾" + button.textContent.slice(1);
-      button.setAttribute("selected", true);
-      mietobergrenzenActive = true;
+      button.textContent = "▾ " + button.textContent.replace(/ /g,'').replace(/\n/g,'').slice(1);
       button.nextElementSibling.className = "openItem"
     }
+  }
 
+  function mietobergrenzenToggled(status) {
+    mietobergrenzenActive = status;
     updateSubjektfoerderungsCallout();
 
     map.selectAll(".cityCircle")
@@ -2096,21 +2094,19 @@ d3.json(
 
   function wohnungenotgebietePressed() {
     let button = document.getElementById("wohnungenotgebiete")
-    if (wohnungenotgebieteActive) {
-      button
-        .setAttribute("selected", false);
-      wohnungenotgebieteActive = false;
+    if (button.nextElementSibling.className !== "closedItem") {
       button.nextElementSibling.className = "closedItem"
-      button.textContent = "▸" + button.textContent.slice(1);
+      button.textContent = "▸ " + 'Wohnungsnotegebiete ausweisen';
     } else {
-      button.textContent = "▾" + button.textContent.slice(1);
-      button
-        .setAttribute("selected", true);
-      wohnungenotgebieteActive = true;
+      button.textContent = "▾ " + 'Wohnungsnotegebiete ausweisen';
       button.nextElementSibling.className = "openItem"
     }
+  }
+
+  function wohnungenotgebieteToggled (status) {
+    wohnungenotgebieteActive = status;
     map.selectAll(".cityCircle")
-      .attr("fill", colorCityCircles)
+    .attr("fill", colorCityCircles)
 
     map
       .selectAll(".increaseRect")
@@ -2174,6 +2170,18 @@ d3.json(
   document.getElementById("kappungsgrenzen").onclick = kappungsgrenzePressed;
   document.getElementById("mietobergrenzen").onclick = mietobergrenzenPressed;
   document.getElementById("mietabsenkungen").onclick = mietabsenkungenPressed;
+  document.getElementById("kappungsgrenzenCheckbox").addEventListener('change', e => {
+    kappungsgrenzeToggled(e.target.checked);
+  });
+  document.getElementById("mietobergrenzenCheckbox").addEventListener('change', e => {
+    mietobergrenzenToggled(e.target.checked);
+  });
+  document.getElementById("mietabsenkungenCheckbox").addEventListener('change', e => {
+    mietabsenkungenToggled(e.target.checked);
+  });
+  document.getElementById("wohnungsnotgebieteCheckbox").addEventListener('change', e => {
+    wohnungenotgebieteToggled(e.target.checked);
+  });
   document.getElementById("wohnungenotgebiete").onclick = wohnungenotgebietePressed;
   document.getElementById("citySelector").addEventListener("change", (event) => {
     const selectedCity = event.target.value;
