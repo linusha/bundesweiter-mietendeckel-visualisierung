@@ -1885,6 +1885,7 @@ d3.json(
       .attr("d", path)
       .attr("class", "feature")
       .style("stroke", "darkgray")
+      .on("click", reset);
 
     tooltip = d3
       .select("body")
@@ -2176,6 +2177,10 @@ d3.json(
   document.getElementById("wohnungenotgebiete").onclick = wohnungenotgebietePressed;
   document.getElementById("citySelector").addEventListener("change", (event) => {
     const selectedCity = event.target.value;
+    if (selectedCity === 'reset') {
+      reset();
+      return;
+    }
     updateCitySelection(null, cities.find(city => city.name === selectedCity));
   });
   document.getElementById('modal-average-rent').onclick = () => {
