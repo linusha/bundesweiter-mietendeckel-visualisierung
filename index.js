@@ -2213,7 +2213,7 @@ d3.json(
       title: 'Konzept für einen bundesweiten Mietendeckel',
       html: '<p style="color: #545454;">Diese Darstellung basiert auf einem Konzept das von Andrej Holm und Benjamin Raabe in ihrer Studie <a href="https://www.rosalux.de/publikation/id/44898/bundesweiter-mietendeckel-noetig-und-moeglich">' +
         '\"Bundesweiter Mietendeckel - Regelungsmöglichkeiten und Beitrag für eine soziale Wohnraumversorgung\"</a> erarbeitet wurde.<br>' +
-        'Als Einführung in das Konzept haben die Autoren außerdem einen <a href="">Standpunkte-Text</a> verfasst.</p>',
+        'Als Einführung in das Konzept haben die Autoren außerdem einen <a href="https://www.rosalux.de/publikation/id/45944">Standpunkte-Text</a> verfasst.</p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
