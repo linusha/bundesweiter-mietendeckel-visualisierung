@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import Swal from 'sweetalert2';
 import 'select-pure/dist/index.js';
 
 function arraySum(array) {
@@ -1994,7 +1995,7 @@ d3.json(
 
 
   ////////
-  // Functionality for the buttons
+  // Functionality for the UI
   ////////
 
   function kappungsgrenzePressed() {
@@ -2174,5 +2175,54 @@ d3.json(
   document.getElementById("mietobergrenzen").onclick = mietobergrenzenPressed;
   document.getElementById("mietabsenkungen").onclick = mietabsenkungenPressed;
   document.getElementById("wohnungenotgebiete").onclick = wohnungenotgebietePressed;
+  document.getElementById('modal-average-rent').onclick = () => {
+    Swal.fire({
+      title: 'Örtliche Durchschnittsmiete',
+      text: 'In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.',
+      confirmButtonText: 'OK',
+      confirmButtonColor: "#FF3300",
+      showClass: {
+        backdrop: 'swal2-noanimation', // disable backdrop animation
+        popup: '',                     // disable popup animation
+        icon: ''                       // disable icon animation
+      },
+      hideClass: {
+        popup: '',                     // disable popup fade-out animation
+      },
+    })
+  };
+  document.getElementById('modal-paper').onclick = () => {
+    Swal.fire({
+      title: 'Konzept für einen bundesweiten Mietendeckel',
+      html: '<p style="color: #545454;">Diese Darstellung basiert auf einem Konzept das von Andrej Holm und Benjamin Raabe in ihrer Studie <a href="https://www.rosalux.de/publikation/id/44898/bundesweiter-mietendeckel-noetig-und-moeglich">' +
+        '\"Bundesweiter Mietendeckel - Regelungsmöglichkeiten und Beitrag für eine soziale Wohnraumversorgung\"</a> erarbeitet wurde.</p>',
+      confirmButtonText: 'OK',
+      confirmButtonColor: "#FF3300",
+      showClass: {
+        backdrop: 'swal2-noanimation', // disable backdrop animation
+        popup: '',                     // disable popup animation
+        icon: ''                       // disable icon animation
+      },
+      hideClass: {
+        popup: '',                     // disable popup fade-out animation
+      },
+    })
+  };
+  document.getElementById('modal-affordable-rent').onclick = () => {
+    Swal.fire({
+      title: 'Leistbare Miete',
+      text: 'Die leistbare Miete wird, anders als die Durchschnittsmiete, anhand der verfügbaren Einkommen berechnet. Als leistbar gilt eine Miete, wenn sie höchstens 30 Prozent des durchschnittlichen Nettohaushaltseinkommens in der Kommune beträgt.',
+      confirmButtonText: 'OK',
+      confirmButtonColor: "#FF3300",
+      showClass: {
+        backdrop: 'swal2-noanimation', // disable backdrop animation
+        popup: '',                     // disable popup animation
+        icon: ''                       // disable icon animation
+      },
+      hideClass: {
+        popup: '',                     // disable popup fade-out animation
+      },
+    })
+  };
   updateSubjektfoerderungsCallout();
 });

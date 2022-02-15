@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="https://www.rosalux.de/fileadmin/static/mietendeckel/style.css"
     media="screen" />
+  <link rel="stylesheet" href="sweetalert2.min.css">
 </head>
 
 
@@ -12,7 +13,7 @@
   <div id="customMietendeckelApplet">
     <div id="disclaimer">
       <p>
-        Finde heraus, wie ein bundesweiter Mietendeckel die Mieter:innen in 42 deutschen Großstädten entlasten könnte.
+        Finde heraus, wie ein <span class="infolink" id="modal-paper"><span>bundesweiter Mietendeckel</span></span> die Mieter:innen in 42 deutschen Großstädten entlasten könnte.
         Jeder Baustein des Konzepts kann einzeln ein- oder ausgeschaltet werden, um die Effekte auf die Mieten bundesweit
         oder für jede Stadt zu beobachten.
       </p>
@@ -85,7 +86,7 @@
               <button class="measureSelection" id="mietobergrenzen" selected="false">▸ Mietobergrenzen</button>
               <p class="closedItem">
                 Bei Vertragsabschluss dürfen die Mieten in angespannten Wohnungsmärkten nicht mehr als 10 % über der
-                örtlichen Durchschnittsmiete liegen - ohne die bei der „Mietpreisbremse“ geltenden Ausnahmen für modernisierte
+                <span class="infolink" id="modal-average-rent"><span>örtlichen Durchschnittsmiete</span></span> liegen - ohne die bei der „Mietpreisbremse“ geltenden Ausnahmen für modernisierte
                 oder vorher überteuerte Wohnungen.
               </p>
             </div>
@@ -103,7 +104,7 @@
                 In Wohnungsnotgebieten werden die oberen drei Maßnahmen verschärft.
                 Hier gilt ein Mietenstopp - Mieterhöhungen sind vollständig ausgeschlossen.
                 Bei neu abgeschlossenen Verträgen dürfen die Mieten die örtliche Durchschnittsmiete nicht übersteigen.
-                Überhöhte Miete werden stärker abgesenkt: Keine Miete darf die örtlich leistbare Miete um mehr als 20 % überschreiten.
+                Überhöhte Miete werden stärker abgesenkt: Keine Miete darf die örtlich <span id="modal-affordable-rent" class="infolink"><span>leistbare Miete</span></span> um mehr als 20 % überschreiten.
               </p>
             </div>
 
