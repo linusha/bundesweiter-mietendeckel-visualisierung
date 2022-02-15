@@ -1618,7 +1618,7 @@ d3.json(
     } else {
       allBenefiting = arraySum(cities.map((city) => calculateNewLeistbareWohnverhaeltnisse(city))).toLocaleString("de-DE")
       text = "<h3>So wirken die ausgewähleten Mietendeckel-Maßnahmen:</h3><div class='numbers-container'><p class='custom-bold in-box'>Die aktivierten Maßnahmen entlasten <b>" + allBenefiting.toString().replaceAll('.', ' ') + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
-        `Um eine ähnlichen Entlastung für die Haushalte zu erzielen müssten pro Jahr zusätzlich <b>${getEquivalentSubjektfoerderungString()}</b> an <a href="https://www.rosalux.de/?id=29945#c52747">Mietzuschüssen (zum Beispiel durch Wohngeld)</a> aufgewendet werden.</p></div>`
+        `Um eine ähnlichen Entlastung für die Haushalte zu erzielen müssten pro Jahr zusätzlich <b>${getEquivalentSubjektfoerderungString()}</b> an <a href="https://www.rosalux.de/?id=29945#c52747" target="_blank" rel="noopener noreferrer">Mietzuschüssen (zum Beispiel durch Wohngeld)</a> aufgewendet werden.</p></div>`
     }
     document.getElementById("subjektfoerderung").innerHTML = text;
   }
@@ -2195,7 +2195,7 @@ d3.json(
     Swal.fire({
       title: 'Örtliche Durchschnittsmiete',
       html: '<p style="color: #545454;">In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.<br>' +
-      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741">Glossar</a>.<p>',
+      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
@@ -2211,9 +2211,9 @@ d3.json(
   document.getElementById('modal-paper').onclick = () => {
     Swal.fire({
       title: 'Konzept für einen bundesweiten Mietendeckel',
-      html: '<p style="color: #545454;">Diese Darstellung basiert auf einem Konzept das von Andrej Holm und Benjamin Raabe in ihrer Studie <a href="https://www.rosalux.de/publikation/id/44898/bundesweiter-mietendeckel-noetig-und-moeglich">' +
+      html: '<p style="color: #545454;">Diese Darstellung basiert auf einem Konzept das von Andrej Holm und Benjamin Raabe in ihrer Studie <a href="https://www.rosalux.de/publikation/id/44898/bundesweiter-mietendeckel-noetig-und-moeglich" target="_blank" rel="noopener noreferrer">' +
         '\"Bundesweiter Mietendeckel - Regelungsmöglichkeiten und Beitrag für eine soziale Wohnraumversorgung\"</a> erarbeitet wurde.<br>' +
-        'Als Einführung in das Konzept haben die Autoren außerdem einen <a href="https://www.rosalux.de/publikation/id/45944">Standpunkte-Text</a> verfasst.</p>',
+        'Als Einführung in das Konzept haben die Autoren außerdem einen <a href="https://www.rosalux.de/publikation/id/45944" target="_blank" rel="noopener noreferrer">Standpunkte-Text</a> verfasst.</p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
@@ -2230,7 +2230,7 @@ d3.json(
     Swal.fire({
       title: 'Leistbare Miete',
       html: '<p style="color: #545454;">Die leistbare Miete wird, anders als die Durchschnittsmiete, anhand der verfügbaren Einkommen berechnet. Als leistbar gilt eine Miete, wenn sie höchstens 30 Prozent des durchschnittlichen Nettohaushaltseinkommens in der Kommune beträgt.<br>' +
-      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52743">Glossar</a>.<p>',
+      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52743" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
