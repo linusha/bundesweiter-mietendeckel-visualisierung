@@ -125,3 +125,16 @@ h3 {
 #disclaimer {
   padding: 5% 5% 0 5%;
 }
+
+
+select-pure {
+  --border-radius: 4px;
+  --border-color: #545454;
+  --background-color: #FFFFFF;
+  --color: #545454;
+  --hover-background-color: #FFFFFF;
+  --hover-color: #FF3300;
+  --selected-color: #FF3300;
+  --font-weight: 400;
+  --select-outline: 2px solid #FFFFFF;
+}

@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import 'select-pure/dist/index.js';
 
 function arraySum(array) {
   return array.reduce((accumVariable, curValue) => accumVariable + curValue, 0);
@@ -1149,7 +1150,6 @@ d3.json(
   "https://www.rosalux.de/fileadmin/static/mietendeckel/map.geo.json"
 ).then(function (data) {
   let active = d3.select(null);
-  let activeBundesland = undefined;
   let kappungsgrenzeActive = false;
   let mietobergrenzenActive = false;
   let mietabsenkungenActive = false;
@@ -1665,32 +1665,6 @@ d3.json(
     );
   }
 
-
-  function clicked(event, d, doNotReset) {
-    if (!doNotReset && active.node() === this) {
-      activeBundesland = null;
-      return reset();
-    }
-    activeBundesland = d;
-    if (!doNotReset) {
-      active.classed("active", false);
-      active = d3.select(this).classed("active", true);
-    }
-
-
-    var bounds = path.bounds(d),
-      dx = bounds[1][0] - bounds[0][0],
-      dy = bounds[1][1] - bounds[0][1],
-      x = (bounds[0][0] + bounds[1][0]) / 2,
-      y = (bounds[0][1] + bounds[1][1]) / 2,
-      scale = .9 / Math.max(dx / width, dy / height),
-      translate = [width / 2 - scale * x, height / 2 - scale * y];
-
-    map.transition(750)
-      .style("stroke-width", "0.1px")
-      .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
-  }
-
   function reset() {
     active.classed("active", false);
     active = d3.select(null);
@@ -1777,7 +1751,15 @@ d3.json(
   }
 
   let updateCitySelection = function (event, clickedData) {
-    event.stopPropagation();
+    if (event) { // we are called by clicking a city
+      if (document.getElementById("mapContainer").offsetWidth < 500) return; // small device mode, clicking is disabled
+      event.stopPropagation();
+      const dropdown = document.getElementById("citySelector")
+      const cityOffset = cities.findIndex(city => city.name === clickedData.name);
+      dropdown.selectedIndex = cityOffset + 1; // index is off by one due to help option
+      return; // return early and trigger the actual update via the dropdown
+    }
+    if (!clickedData) return; // happens when we adjust the help text in the dropdown
     clickedData.active = !clickedData.active;
     cities.map(city => city.active = city.name == clickedData.name ? city.active : false)
 
@@ -1816,10 +1798,7 @@ d3.json(
       map.selectAll("text")
         .style("visibility", "hidden")
       showHintNoSelectedCity()
-      if (document.getElementsByClassName("active").length > 0) {
-        clicked(null, activeBundesland, true);
-      }
-      else reset();
+      reset();
     };
 
 
@@ -1894,7 +1873,6 @@ d3.json(
       .attr("class", "background")
       .attr("width", width)
       .attr("height", height)
-      .on("click", reset);
 
     g = map
       .append("g").style("stroke-width", "1px")
@@ -1907,7 +1885,6 @@ d3.json(
       .attr("d", path)
       .attr("class", "feature")
       .style("stroke", "darkgray")
-      .on("click", clicked);
 
     tooltip = d3
       .select("body")
@@ -1992,8 +1969,8 @@ d3.json(
 
     portfolioBars
       .append("text")
-    //depicting bars for possible increases in current rentals
 
+    //depicting bars for possible increases in current rentals
     increaseBars = map
       .selectAll("increaseBars")
       .data(cities)
@@ -2177,6 +2154,19 @@ d3.json(
   drawMap()
   // make map responsive
   window.addEventListener('resize', function (event) {
+    const dropdown = document.getElementById("citySelector");
+    if (document.getElementById("mapContainer").offsetWidth < 500 && dropdown.selectedIndex === 0){
+      dropdown.disable();
+      dropdown.selectedOption.label = 'Wähle eine Stadt aus der Liste aus.';
+      dropdown.selectedIndex = 0;
+      dropdown.enable();
+    }
+    else if (dropdown.selectedIndex === 0) {
+      dropdown.disable();
+      dropdown.selectedOption.label = 'Wähle eine Stadt aus der Liste oder klicke sie auf der Karte an.';
+      dropdown.selectedIndex = 0;
+      dropdown.enable();
+    }
     drawMap()
   }, true);
 
