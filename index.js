@@ -1617,7 +1617,7 @@ d3.json(
         `<p class="callout">Aktiviere eine oder mehrere der Maßnahmen, um zu sehen, wie sie sich insgesamt auswirken.</p>`;
     } else {
       allBenefiting = arraySum(cities.map((city) => calculateNewLeistbareWohnverhaeltnisse(city))).toLocaleString("de-DE")
-      text = "<h3>So wirken die ausgewähleten Mietendeckel-Maßnahmen:</h3><div class='numbers-container'><p class='custom-bold in-box'>Die aktivierten Maßnahmen entlasten <b>" + allBenefiting.toString().replaceAll('.', ' ') + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
+      text = "<h3>So wirken die ausgewählten Maßnahmen bundesweit:</h3><div class='numbers-container'><p class='custom-bold in-box'>Die aktivierten Maßnahmen entlasten <b>" + allBenefiting.toString().replaceAll('.', ' ') + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
         `Um eine ähnlichen Entlastung für die Haushalte zu erzielen müssten pro Jahr zusätzlich <b>${getEquivalentSubjektfoerderungString()}</b> an <a href="https://www.rosalux.de/?id=29945#c52747" target="_blank" rel="noopener noreferrer">Mietzuschüssen (zum Beispiel durch Wohngeld)</a> aufgewendet werden.</p></div>`
     }
     document.getElementById("subjektfoerderung").innerHTML = text;
