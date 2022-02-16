@@ -64,10 +64,10 @@ svg {
   transition: transform 0.4s ease;
 }
 
-h1,
-p,
-h2,
-h3 {
+#customMietendeckelApplet h1,
+#customMietendeckelApplet p,
+#customMietendeckelApplet h2,
+#customMietendeckelApplet h3 {
   color: white;
 }
 
