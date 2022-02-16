@@ -1158,7 +1158,7 @@ d3.json(
   let barScale = 5;
   let width = document.getElementById("customMietendeckelApplet").offsetWidth;
   let height = width / 0.625;
-  let map, projection, path, g, tooltip, increaseBars, circleRadius, cityCircles, barWidth, marketBars, portfolioBars;
+  let map, projection, path, g, tooltip, increaseBars, circleRadius, cityCircles, barWidth, marketBars, stopBars, averageBars;
 
   //////
   // Methods related to calculations and data
@@ -1578,7 +1578,7 @@ d3.json(
       if (wohnungenotgebieteActive) return city.mietsenkungSollNot.toFixed(2);
       return city.mietsenkungSoll.toFixed(2);
     }
-    return city.bestandsMiete.toFixed(2);
+    return 0;
   }
 
   function wiedervermietungsMiete(city) {
@@ -1639,11 +1639,10 @@ d3.json(
       leistbarNewTag =
         `<p>Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sich sich auf ${cityData.name} auswirken. Aktuell ist die Lage so:</p>`;
     }
-    let bestandsText = mietabsenkungenActive ? "Maximal mögliche Miete im Bestand" : "Durchschnittliche Miete im Bestand"
-    let bestandsMietenTag =
-      `<p class='in-box'><span style='color:#FF3300;'>●</span> ${bestandsText}: <b>` +
-      bestandsMiete(cityData).toString().replace('.',',') +
-      "</b>€/m²</p>";
+    let averageTag = 
+      `<p class='in-box'><span style='color:#018E06;'>●</span> Momentan beträgt die durchschnittliche Miete: <b>` +
+      cityData.bestandsMiete.toString().replace('.',',') +
+      "</b>€/m²</p>"; 
     let mieterhoehungsText = kappungsgrenzeActive ? "Maximal mögliche Mieterhöhung auf" : "Durchschnittlich mögliche Mieterhöhung auf"
     let mieterhoehungsTag =
       `<p class='in-box'><span style='color:#EBE415;'>●</span> ${mieterhoehungsText}: <b>` +
@@ -1654,14 +1653,18 @@ d3.json(
       `<p class='in-box'><span style='color:#0084FF;'>●</span> ${neuvermietungsText}: <b>` +
       wiedervermietungsMiete(cityData).toString().replace('.',',') +
       "</b>€/m²</p>";
+    let bestandsMietenTag =
+      `<p class='in-box'><span style='color:#FF3300;'>●</span> Die maximal erlaubte Höchstmiete beträgt: <b>` +
+      bestandsMiete(cityData).toString().replace('.',',') +
+      "</b>€/m²</p>";
     return (
       nameTag +
       leistbarNewTag +
       "<div class='numbers-container'>" +
-      bestandsMietenTag +
+      averageTag + 
       mieterhoehungsTag +
       neuvermietungsTag +
-      "</div>"
+      ((mietabsenkungenActive ? bestandsMietenTag + "</div>" : "</div>") )
     );
   }
 
@@ -1679,14 +1682,18 @@ d3.json(
     map.selectAll("text").style("visibility", "hidden");
 
     map
+      .selectAll(".stopRect")
+      .style("visibility", "hidden");
+    map
       .selectAll(".marketRect")
       .style("visibility", "hidden");
     map
-      .selectAll(".portfolioRect")
+      .selectAll(".averageRect")
       .style("visibility", "hidden");
     map
       .selectAll(".increaseRect")
       .style("visibility", "hidden");
+
     cityCircles
       .style("visibility", "visible");
 
@@ -1705,14 +1712,14 @@ d3.json(
     map.selectAll("text")
       .style("visibility", "hidden")
 
-    portfolioBars
+    averageBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => (mietabsenkungenActive ? '' : 'Ø ') + bestandsMiete(d).toString().replace('.',','))
+      .text((d) => 'Ø ' + d.bestandsMiete.toString().replace('.',','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-      .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth + (bestandsMiete(d).toString().length == 5 ?
-        (mietabsenkungenActive ? 1 : 0.5) :
-        (mietabsenkungenActive ? 2 : 1))
+      .attr("x", (d) => projection([d.long, d.lat])[0] - (2 * barWidth) + (d.bestandsMiete.toString().length == 5 ?
+        0.5 :
+        1)
       )
       .style("visibility", "visible")
       .style("font-size", "2pt")
@@ -1723,7 +1730,7 @@ d3.json(
       .filter((d) => d.name == city.name)
       .text((d) => (kappungsgrenzeActive ? '' : 'Ø ') + mieterhoehung(d).toString().replace('.',','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-      .attr("x", (d) => projection([d.long, d.lat])[0] + (mieterhoehung(d).toString().length == 5 ?
+      .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth + (mieterhoehung(d).toString().length == 5 ?
         (kappungsgrenzeActive ? 1 : 0.5) :
         (kappungsgrenzeActive ? 2 : 1))
       )
@@ -1736,13 +1743,27 @@ d3.json(
       .filter((d) => d.name == city.name)
       .text((d) => (mietobergrenzenActive ? '' : 'Ø ') + wiedervermietungsMiete(d).toString().replace('.',','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (wiedervermietungsMiete(d).toString().length == 5 ?
+      .attr("x", (d) => projection([d.long, d.lat])[0] + (wiedervermietungsMiete(d).toString().length == 5 ?
         (mietobergrenzenActive ? 1 : 0.5) :
         (mietobergrenzenActive ? 2 : 1))
       )
       .style("visibility", "visible")
       .style("font-size", "2pt")
       .style("fill", "#2b3240")
+
+    stopBars
+      .selectAll("text")
+      .filter((d) => d.name == city.name)
+      .text((d) => (mietabsenkungenActive ? bestandsMiete(d).toString().replace('.',',') : ''))
+      .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
+      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (bestandsMiete(d).toString().length == 5 ?
+        1 :
+        2)
+      )
+      .style("visibility", "visible")
+      .style("font-size", "2pt")
+      .style("fill", "#2b3240")
+
   }
 
   function updateConsequences(city) {
@@ -1767,14 +1788,19 @@ d3.json(
       .style("visibility", "hidden");
 
     map
-      .selectAll(".marketRect")
-      .style("visibility", "hidden");
-    map
-      .selectAll(".portfolioRect")
+      .selectAll(".averageRect")
       .style("visibility", "hidden");
     map
       .selectAll(".increaseRect")
       .style("visibility", "hidden");
+    map
+      .selectAll(".marketRect")
+      .style("visibility", "hidden");
+    map
+      .selectAll(".stopRect")
+      .style("visibility", "hidden");
+    
+    
     cityCircles
       .style("visibility", "visible");
 
@@ -1782,10 +1808,9 @@ d3.json(
 
       updateConsequences(clickedData)
 
-
       var dx = 5 * barWidth,
         dy = wiedervermietungsMiete(clickedData) * barScale + 10,
-        x = ((projection([clickedData.long, clickedData.lat])[0] - barWidth) + projection([clickedData.long, clickedData.lat])[0] + barWidth) / 2,
+        x = ((projection([clickedData.long, clickedData.lat])[0])),
         y = ((projection([clickedData.long, clickedData.lat])[1]) + projection([clickedData.long, clickedData.lat])[1] - dy) / 2,
         scale = .9 / Math.max(dx / width, dy / height),
         translate = [width / 2 - scale * x, height / 2 - scale * y];
@@ -1803,11 +1828,14 @@ d3.json(
 
 
     map
-      .selectAll(".marketRect")
+      .selectAll(".averageRect")
       .filter((d) => d.name == clickedData.name)
       .transition(2000)
-      .attr("height", (d) => wiedervermietungsMiete(d) * barScale)
-      .attr("y", (d) => projection([d.long, d.lat])[1] - wiedervermietungsMiete(d) * barScale)
+      .attr("height", (d) => d.bestandsMiete * barScale)
+      .attr(
+        "y",
+        (d) => projection([d.long, d.lat])[1] - d.bestandsMiete * barScale
+      )
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
     map
@@ -1819,14 +1847,19 @@ d3.json(
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
     map
-      .selectAll(".portfolioRect")
+      .selectAll(".marketRect")
+      .filter((d) => d.name == clickedData.name)
+      .transition(2000)
+      .attr("height", (d) => wiedervermietungsMiete(d) * barScale)
+      .attr("y", (d) => projection([d.long, d.lat])[1] - wiedervermietungsMiete(d) * barScale)
+      .style("visibility", clickedData.active ? "visible" : "hidden");
+
+    map
+      .selectAll(".stopRect")
       .filter((d) => d.name == clickedData.name)
       .transition(2000)
       .attr("height", (d) => bestandsMiete(d) * barScale)
-      .attr(
-        "y",
-        (d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale
-      )
+      .attr("y",(d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale)
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
     cityCircles
@@ -1932,45 +1965,26 @@ d3.json(
 
     barWidth = 10;
 
-    // depicting bar for new rentals
-    marketBars = map
-      .selectAll("marketBars")
+    // depicting bar for current average rentals
+    averageBars = map
+      .selectAll("averageBars")
       .data(cities)
       .enter()
       .append("g")
 
-    marketBars.append("rect")
-      .attr("class", "cityRect marketRect")
-      .attr("width", barWidth)
-      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth)
-      .attr("y", (d) => projection([d.long, d.lat])[1])
-      .attr("fill", "#0084FF")
-      .attr("visibility", "hidden")
-      .on("mousedown", updateCitySelection)
-
-    marketBars
-      .append("text")
-
-    // depicting bar for current rentals
-    portfolioBars = map
-      .selectAll("portfolioBars")
-      .data(cities)
-      .enter()
-      .append("g")
-
-    portfolioBars
+    averageBars
       .append("rect")
-      .attr("class", "cityRect portfolioRect")
+      .attr("class", "cityRect averageRect")
       .attr("width", barWidth)
-      .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth)
+      .attr("x", (d) => projection([d.long, d.lat])[0] - (2 * barWidth))
       .attr("y", (d) => projection([d.long, d.lat])[1])
-      .attr("fill", "#FF3300")
+      .attr("fill", "#018E06")
       .attr("visibility", "hidden")
       .on("mousedown", updateCitySelection);
 
-    portfolioBars
+    averageBars
       .append("text")
-
+ 
     //depicting bars for possible increases in current rentals
     increaseBars = map
       .selectAll("increaseBars")
@@ -1982,7 +1996,7 @@ d3.json(
       .append("rect")
       .attr("class", "cityRect increaseRect")
       .attr("width", barWidth)
-      .attr("x", (d) => projection([d.long, d.lat])[0])
+      .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth)
       .attr("y", (d) => projection([d.long, d.lat])[1])
       .attr("fill", "#EBE415")
       .attr("visibility", "hidden")
@@ -1991,6 +2005,43 @@ d3.json(
     increaseBars
       .append("text")
 
+    // depicting bar for new rentals
+    marketBars = map
+      .selectAll("marketBars")
+      .data(cities)
+      .enter()
+      .append("g")
+
+    marketBars.append("rect")
+      .attr("class", "cityRect marketRect")
+      .attr("width", barWidth)
+      .attr("x", (d) => projection([d.long, d.lat])[0])
+      .attr("y", (d) => projection([d.long, d.lat])[1])
+      .attr("fill", "#0084FF")
+      .attr("visibility", "hidden")
+      .on("mousedown", updateCitySelection)
+
+    marketBars
+      .append("text")
+
+    // depicting bar for rent stop if applicable
+    stopBars = map
+      .selectAll("stopBars")
+      .data(cities)
+      .enter()
+      .append("g")
+
+    stopBars.append("rect")
+      .attr("class", "cityRect stopRect")
+      .attr("width", barWidth)
+      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth)
+      .attr("y", (d) => projection([d.long, d.lat])[1])
+      .attr("fill", "#FF3300")
+      .attr("visibility", "hidden")
+      .on("mousedown", updateCitySelection)
+
+    stopBars
+      .append("text")
   }
 
 
@@ -2050,7 +2101,7 @@ d3.json(
       .attr("fill", colorCityCircles)
 
     map
-      .selectAll(".portfolioRect")
+      .selectAll(".stopRect")
       .transition()
       .duration(1000)
       .attr("height", (d) => bestandsMiete(d) * barScale)
@@ -2058,6 +2109,16 @@ d3.json(
         "y",
         (d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale
       );
+    if (mietabsenkungenActive){
+      stopBars
+        .selectAll("text")
+        .style("opacity", 0)
+        .transition()
+        .duration(1000)
+        .style("opacity", 1)
+    
+    }
+    
     if (citySelected()) updateConsequences(selectedCity());
   }
 
@@ -2119,7 +2180,7 @@ d3.json(
       );
 
     map
-      .selectAll(".portfolioRect")
+      .selectAll(".stopRect")
       .transition()
       .duration(1000)
       .attr("height", (d) => bestandsMiete(d) * barScale)
