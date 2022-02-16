@@ -1586,7 +1586,7 @@ d3.json(
       if (wohnungenotgebieteActive) return city.wiedervermietungSollNot.toFixed(2);
       return city.wiedervermietungSoll.toFixed(2);
     }
-    return city.wiedervermietungIst.toFixed(2);
+    return city.marktMiete.toFixed(2);
   }
 
   function mieterhoehung(city) {
