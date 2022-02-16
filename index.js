@@ -1689,6 +1689,7 @@ d3.json(
   function reset() {
     active.classed("active", false);
     active = d3.select(null);
+    cities.forEach(city => city.active = false)
 
     map.transition(750)
       .style("stroke-width", "1px")
