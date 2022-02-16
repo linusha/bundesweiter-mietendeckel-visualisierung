@@ -1618,9 +1618,27 @@ d3.json(
     } else {
       allBenefiting = arraySum(cities.map((city) => calculateNewLeistbareWohnverhaeltnisse(city))).toLocaleString("de-DE")
       text = "<h3>So wirken die ausgewählten Maßnahmen bundesweit:</h3><div class='numbers-container'><p class='custom-bold in-box'>Die aktivierten Maßnahmen entlasten <b>" + allBenefiting.toString().replaceAll('.', ' ') + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
-        `Um eine ähnlichen Entlastung für die Haushalte zu erzielen müssten pro Jahr zusätzlich <b>${getEquivalentSubjektfoerderungString()}</b> an <a href="https://www.rosalux.de/?id=29945#c52747" target="_blank" rel="noopener noreferrer">Mietzuschüssen (zum Beispiel durch Wohngeld)</a> aufgewendet werden.</p></div>`
+        `Um eine ähnlichen Entlastung für die Haushalte zu erzielen müssten pro Jahr zusätzlich <b>${getEquivalentSubjektfoerderungString()}</b> an <span class="infolink" id="wohngeld"><span>Mietzuschüssen (zum Beispiel durch Wohngeld)</span></span> aufgewendet werden.</p></div>`
     }
     document.getElementById("subjektfoerderung").innerHTML = text;
+    if (!document.getElementById("wohngeld")) return;
+    document.getElementById("wohngeld").onclick = () => {
+      Swal.fire({
+        title: 'Mietzuschüsse',
+        html: '<p style="color: #545454;">Der Staat subventioniert den „privaten Wohnungsmarkt“ in Milliardenhöhe. Der Großteil (zuletzt 17,5 Mrd. Euro im Jahr) fließt in direkte Zuschüsse zur Miete. Dazu zählt das Wohngeld, aber auch die Übernahme von Wohnkosten durch Jobcenter und Sozialämter in „angemessener“ Höhe.<br>' +
+        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52747" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+        confirmButtonText: 'OK',
+        confirmButtonColor: "#FF3300",
+        showClass: {
+          backdrop: 'swal2-noanimation', // disable backdrop animation
+          popup: '',                     // disable popup animation
+          icon: ''                       // disable icon animation
+        },
+        hideClass: {
+          popup: '',                     // disable popup fade-out animation
+        },
+      })
+    };
   }
 
   function getConsequencesContent(cityData) {
@@ -2298,6 +2316,74 @@ d3.json(
       title: 'Leistbare Miete',
       html: '<p style="color: #545454;">Die leistbare Miete wird, anders als die Durchschnittsmiete, anhand der verfügbaren Einkommen berechnet. Als leistbar gilt eine Miete, wenn sie höchstens 30 Prozent des durchschnittlichen Nettohaushaltseinkommens in der Kommune beträgt.<br>' +
       'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52743" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+      confirmButtonText: 'OK',
+      confirmButtonColor: "#FF3300",
+      showClass: {
+        backdrop: 'swal2-noanimation', // disable backdrop animation
+        popup: '',                     // disable popup animation
+        icon: ''                       // disable icon animation
+      },
+      hideClass: {
+        popup: '',                     // disable popup fade-out animation
+      },
+    })
+  };
+  document.getElementById('first-angespannt').onclick = () => {
+    Swal.fire({
+      title: 'Angespannter Wohnungsmarkt',
+      html: '<p style="color: #545454;">Die Bundesländer können Gebiete, in denen die Mieten besonders stark steigen und es an Wohnungen mangelt, als „angespannte Wohnungsmärkte“ festlegen. Dort gelten verschärfte Regeln für den Mieterschutz wie die Mietpreisbremse oder die abgesenkte Kappungsgrenze.<br>' +
+      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52740" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+      confirmButtonText: 'OK',
+      confirmButtonColor: "#FF3300",
+      showClass: {
+        backdrop: 'swal2-noanimation', // disable backdrop animation
+        popup: '',                     // disable popup animation
+        icon: ''                       // disable icon animation
+      },
+      hideClass: {
+        popup: '',                     // disable popup fade-out animation
+      },
+    })
+  };
+  document.getElementById('second-angespannt').onclick = () => {
+    Swal.fire({
+      title: 'Angespannter Wohnungsmarkt',
+      html: '<p style="color: #545454;">Die Bundesländer können Gebiete, in denen die Mieten besonders stark steigen und es an Wohnungen mangelt, als „angespannte Wohnungsmärkte“ festlegen. Dort gelten verschärfte Regeln für den Mieterschutz wie die Mietpreisbremse oder die abgesenkte Kappungsgrenze.<br>' +
+      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52740" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+      confirmButtonText: 'OK',
+      confirmButtonColor: "#FF3300",
+      showClass: {
+        backdrop: 'swal2-noanimation', // disable backdrop animation
+        popup: '',                     // disable popup animation
+        icon: ''                       // disable icon animation
+      },
+      hideClass: {
+        popup: '',                     // disable popup fade-out animation
+      },
+    })
+  };
+  document.getElementById('mietpreisbremse').onclick = () => {
+    Swal.fire({
+      title: 'Mietpreisbremse',
+      html: '<p style="color: #545454;">Seit dem diesem 2015 beschlossenen Gesetz dürfen Wohnungen nicht teurer als 10 Prozent über der örtlichen Referenzmiete vermietet werden. Ausgenommen sind Neubauten, umfassend modernisierte und Wohnungen, die schon vorher teurer vermietet wurden.<br>' +
+      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52744" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+      confirmButtonText: 'OK',
+      confirmButtonColor: "#FF3300",
+      showClass: {
+        backdrop: 'swal2-noanimation', // disable backdrop animation
+        popup: '',                     // disable popup animation
+        icon: ''                       // disable icon animation
+      },
+      hideClass: {
+        popup: '',                     // disable popup fade-out animation
+      },
+    })
+  };
+  document.getElementById('wohnungsnotgebiete').onclick = () => {
+    Swal.fire({
+      title: 'Wohnungsnotgebiete',
+      html: '<p style="color: #545454;">Die Mietendeckel-Studie schlägt vor, Städte und Gemeinden mit einer besonders gefährdeten Wohnungsversorgung als Wohnungsnotgebiete auszurufen. Dort soll ein besonders scharfes Mietrecht gelten, um die weitere Verdrängung von Menschen mit geringen Einkommen zu stoppen.<br>' +
+      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52749" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
