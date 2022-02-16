@@ -2170,6 +2170,12 @@ d3.json(
   document.getElementById("kappungsgrenzen").onclick = kappungsgrenzePressed;
   document.getElementById("mietobergrenzen").onclick = mietobergrenzenPressed;
   document.getElementById("mietabsenkungen").onclick = mietabsenkungenPressed;
+
+  document.getElementById("kappungsgrenzenCheckbox").checked = false;
+  document.getElementById("mietobergrenzenCheckbox").checked = false;
+  document.getElementById("mietabsenkungenCheckbox").checked = false;
+  document.getElementById("wohnungsnotgebieteCheckbox").checked = false;
+
   document.getElementById("kappungsgrenzenCheckbox").addEventListener('change', e => {
     kappungsgrenzeToggled(e.target.checked);
   });
