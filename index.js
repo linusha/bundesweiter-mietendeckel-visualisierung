@@ -1804,8 +1804,54 @@ d3.json(
   }
 
   function updateConsequences(city) {
-    updateBarNumbers(city)
-    document.getElementById("consequences").innerHTML = getConsequencesContent(city)
+    updateBarNumbers(city);
+    updateNotGebieteRegel();
+    document.getElementById("consequences").innerHTML = getConsequencesContent(city);
+  }
+
+  function updateNotGebieteRegel(){
+    let content = '';
+    if (kappungsgrenzeActive) content = content + ` Hier gilt ein Mietenstopp - Mieterhöhungen sind vollständig ausgeschlossen.`;
+    if (mietobergrenzenActive) content = content + ` Bei neu abgeschlossenen Verträgen dürfen die Mieten die <span id="modal-average-rent-dynamic" class="infolink"><span>örtliche Durchschnittsmiete</span></span> nicht übersteigen.`;
+    if (mietabsenkungenActive) content = content + ` Überhöhte Miete werden stärker abgesenkt: Keine Miete darf die örtlich <span id="modal-affordable-rent" class="infolink"><span>leistbare Miete</span></span> um mehr als 20 % überschreiten.`;
+    document.getElementById('notgebiet-regeln').innerHTML = content;
+    if (mietobergrenzenActive){
+      document.getElementById('modal-average-rent-dynamic').onclick = () => {
+        Swal.fire({
+          title: 'Örtliche Durchschnittsmiete',
+          html: '<p style="color: #545454;">In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.<br>' +
+          'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+          confirmButtonText: 'OK',
+          confirmButtonColor: "#FF3300",
+          showClass: {
+            backdrop: 'swal2-noanimation', // disable backdrop animation
+            popup: '',                     // disable popup animation
+            icon: ''                       // disable icon animation
+          },
+          hideClass: {
+            popup: '',                     // disable popup fade-out animation
+          },
+        })
+      };
+    }
+    if (mietabsenkungenActive) {
+      document.getElementById('modal-affordable-rent').onclick = () => {
+      Swal.fire({
+        title: 'Leistbare Miete',
+        html: '<p style="color: #545454;">Die leistbare Miete wird, anders als die Durchschnittsmiete, anhand der verfügbaren Einkommen berechnet. Als leistbar gilt eine Miete, wenn sie höchstens 30 Prozent des durchschnittlichen Nettohaushaltseinkommens in der Kommune beträgt.<br>' +
+        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52743" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+        confirmButtonText: 'OK',
+        confirmButtonColor: "#FF3300",
+        showClass: {
+          backdrop: 'swal2-noanimation', // disable backdrop animation
+          popup: '',                     // disable popup animation
+          icon: ''                       // disable icon animation
+        },
+        hideClass: {
+          popup: '',                     // disable popup fade-out animation
+        },
+      })};
+    }
   }
 
   let updateCitySelection = function (event, clickedData) {
@@ -2157,6 +2203,7 @@ d3.json(
 
   function kappungsgrenzeToggled (status) {
     kappungsgrenzeActive = status;
+    updateNotGebieteRegel();
     updateSubjektfoerderungsCallout();
 
     map.selectAll(".cityCircle")
@@ -2190,6 +2237,7 @@ d3.json(
 
   function mietabsenkungenToggled(status) {
     mietabsenkungenActive = status;
+    updateNotGebieteRegel();
     updateSubjektfoerderungsCallout();
 
     map.selectAll(".cityCircle")
@@ -2252,6 +2300,7 @@ d3.json(
 
   function mietobergrenzenToggled(status) {
     mietobergrenzenActive = status;
+    updateNotGebieteRegel();
     updateSubjektfoerderungsCallout();
 
     map.selectAll(".cityCircle")
@@ -2273,15 +2322,16 @@ d3.json(
     let button = document.getElementById("wohnungenotgebiete")
     if (button.nextElementSibling.className !== "closedItem") {
       button.nextElementSibling.className = "closedItem"
-      button.textContent = "▸ " + 'Wohnungsnotegebiete ausweisen';
+      button.textContent = "▸ " + 'Wohnungsnotgebiete ausweisen';
     } else {
-      button.textContent = "▾ " + 'Wohnungsnotegebiete ausweisen';
+      button.textContent = "▾ " + 'Wohnungsnotgebiete ausweisen';
       button.nextElementSibling.className = "openItem"
     }
   }
 
   function wohnungenotgebieteToggled (status) {
     wohnungenotgebieteActive = status;
+    updateNotGebieteRegel();
     map.selectAll(".cityCircle")
     .attr("fill", colorCityCircles)
 
