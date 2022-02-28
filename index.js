@@ -1696,7 +1696,11 @@ d3.json(
     );
   }
 
-  function reset() {
+  function reset(calledFromUs) {
+    if (!(calledFromUs === true) && document.getElementById("mapContainer").offsetWidth < 500) return;
+    document.getElementById("citySelector").removeEventListener("change", citySelectorChanged);
+    document.getElementById("citySelector").selectedIndex = 0;
+    document.getElementById("citySelector").addEventListener("change", citySelectorChanged);
     active.classed("active", false);
     active = d3.select(null);
     cities.forEach(city => city.active = false)
@@ -1912,7 +1916,7 @@ d3.json(
       map.selectAll("text")
         .style("visibility", "hidden")
       showHintNoSelectedCity()
-      reset();
+      reset(true);
     };
 
 
@@ -2085,7 +2089,7 @@ d3.json(
       .attr("y", (d) => projection([d.long, d.lat])[1])
       .attr("fill", "#018E06")
       .attr("visibility", "hidden")
-      .on("mousedown", updateCitySelection);
+      .on("mousedown", reset);
 
     averageBars
       .append("text")
@@ -2123,7 +2127,7 @@ d3.json(
       .attr("y", (d) => projection([d.long, d.lat])[1])
       .attr("fill", "#EBE415")
       .attr("visibility", "hidden")
-      .on("mousedown", updateCitySelection);
+      .on("mousedown", reset);
 
     increaseBars
       .append("text")
@@ -2160,7 +2164,7 @@ d3.json(
       .attr("y", (d) => projection([d.long, d.lat])[1])
       .attr("fill", "#0084FF")
       .attr("visibility", "hidden")
-      .on("mousedown", updateCitySelection)
+      .on("mousedown", reset)
 
     marketBars
       .append("text")
@@ -2179,7 +2183,7 @@ d3.json(
       .attr("y", (d) => projection([d.long, d.lat])[1])
       .attr("fill", "#FF3300")
       .attr("visibility", "hidden")
-      .on("mousedown", updateCitySelection)
+      .on("mousedown", reset)
 
     stopBars
       .append("text")
@@ -2375,6 +2379,7 @@ d3.json(
 
   // let hint be visible in the beginning
   showHintNoSelectedCity()
+  var windowWidth = $(window).width(), windowHeight = $(window).height();
   drawMap()
   // make map responsive
   window.addEventListener('resize', function (event) {
@@ -2391,7 +2396,9 @@ d3.json(
       dropdown.selectedIndex = 0;
       dropdown.enable();
     }
-    drawMap()
+    if($(window).width() != windowWidth || $(window).height() != windowHeight){
+      drawMap()  
+    }
   }, true);
 
   document.getElementById("kappungsgrenzen").onclick = kappungsgrenzePressed;
@@ -2416,14 +2423,16 @@ d3.json(
     wohnungenotgebieteToggled(e.target.checked);
   });
   document.getElementById("wohnungenotgebiete").onclick = wohnungenotgebietePressed;
-  document.getElementById("citySelector").addEventListener("change", (event) => {
+  document.getElementById("citySelector").addEventListener("change", citySelectorChanged);  
+  
+  function citySelectorChanged (event) {
     const selectedCity = event.target.value;
     if (selectedCity === 'reset') {
-      reset();
+      reset(true);
       return;
     }
     updateCitySelection(null, cities.find(city => city.name === selectedCity));
-  });
+  };
   document.getElementById('modal-average-rent').onclick = () => {
     Swal.fire({
       title: 'Örtliche Durchschnittsmiete',
