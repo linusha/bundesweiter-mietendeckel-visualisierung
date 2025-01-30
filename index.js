@@ -1148,7 +1148,7 @@ let cities = [
 ];
 
 d3.json(
-  "https://www.rosalux.de/fileadmin/static/mietendeckel/map.geo.json"
+  "map.geo.json"
 ).then(function (data) {
   let active = d3.select(null);
   let kappungsgrenzeActive = false;
@@ -2379,7 +2379,8 @@ d3.json(
 
   // let hint be visible in the beginning
   showHintNoSelectedCity()
-  var windowWidth = $(window).width(), windowHeight = $(window).height();
+  let windowWidth = window.innerWidth;
+  let windowHeight = window.innerHeight;
   drawMap()
   // make map responsive
   window.addEventListener('resize', function (event) {
@@ -2396,7 +2397,7 @@ d3.json(
       dropdown.selectedIndex = 0;
       dropdown.enable();
     }
-    if($(window).width() != windowWidth || $(window).height() != windowHeight){
+    if(window.innerWidth != windowWidth || window.innerHeight != windowHeight){
       drawMap()  
     }
   }, true);
