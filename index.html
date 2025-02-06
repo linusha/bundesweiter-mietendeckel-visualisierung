@@ -12,7 +12,7 @@
   <div id="customMietendeckelApplet" aria-hidden="true" aria-label="Leider steht die interaktive Visualisierung des Konzepts für einen bundesweiten Mietendeckel momentan nicht barrierefrei zur Verfügung.">
     <div id="disclaimer">
       <p>
-        Finde heraus, wie ein <span class="infolink" id="modal-paper"><span>bundesweiter Mietendeckel</span></span> die Mieter:innen in 42 deutschen Großstädten entlasten könnte.
+        Finde heraus, wie ein <span class="infolink concept"><span>bundesweiter Mietendeckel</span></span> die Mieter:innen in 42 deutschen Großstädten entlasten könnte.
         Jeder Baustein des Konzepts kann einzeln ein- oder ausgeschaltet werden, um die Effekte auf die Mieten bundesweit
         oder für jede Stadt zu beobachten. Bitte beachte, dass es sich bei allen Mietpreisen um Durchschnittsangaben handelt, die nicht unmittelbar Aussagen über konkrete Mietverhältnisse zulassen!
       </p>
@@ -67,12 +67,12 @@
                   <span class="slider round"></span>
                 </label>
                 <p style="float: right;width: 80%;">
-                Bis zu vollständigen Einführung eines bundesweiten Mietendeckels gilt ein Mietenstopp in Gebieten mit <span id="wohnungsnotgebiete" class="infolink"><span>Wohnungsnotlage</span></span> oder <span id="wohnungsnotgebiete" class="infolink"><span>angespanntem Wohnungsmarkt</span></span>. Überall werden Mieterhöhungen auf maximal 2% im Jahr begrenzt.
+                <strong>Bis zu vollständigen Einführung eines bundesweiten Mietendeckels</strong> können bestehende Mieten in Gebieten mit <span class="infolink wohnungsnotlage"><span>Wohnungsnotlage</span></span> oder <span class="infolink angespannt"><span>angespanntem Wohnungsmarkt</span></span> nicht mehr erhöht werden.</br> In allen anderen Gebieten werden Mieterhöhungen auf maximal 2% im Jahr begrenzt.
                 </p>
               </div>
             </div>
             <div style="display: inline-grid;">
-              <button class="measureSelection" id="kappungsgrenzen" style="margin-top: 2%; margin-bottom: 5%;">
+              <button class="measureSelection" id="kappungsgrenzen" style="margin-bottom: 5%;">
               ▸ Mieterhöhungen begrenzen
               </button>
               <div class="closedItem">
@@ -81,9 +81,9 @@
                   <span class="slider round"></span>
                 </label>
                 <p style="float: right;width: 80%;">
-                  In <span class="infolink" id="first-angespannt"><span>angespannten Wohnungsmärkten</span></span> dürfen die Mieten in laufenden Mietverhältnissen nur noch
-                  in Höhe der Inflation steigen, jedoch nur bis zur <span class="infolink" id="modal-average-rent-top"><span>örtlichen Durchschnittsmiete</span></span>.
-                  In keiner Stadt dürfen Mieterhöhungen über die örtliche Durchschnittsmiete hinausgehen.
+                  In <span class="infolink nichtangespannt"><span>nicht angespannten Wohnungsmärkten</span></span> dürfen die Mieten in laufenden Mietverhältnissen nur noch
+                  um 10% in 3 Jahren steigen, in <span class="infolink angespannt"><span>angespannten Wohnungsmärkten</span></span> nur um maximal 6%.</br> In Gebieten mit einer <span class="infolink wohnungsnotlage"><span>Wohnungsnotlage</span></span>, sind Mieterhöhungen ausgeschlossen.</br>
+                  In keiner Stadt dürfen Mieterhöhungen über die örtliche Durchschnittsmiete im Bestand hinausgehen.
                 </p>
               </div>
             </div>
@@ -97,9 +97,10 @@
                   <span class="slider round"></span>
                 </label>
                 <p style="float: right;width: 80%;">
-                  Bei Vertragsabschluss dürfen die Mieten in <span class="infolink" id="second-angespannt"><span>angespannten Wohnungsmärkten</span></span> nicht mehr als 10 % über der
-                  <span class="infolink" id="modal-average-rent"><span>örtlichen Durchschnittsmiete</span></span> liegen - ohne die bei der <span class="infolink" id="mietpreisbremse"><span>„Mietpreisbremse“</span></span> geltenden Ausnahmen für modernisierte
-                  oder vorher überteuerte Wohnungen.
+                  Bei Vertragsabschluss dürfen die Mieten in <span class="infolink angespannt"><span>angespannten Wohnungsmärkten</span></span> nicht mehr als 6 % über der
+                  <span class="infolink referenzmiete"><span>örtlichen Durchschnittsmiete</span></span> liegen - ohne Ausnahmen.</br>
+                  Bei einer <span class="infolink wohnungsnotlage"><span>Wohnungsnotlage</span></span>, werden die Mieten auch bei neuem Vertragsschluss auf die <span class="infolink referenzmiete"><span>örtlichen Durchschnittsmiete</span></span> gedeckelt.</br>
+                  In allen anderen Gebieten, darf die Miete bei Vertragsschluss die <spand class="infolink referenzmiete"><span>örtlichen Durchschnittsmiete</span></span> um maximal 10% überschreiten.
                 </p>
               </div>
             </div>
@@ -113,8 +114,7 @@
                   <span class="slider round"></span>
                 </label>
                 <p style="float: right;width: 80%;">
-                  Überhöhte Mieten können auf 20 % über der <span class="infolink" id="modal-average-rent-senkung"><span>örtlichen Durchschnittsmiete</span></span> gesenkt werden.
-                  Mieter:innen können sich dafür an die örtlichen Behörden wenden.
+                  Mieten, die die <spand class="infolink" id="modal-average-rent"><span>örtlichen Durchschnittsmiete</span></span> um 20 % überschreiten werden abgesenkt. Durch eine Regelung im Wirtschaftsstrafrecht, müssen Mieter*innen nicht selbst vor Gericht ziehen.
                 </p>
               </div>
             </div>
