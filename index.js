@@ -851,8 +851,6 @@ d3.json(
   // Bootstrap Visualization
   //////
 
-  // let hint be visible in the beginning
-  showHintNoSelectedCity()
   let windowWidth = window.innerWidth;
   let windowHeight = window.innerHeight;
   drawMap()
