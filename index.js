@@ -499,7 +499,7 @@ d3.json(
 
 
     cityCircles
-      .style("visibility", "visible");
+      .style("visibility", "hidden");
 
     if (citySelected()) {
 
