@@ -916,27 +916,7 @@ d3.json(
   Array.from(document.getElementsByClassName('referenzmiete')).forEach((e) => e.onclick = () => {
     Swal.fire({
       title: 'Örtliche Durchschnittsmiete',
-      html: '<p style="color: #545454;">In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.<br>' +
-        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
-      confirmButtonText: 'OK',
-      confirmButtonColor: "#FF3300",
-      showClass: {
-        backdrop: 'swal2-noanimation', // disable backdrop animation
-        popup: '',                     // disable popup animation
-        icon: ''                       // disable icon animation
-      },
-      hideClass: {
-        popup: '',                     // disable popup fade-out animation
-      },
-    })
-  });
-
-  Array.from(document.getElementsByClassName('concept')).forEach((e) => e.onclick = () => {
-    Swal.fire({
-      title: 'Konzept für einen bundesweiten Mietendeckel',
-      html: '<p style="color: #545454;">Diese Darstellung basiert auf einem Konzept das von Andrej Holm und Benjamin Raabe in ihrer Studie <a href="https://www.rosalux.de/publikation/id/44898/bundesweiter-mietendeckel-noetig-und-moeglich" target="_blank" rel="noopener noreferrer">' +
-        '\"Bundesweiter Mietendeckel - Regelungsmöglichkeiten und Beitrag für eine soziale Wohnraumversorgung\"</a> erarbeitet wurde.<br>' +
-        'Als Einführung in das Konzept haben die Autoren außerdem einen <a href="https://www.rosalux.de/publikation/id/45944" target="_blank" rel="noopener noreferrer">Standpunkte-Text</a> verfasst.</p>',
+      html: '<p style="color: #545454;">In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.<br><p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {

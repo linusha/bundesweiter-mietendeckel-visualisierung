@@ -203,6 +203,10 @@ input:focus + .slider {
   box-shadow: 0 0 1px #FF3300;
 }
 
+a {
+  color: #FF3300;
+}
+
 input:checked + .slider:before {
   -webkit-transform: translateX(18px);
   -ms-transform: translateX(18px);
