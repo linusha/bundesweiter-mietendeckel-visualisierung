@@ -613,10 +613,10 @@ d3.json(
     averageBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => 'Ø ' + d.bestandsMiete.toString().replace('.', ','))
+      .text((d) => '⌀' + d.bestandsMiete.toString().replace('.', ','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
       .attr("x", (d) => projection([d.long, d.lat])[0] - (2 * barWidth) + (d.bestandsMiete.toString().length == 5 ?
-        0.5 :
+        0.3 :
         1)
       )
       .style("visibility", "visible")
@@ -626,10 +626,10 @@ d3.json(
     increaseBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => 'Ø ' + mieterhoehung(d).toString().replace('.', ','))
+      .text((d) => '⌀' + mieterhoehung(d).toString().replace('.', ','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
       .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth + (mieterhoehung(d).toString().length == 5 ?
-        0.5 :
+        0.3 :
         1)
       )
       .style("visibility", "visible")
@@ -639,10 +639,10 @@ d3.json(
     marketBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => 'Ø ' + wiedervermietungsMiete(d).toString().replace('.', ','))
+      .text((d) => '⌀' + wiedervermietungsMiete(d).toString().replace('.', ','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
       .attr("x", (d) => projection([d.long, d.lat])[0] + (wiedervermietungsMiete(d).toString().length == 5 ?
-        0.5 :
+        0.3 :
         1)
       )
       .style("visibility", "visible")
@@ -652,10 +652,10 @@ d3.json(
     stopBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => (mietabsenkungenActive ? 'Ø ' + bestandsMiete(d).toString().replace('.', ',') : ''))
+      .text((d) => (mietabsenkungenActive ? '⌀' + bestandsMiete(d).toString().replace('.', ',') : ''))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
       .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (bestandsMiete(d).toString().length == 5 ?
-        0.5 :
+        0.3 :
         1)
       )
       .style("visibility", "visible")
