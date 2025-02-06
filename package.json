@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "rollup --config",
-    "css": "cat style.css sweetalert2.min.css > bundle.css"
+    "css": "cat style.css sweetalert2.min.css > bundle.css",
+    "all": "npm run build && npm run css"
   }
 }
