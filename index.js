@@ -296,7 +296,7 @@ d3.json(
   let barScale = 5;
   let width = document.getElementById("customMietendeckelApplet").offsetWidth;
   let height = width / 0.625;
-  let map, projection, path, g, tooltip, increaseBars, circleRadius, cityCircles, barWidth, marketBars, stopBars, averageBars, highestIncreaseBars, highestMarketBars;
+  let map, projection, path, g, tooltip, circleRadius, cityCircles, barWidth, marketBars, stopBars, averageBars, highestMarketBars;
 
   //////
   // Methods related to calculations and data
@@ -402,13 +402,6 @@ d3.json(
     map
       .selectAll(".averageRect")
       .style("visibility", "hidden");
-    map
-      .selectAll(".increaseRect")
-      .style("visibility", "hidden");
-
-    map
-      .selectAll(".highestIncreaseRect")
-      .style("visibility", "hidden");
 
     map
       .selectAll(".highestMarketRect")
@@ -438,19 +431,6 @@ d3.json(
       .text((d) => '⌀' + d.bestandsMiete.toString().replace('.', ','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
       .attr("x", (d) => projection([d.long, d.lat])[0] - (2 * barWidth) + (d.bestandsMiete.toString().length == 5 ?
-        0.3 :
-        1)
-      )
-      .style("visibility", "visible")
-      .style("font-size", "2pt")
-      .style("fill", "#2b3240")
-
-    increaseBars
-      .selectAll("text")
-      .filter((d) => d.name == city.name)
-      .text((d) => '⌀' + mieterhoehung(d).toString().replace('.', ','))
-      .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-      .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth + (mieterhoehung(d).toString().length == 5 ?
         0.3 :
         1)
       )
@@ -511,13 +491,7 @@ d3.json(
       .selectAll(".averageRect")
       .style("visibility", "hidden");
     map
-      .selectAll(".increaseRect")
-      .style("visibility", "hidden");
-    map
       .selectAll(".marketRect")
-      .style("visibility", "hidden");
-    map
-      .selectAll(".highestIncreaseRect")
       .style("visibility", "hidden");
     map
       .selectAll(".highestMarketRect")
@@ -565,14 +539,6 @@ d3.json(
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
     map
-      .selectAll(".increaseRect")
-      .filter((d) => d.name == clickedData.name)
-      .transition(2000)
-      .attr("height", (d) => mieterhoehung(d) * barScale)
-      .attr("y", (d) => projection([d.long, d.lat])[1] - mieterhoehung(d) * barScale)
-      .style("visibility", clickedData.active ? "visible" : "hidden");
-
-    map
       .selectAll(".marketRect")
       .filter((d) => d.name == clickedData.name)
       .transition(2000)
@@ -594,14 +560,6 @@ d3.json(
       .transition(2000)
       .attr("height", (d) => d.marktMiete * barScale)
       .attr("y", (d) => projection([d.long, d.lat])[1] - d.marktMiete * barScale)
-      .style("visibility", clickedData.active ? "visible" : "hidden");
-
-    map
-      .selectAll(".highestIncreaseRect")
-      .filter((d) => d.name == clickedData.name)
-      .transition(2000)
-      .attr("height", (d) => d.kappungIst * barScale)
-      .attr("y", (d) => projection([d.long, d.lat])[1] - d.kappungIst * barScale)
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
     cityCircles
@@ -710,51 +668,13 @@ d3.json(
       .append("rect")
       .attr("class", "cityRect averageRect")
       .attr("width", barWidth)
-      .attr("x", (d) => projection([d.long, d.lat])[0] - (2 * barWidth))
+      .attr("x", (d) => projection([d.long, d.lat])[0] - (2 * barWidth - 5))
       .attr("y", (d) => projection([d.long, d.lat])[1])
       .attr("fill", "#018E06")
       .attr("visibility", "hidden")
       .on("mousedown", reset);
 
     averageBars
-      .append("text")
-
-    // max increase
-    highestIncreaseBars = map
-      .selectAll("highestIncreaseBars")
-      .data(cities)
-      .enter()
-      .append("g")
-
-    highestIncreaseBars
-      .append("rect")
-      .attr("class", "cityRect highestIncreaseRect")
-      .attr("width", barWidth)
-      .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth)
-      .attr("y", (d) => projection([d.long, d.lat])[1])
-      .attr("fill", "#BDB710")
-      .attr("opacity", 0.8)
-      .attr("visibility", "hidden")
-      .on("mousedown", reset);
-
-    //depicting bars for possible increases in current rentals
-    increaseBars = map
-      .selectAll("increaseBars")
-      .data(cities)
-      .enter()
-      .append("g")
-
-    increaseBars
-      .append("rect")
-      .attr("class", "cityRect increaseRect")
-      .attr("width", barWidth)
-      .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth)
-      .attr("y", (d) => projection([d.long, d.lat])[1])
-      .attr("fill", "#EBE415")
-      .attr("visibility", "hidden")
-      .on("mousedown", reset);
-
-    increaseBars
       .append("text")
 
     // max market
@@ -804,7 +724,7 @@ d3.json(
     stopBars.append("rect")
       .attr("class", "cityRect stopRect")
       .attr("width", barWidth)
-      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth)
+      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + 5)
       .attr("y", (d) => projection([d.long, d.lat])[1])
       .attr("fill", "#FF3300")
       .attr("visibility", "hidden")
@@ -833,16 +753,6 @@ d3.json(
   function kappungsgrenzeToggled(status) {
     kappungsgrenzeActive = status;
 
-    map
-      .selectAll(".increaseRect")
-      .transition()
-      .duration(1000)
-      .attr("height", (d) => mieterhoehung(d) * barScale)
-      .attr(
-        "y",
-        (d) => projection([d.long, d.lat])[1] - mieterhoehung(d) * barScale
-      );
-
     if (citySelected()) updateConsequences(selectedCity());
   }
 
@@ -861,16 +771,6 @@ d3.json(
 
   function mietabsenkungenToggled(status) {
     mietabsenkungenActive = status;
-
-    map
-      .selectAll(".increaseRect")
-      .transition()
-      .duration(1000)
-      .attr("height", (d) => mieterhoehung(d) * barScale)
-      .attr(
-        "y",
-        (d) => projection([d.long, d.lat])[1] - mieterhoehung(d) * barScale
-      );
 
     map
       .selectAll(".stopRect")
@@ -946,16 +846,6 @@ d3.json(
 
   function sofortProgrammToggled(status) {
     sofortProgrammActive = status;
-
-    map
-      .selectAll(".increaseRect")
-      .transition()
-      .duration(1000)
-      .attr("height", (d) => mieterhoehung(d) * barScale)
-      .attr(
-        "y",
-        (d) => projection([d.long, d.lat])[1] - mieterhoehung(d) * barScale
-      );
 
     if (citySelected()) updateConsequences(selectedCity());
   }
