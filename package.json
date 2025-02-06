@@ -10,6 +10,8 @@
   "scripts": {
     "build": "rollup --config",
     "css": "cat style.css sweetalert2.min.css > bundle.css",
-    "all": "npm run build && npm run css"
+    "all": "npm run build && npm run css",
+    "//": "Below is an internal command that is only used for publishing.",
+    "release": "npm run all && ./release.sh"
   }
 }
