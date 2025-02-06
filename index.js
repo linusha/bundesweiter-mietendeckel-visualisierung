@@ -22,8 +22,6 @@ let cities = [
     "wiedervermietungIst": 7.71,
     "wiedervermietungSoll": 7.35,
     "wiedervermietungSollNot": 6.68,
-    "mietsenkungSoll": 8.02,
-    "mietsenkungSollNot": 7.24,
   },
   {
     "name": "Berlin",
@@ -40,8 +38,6 @@ let cities = [
     "wiedervermietungIst": 7.71,
     "wiedervermietungSoll": 7.35,
     "wiedervermietungSollNot": 6.68,
-    "mietsenkungSoll": 8.02,
-    "mietsenkungSollNot": 7.24,
   },
   {
     "name": "Bielefeld",
@@ -58,8 +54,6 @@ let cities = [
     "wiedervermietungIst": 7.31,
     "wiedervermietungSoll": 6.81,
     "wiedervermietungSollNot": 6.19,
-    "mietsenkungSoll": 7.43,
-    "mietsenkungSollNot": 5.56,
   },
   {
     "name": "Bochum",
@@ -76,8 +70,6 @@ let cities = [
     "wiedervermietungIst": 6.66,
     "wiedervermietungSoll": 6.66,
     "wiedervermietungSollNot": 6.66,
-    "mietsenkungSoll": 6.89,
-    "mietsenkungSollNot": 6.89,
   },
   {
     "name": "Bonn",
@@ -94,8 +86,6 @@ let cities = [
     "wiedervermietungIst": 8.53,
     "wiedervermietungSoll": 8.72,
     "wiedervermietungSollNot": 8.72,
-    "mietsenkungSoll": 9.52,
-    "mietsenkungSollNot": 9.52,
   },
   {
     "name": "Bremen",
@@ -112,8 +102,6 @@ let cities = [
     "wiedervermietungIst": 6.88,
     "wiedervermietungSoll": 6.88,
     "wiedervermietungSollNot": 6.88,
-    "mietsenkungSoll": 6.86,
-    "mietsenkungSollNot": 6.86,
   },
   {
     "name": "Dortmund",
@@ -130,8 +118,6 @@ let cities = [
     "wiedervermietungIst": 6.88,
     "wiedervermietungSoll": 6.88,
     "wiedervermietungSollNot": 6.88,
-    "mietsenkungSoll": 6.86,
-    "mietsenkungSollNot": 6.86,
   },
   {
     "name": "Dresden",
@@ -148,8 +134,6 @@ let cities = [
     "wiedervermietungIst": 6.85,
     "wiedervermietungSoll": 6.73,
     "wiedervermietungSollNot": 6.73,
-    "mietsenkungSoll": 7.34,
-    "mietsenkungSollNot": 7.34,
   },
   {
     "name": "Duisburg",
@@ -166,8 +150,6 @@ let cities = [
     "wiedervermietungIst": 5.9,
     "wiedervermietungSoll": 5.9,
     "wiedervermietungSollNot": 5.9,
-    "mietsenkungSoll": 6.64,
-    "mietsenkungSollNot": 6.64,
   },
   {
     "name": "Düsseldorf",
@@ -184,8 +166,6 @@ let cities = [
     "wiedervermietungIst": 9.21,
     "wiedervermietungSoll": 8.73,
     "wiedervermietungSollNot": 8.73,
-    "mietsenkungSoll": 9.53,
-    "mietsenkungSollNot": 9.53,
   },
   {
     "name": "Erfurt",
@@ -202,8 +182,6 @@ let cities = [
     "wiedervermietungIst": 7.13,
     "wiedervermietungSoll": 7.13,
     "wiedervermietungSollNot": 7.13,
-    "mietsenkungSoll": 7,
-    "mietsenkungSollNot": 7,
   },
   {
     "name": "Essen",
@@ -220,8 +198,6 @@ let cities = [
     "wiedervermietungIst": 6.85,
     "wiedervermietungSoll": 6.85,
     "wiedervermietungSollNot": 6.85,
-    "mietsenkungSoll": 7.3,
-    "mietsenkungSollNot": 7.3,
   },
   {
     "name": "Frankfurt am Main",
@@ -238,8 +214,6 @@ let cities = [
     "wiedervermietungIst": 9.29,
     "wiedervermietungSoll": 9.7,
     "wiedervermietungSollNot": 8.82,
-    "mietsenkungSoll": 10.58,
-    "mietsenkungSollNot": 8.57,
   },
   {
     "name": "Hamburg",
@@ -256,8 +230,6 @@ let cities = [
     "wiedervermietungIst": 9.52,
     "wiedervermietungSoll": 9.09,
     "wiedervermietungSollNot": 8.26,
-    "mietsenkungSoll": 9.91,
-    "mietsenkungSollNot": 8.25,
   },
   {
     "name": "Hannover",
@@ -267,15 +239,13 @@ let cities = [
     "lat": 52.37,
     "marktMiete": 10.47,
     "bestandsMiete": 7.61,
-"mietspiegel": 7.8,    
-"kappungIst": 7.4,
+    "mietspiegel": 7.8,
+    "kappungIst": 7.4,
     "kappungSoll": 6.7,
     "kappungSollNot": 6.7,
     "wiedervermietungIst": 7.08,
     "wiedervermietungSoll": 7.26,
     "wiedervermietungSollNot": 7.26,
-    "mietsenkungSoll": 7.92,
-    "mietsenkungSollNot": 7.92,
   },
   {
     "name": "Karlsruhe",
@@ -292,8 +262,6 @@ let cities = [
     "wiedervermietungIst": 8.37,
     "wiedervermietungSoll": 7.4,
     "wiedervermietungSollNot": 7.4,
-    "mietsenkungSoll": 8.08,
-    "mietsenkungSollNot": 8.08,
   },
   {
     "name": "Köln",
@@ -310,8 +278,6 @@ let cities = [
     "wiedervermietungIst": 9.52,
     "wiedervermietungSoll": 9.03,
     "wiedervermietungSollNot": 8.21,
-    "mietsenkungSoll": 9.85,
-    "mietsenkungSollNot": 7.15,
   },
   {
     "name": "Leipzig",
@@ -328,8 +294,6 @@ let cities = [
     "wiedervermietungIst": 5.48,
     "wiedervermietungSoll": 5.98,
     "wiedervermietungSollNot": 5.98,
-    "mietsenkungSoll": 6.53,
-    "mietsenkungSollNot": 6.53,
   },
   {
     "name": "Mannheim",
@@ -346,8 +310,6 @@ let cities = [
     "wiedervermietungIst": 7.84,
     "wiedervermietungSoll": 7.69,
     "wiedervermietungSollNot": 7.69,
-    "mietsenkungSoll": 8.39,
-    "mietsenkungSollNot": 8.39,
   },
   {
     "name": "München",
@@ -364,8 +326,6 @@ let cities = [
     "wiedervermietungIst": 11.49,
     "wiedervermietungSoll": 12.22,
     "wiedervermietungSollNot": 11.11,
-    "mietsenkungSoll": 13.33,
-    "mietsenkungSollNot": 9.87,
   },
   {
     "name": "Münster",
@@ -382,8 +342,6 @@ let cities = [
     "wiedervermietungIst": 7.54,
     "wiedervermietungSoll": 8.68,
     "wiedervermietungSollNot": 8.68,
-    "mietsenkungSoll": 9.47,
-    "mietsenkungSollNot": 9.47,
   },
   {
     "name": "Nürnberg",
@@ -400,8 +358,6 @@ let cities = [
     "wiedervermietungIst": 8.68,
     "wiedervermietungSoll": 7.74,
     "wiedervermietungSollNot": 7.74,
-    "mietsenkungSoll": 8.45,
-    "mietsenkungSollNot": 8.45,
   },
   {
     "name": "Rostock",
@@ -411,15 +367,13 @@ let cities = [
     "lat": 54.08,
     "marktMiete": 10.05,
     "bestandsMiete": 6.7,
-"mietspiegel": 6.14,    
-"kappungIst": 7.72,
+    "mietspiegel": 6.14,
+    "kappungIst": 7.72,
     "kappungSoll": 7.32,
     "kappungSollNot": 7.32,
     "wiedervermietungIst": 6.71,
     "wiedervermietungSoll": 6.71,
     "wiedervermietungSollNot": 6.71,
-    "mietsenkungSoll": 7.32,
-    "mietsenkungSollNot": 7.32,
   },
   {
     "name": "Stuttgart",
@@ -436,8 +390,6 @@ let cities = [
     "wiedervermietungIst": 10.96,
     "wiedervermietungSoll": 9.38,
     "wiedervermietungSollNot": 8.53,
-    "mietsenkungSoll": 10.24,
-    "mietsenkungSollNot": 8.42,
   },
   {
     "name": "Wuppertal",
@@ -454,8 +406,6 @@ let cities = [
     "wiedervermietungIst": 6.18,
     "wiedervermietungSoll": 6.18,
     "wiedervermietungSollNot": 6.18,
-    "mietsenkungSoll": 6.89,
-    "mietsenkungSollNot": 6.89,
   }
 ];
 
@@ -476,10 +426,9 @@ d3.json(
   //////
   // Methods related to calculations and data
   //////
-  function bestandsMiete(city) {
+  function mietsenkungAuf(city) {
     if (mietabsenkungenActive) {
-      if (wohnungenotgebieteActive) return city.mietsenkungSollNot.toFixed(2);
-      return city.mietsenkungSoll.toFixed(2);
+      return (city.bestandsMiete * 1.2).toFixed(2);
     }
     return 0;
   }
@@ -487,13 +436,13 @@ d3.json(
   function wiedervermietungsMiete(city) {
     if (mietobergrenzenActive) {
       if (wohnungenotgebieteActive) {
-        if (mietabsenkungenActive) return Math.min(city.wiedervermietungSollNot.toFixed(2), bestandsMiete(city));
+        if (mietabsenkungenActive) city.wiedervermietungSollNot.toFixed(2);
         return city.wiedervermietungSollNot.toFixed(2);
       }
-      if (mietabsenkungenActive) return Math.min(city.wiedervermietungSoll.toFixed(2), bestandsMiete(city));
+      if (mietabsenkungenActive) return city.wiedervermietungSoll.toFixed(2);
       return city.wiedervermietungSoll.toFixed(2);
     }
-    if (mietabsenkungenActive) return Math.min(city.marktMiete.toFixed(2), bestandsMiete(city));
+    if (mietabsenkungenActive) return city.marktMiete.toFixed(2);
     return city.marktMiete.toFixed(2);
   }
 
@@ -504,14 +453,11 @@ d3.json(
     }
 
     if (kappungsgrenzeActive) {
-      if (wohnungenotgebieteActive) {
-        if (mietabsenkungenActive) return Math.min(city.kappungSollNot.toFixed(2), bestandsMiete(city));
-        return city.kappungSollNot.toFixed(2);
-      }
-      if (mietabsenkungenActive) return Math.min(city.kappungSoll.toFixed(2), bestandsMiete(city));
+      if (mietabsenkungenActive) city.kappungSoll.toFixed(2);
       return city.kappungSoll.toFixed(2);
     }
-    if (mietabsenkungenActive) return Math.min(city.kappungIst.toFixed(2), bestandsMiete(city));
+
+    if (mietabsenkungenActive) city.kappungIst.toFixed(2);
     return city.kappungIst.toFixed(2);
   }
 
@@ -546,7 +492,7 @@ d3.json(
       "</b>€/m²</p>";
     let bestandsMietenTag =
       `<p class='in-box'><span style='color:#FF3300;'>●</span> Die durchschnittliche maximal erlaubte Höchstmiete beträgt: <b>` +
-      bestandsMiete(cityData).toString().replace('.', ',') +
+      mieterhoehung(cityData).toString().replace('.', ',') +
       "</b>€/m²</p>";
     return (
       nameTag +
@@ -658,9 +604,9 @@ d3.json(
     stopBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => (mietabsenkungenActive ? '⌀' + bestandsMiete(d).toString().replace('.', ',') : ''))
+      .text((d) => (mietabsenkungenActive ? '⌀' + mietsenkungAuf(d).toString().replace('.', ',') : ''))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (bestandsMiete(d).toString().length == 5 ?
+      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (mietsenkungAuf(d).toString().length == 5 ?
         0.3 :
         1)
       )
@@ -768,8 +714,8 @@ d3.json(
       .selectAll(".stopRect")
       .filter((d) => d.name == clickedData.name)
       .transition(2000)
-      .attr("height", (d) => bestandsMiete(d) * barScale)
-      .attr("y", (d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale)
+      .attr("height", (d) => mietsenkungAuf(d) * barScale)
+      .attr("y", (d) => projection([d.long, d.lat])[1] - mietsenkungAuf(d) * barScale)
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
     map
@@ -1060,10 +1006,10 @@ d3.json(
       .selectAll(".stopRect")
       .transition()
       .duration(1000)
-      .attr("height", (d) => bestandsMiete(d) * barScale)
+      .attr("height", (d) => mietsenkungAuf(d) * barScale)
       .attr(
         "y",
-        (d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale
+        (d) => projection([d.long, d.lat])[1] - mietsenkungAuf(d) * barScale
       );
 
     map
