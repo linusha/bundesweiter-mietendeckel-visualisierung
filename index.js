@@ -1080,7 +1080,7 @@ d3.json(
   function getEquivalentSubjektfoerderungString() {
     const sum = calculateEquivalentSubjektfoerderung();
     if (sum > 1_000_000_000) { // more than one billion
-     return (sum / 1_000_000_000).toFixed(1).toString().replace('.', ',') + ' Milliarden €' 
+      return (sum / 1_000_000_000).toFixed(1).toString().replace('.', ',') + ' Milliarden €'
     }
     return (sum / 1_000_000).toFixed(1).toString().replace('.', ',') + ' Millionen €'
   }
@@ -1125,7 +1125,7 @@ d3.json(
   function wiedervermietungsMiete(city) {
     if (mietobergrenzenActive) {
       if (wohnungenotgebieteActive) {
-        if (mietabsenkungenActive) return Math.min(city.wiedervermietungSollNot.toFixed(2), bestandsMiete(city)); 
+        if (mietabsenkungenActive) return Math.min(city.wiedervermietungSollNot.toFixed(2), bestandsMiete(city));
         return city.wiedervermietungSollNot.toFixed(2);
       }
       if (mietabsenkungenActive) return Math.min(city.wiedervermietungSoll.toFixed(2), bestandsMiete(city));
@@ -1177,7 +1177,7 @@ d3.json(
       Swal.fire({
         title: 'Mietzuschüsse',
         html: '<p style="color: #545454;">Der Staat subventioniert den „privaten Wohnungsmarkt“ in Milliardenhöhe. Der Großteil (zuletzt 17,5 Mrd. Euro im Jahr) fließt in direkte Zuschüsse zur Miete. Dazu zählt das Wohngeld, aber auch die Übernahme von Wohnkosten durch Jobcenter und Sozialämter in „angemessener“ Höhe.<br>' +
-        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52747" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+          'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52747" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
         confirmButtonText: 'OK',
         confirmButtonColor: "#FF3300",
         showClass: {
@@ -1208,32 +1208,32 @@ d3.json(
       leistbarNewTag =
         `<p>Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sich sich auf ${cityData.name} auswirken. Aktuell ist die Lage so:</p>`;
     }
-    let averageTag = 
+    let averageTag =
       `<p class='in-box'><span style='color:#018E06;'>●</span> Momentan beträgt die durchschnittliche Miete: <b>` +
-      cityData.bestandsMiete.toString().replace('.',',') +
-      "</b>€/m²</p>"; 
+      cityData.bestandsMiete.toString().replace('.', ',') +
+      "</b>€/m²</p>";
     let mieterhoehungsText = "Durchschnittlich mögliche Mieterhöhung auf"
     let mieterhoehungsTag =
       `<p class='in-box'><span style='color:#EBE415;'>●</span> ${mieterhoehungsText}: <b>` +
-      mieterhoehung(cityData).toString().replace('.',',') +
+      mieterhoehung(cityData).toString().replace('.', ',') +
       "</b>€/m²</p>";
     let neuvermietungsText = "Durchschnittliche Miete bei Wiedervermietung"
     let neuvermietungsTag =
       `<p class='in-box'><span style='color:#0084FF;'>●</span> ${neuvermietungsText}: <b>` +
-      wiedervermietungsMiete(cityData).toString().replace('.',',') +
+      wiedervermietungsMiete(cityData).toString().replace('.', ',') +
       "</b>€/m²</p>";
     let bestandsMietenTag =
       `<p class='in-box'><span style='color:#FF3300;'>●</span> Die durchschnittliche maximal erlaubte Höchstmiete beträgt: <b>` +
-      bestandsMiete(cityData).toString().replace('.',',') +
+      bestandsMiete(cityData).toString().replace('.', ',') +
       "</b>€/m²</p>";
     return (
       nameTag +
       leistbarNewTag +
       "<div class='numbers-container'>" +
-      averageTag + 
+      averageTag +
       mieterhoehungsTag +
       neuvermietungsTag +
-      ((mietabsenkungenActive ? bestandsMietenTag + "</div>" : "</div>") )
+      ((mietabsenkungenActive ? bestandsMietenTag + "</div>" : "</div>"))
     );
   }
 
@@ -1271,7 +1271,7 @@ d3.json(
     map
       .selectAll(".highestIncreaseRect")
       .style("visibility", "hidden");
-    
+
     map
       .selectAll(".highestMarketRect")
       .style("visibility", "hidden");
@@ -1297,7 +1297,7 @@ d3.json(
     averageBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => 'Ø ' + d.bestandsMiete.toString().replace('.',','))
+      .text((d) => 'Ø ' + d.bestandsMiete.toString().replace('.', ','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
       .attr("x", (d) => projection([d.long, d.lat])[0] - (2 * barWidth) + (d.bestandsMiete.toString().length == 5 ?
         0.5 :
@@ -1310,11 +1310,11 @@ d3.json(
     increaseBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => 'Ø ' + mieterhoehung(d).toString().replace('.',','))
+      .text((d) => 'Ø ' + mieterhoehung(d).toString().replace('.', ','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
       .attr("x", (d) => projection([d.long, d.lat])[0] - barWidth + (mieterhoehung(d).toString().length == 5 ?
-         0.5 :
-         1)
+        0.5 :
+        1)
       )
       .style("visibility", "visible")
       .style("font-size", "2pt")
@@ -1323,11 +1323,11 @@ d3.json(
     marketBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => 'Ø ' + wiedervermietungsMiete(d).toString().replace('.',','))
+      .text((d) => 'Ø ' + wiedervermietungsMiete(d).toString().replace('.', ','))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
       .attr("x", (d) => projection([d.long, d.lat])[0] + (wiedervermietungsMiete(d).toString().length == 5 ?
         0.5 :
-         1)
+        1)
       )
       .style("visibility", "visible")
       .style("font-size", "2pt")
@@ -1336,7 +1336,7 @@ d3.json(
     stopBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => (mietabsenkungenActive ? 'Ø ' + bestandsMiete(d).toString().replace('.',',') : ''))
+      .text((d) => (mietabsenkungenActive ? 'Ø ' + bestandsMiete(d).toString().replace('.', ',') : ''))
       .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
       .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (bestandsMiete(d).toString().length == 5 ?
         0.5 :
@@ -1354,18 +1354,18 @@ d3.json(
     document.getElementById("consequences").innerHTML = getConsequencesContent(city);
   }
 
-  function updateNotGebieteRegel(){
+  function updateNotGebieteRegel() {
     let content = '';
     if (kappungsgrenzeActive) content = content + ` Hier gilt ein Mietenstopp - Mieterhöhungen sind vollständig ausgeschlossen.`;
     if (mietobergrenzenActive) content = content + ` Bei neu abgeschlossenen Verträgen dürfen die Mieten die <span id="modal-average-rent-dynamic" class="infolink"><span>örtliche Durchschnittsmiete</span></span> nicht übersteigen.`;
     if (mietabsenkungenActive) content = content + ` Überhöhte Miete werden stärker abgesenkt: Keine Miete darf die örtlich <span id="modal-affordable-rent" class="infolink"><span>leistbare Miete</span></span> um mehr als 20 % überschreiten.`;
     document.getElementById('notgebiet-regeln').innerHTML = content;
-    if (mietobergrenzenActive){
+    if (mietobergrenzenActive) {
       document.getElementById('modal-average-rent-dynamic').onclick = () => {
         Swal.fire({
           title: 'Örtliche Durchschnittsmiete',
           html: '<p style="color: #545454;">In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.<br>' +
-          'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+            'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
           confirmButtonText: 'OK',
           confirmButtonColor: "#FF3300",
           showClass: {
@@ -1381,21 +1381,22 @@ d3.json(
     }
     if (mietabsenkungenActive) {
       document.getElementById('modal-affordable-rent').onclick = () => {
-      Swal.fire({
-        title: 'Leistbare Miete',
-        html: '<p style="color: #545454;">Die leistbare Miete wird, anders als die Durchschnittsmiete, anhand der verfügbaren Einkommen berechnet. Als leistbar gilt eine Miete, wenn sie höchstens 30 Prozent des durchschnittlichen Nettohaushaltseinkommens in der Kommune beträgt.<br>' +
-        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52743" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
-        confirmButtonText: 'OK',
-        confirmButtonColor: "#FF3300",
-        showClass: {
-          backdrop: 'swal2-noanimation', // disable backdrop animation
-          popup: '',                     // disable popup animation
-          icon: ''                       // disable icon animation
-        },
-        hideClass: {
-          popup: '',                     // disable popup fade-out animation
-        },
-      })};
+        Swal.fire({
+          title: 'Leistbare Miete',
+          html: '<p style="color: #545454;">Die leistbare Miete wird, anders als die Durchschnittsmiete, anhand der verfügbaren Einkommen berechnet. Als leistbar gilt eine Miete, wenn sie höchstens 30 Prozent des durchschnittlichen Nettohaushaltseinkommens in der Kommune beträgt.<br>' +
+            'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52743" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+          confirmButtonText: 'OK',
+          confirmButtonColor: "#FF3300",
+          showClass: {
+            backdrop: 'swal2-noanimation', // disable backdrop animation
+            popup: '',                     // disable popup animation
+            icon: ''                       // disable icon animation
+          },
+          hideClass: {
+            popup: '',                     // disable popup fade-out animation
+          },
+        })
+      };
     }
   }
 
@@ -1424,7 +1425,7 @@ d3.json(
     map
       .selectAll(".marketRect")
       .style("visibility", "hidden");
-      map
+    map
       .selectAll(".highestIncreaseRect")
       .style("visibility", "hidden");
     map
@@ -1433,8 +1434,8 @@ d3.json(
     map
       .selectAll(".stopRect")
       .style("visibility", "hidden");
-    
-    
+
+
     cityCircles
       .style("visibility", "visible");
 
@@ -1493,7 +1494,7 @@ d3.json(
       .filter((d) => d.name == clickedData.name)
       .transition(2000)
       .attr("height", (d) => bestandsMiete(d) * barScale)
-      .attr("y",(d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale)
+      .attr("y", (d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale)
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
     map
@@ -1501,7 +1502,7 @@ d3.json(
       .filter((d) => d.name == clickedData.name)
       .transition(2000)
       .attr("height", (d) => d.marktMiete * barScale)
-      .attr("y",(d) => projection([d.long, d.lat])[1] - d.marktMiete * barScale)
+      .attr("y", (d) => projection([d.long, d.lat])[1] - d.marktMiete * barScale)
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
     map
@@ -1509,7 +1510,7 @@ d3.json(
       .filter((d) => d.name == clickedData.name)
       .transition(2000)
       .attr("height", (d) => d.kappungIst * barScale)
-      .attr("y",(d) => projection([d.long, d.lat])[1] - d.kappungIst * barScale)
+      .attr("y", (d) => projection([d.long, d.lat])[1] - d.kappungIst * barScale)
       .style("visibility", clickedData.active ? "visible" : "hidden");
 
     cityCircles
@@ -1634,7 +1635,7 @@ d3.json(
 
     averageBars
       .append("text")
- 
+
     // max increase
     highestIncreaseBars = map
       .selectAll("highestIncreaseBars")
@@ -1746,7 +1747,7 @@ d3.json(
     }
   }
 
-  function kappungsgrenzeToggled (status) {
+  function kappungsgrenzeToggled(status) {
     kappungsgrenzeActive = status;
     updateNotGebieteRegel();
     updateSubjektfoerderungsCallout();
@@ -1772,12 +1773,12 @@ d3.json(
       .getElementById("mietabsenkungen")
     if (button.nextElementSibling.className !== "closedItem") {
       button.nextElementSibling.className = "closedItem"
-      button.textContent = "▸ " + button.textContent.replace(/ /g,'').replace(/\n/g,'').slice(1);
+      button.textContent = "▸ " + button.textContent.replace(/ /g, '').replace(/\n/g, '').slice(1);
     } else {
-      button.textContent = "▾ " + button.textContent.replace(/ /g,'').replace(/\n/g,'').slice(1);
+      button.textContent = "▾ " + button.textContent.replace(/ /g, '').replace(/\n/g, '').slice(1);
       button.nextElementSibling.className = "openItem"
     }
-    
+
   }
 
   function mietabsenkungenToggled(status) {
@@ -1798,15 +1799,15 @@ d3.json(
         (d) => projection([d.long, d.lat])[1] - mieterhoehung(d) * barScale
       );
 
-      map
-        .selectAll(".stopRect")
-        .transition()
-        .duration(1000)
-        .attr("height", (d) => bestandsMiete(d) * barScale)
-        .attr(
-          "y",
-          (d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale
-        );
+    map
+      .selectAll(".stopRect")
+      .transition()
+      .duration(1000)
+      .attr("height", (d) => bestandsMiete(d) * barScale)
+      .attr(
+        "y",
+        (d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale
+      );
 
     map
       .selectAll(".marketRect")
@@ -1818,16 +1819,16 @@ d3.json(
         (d) => projection([d.long, d.lat])[1] - wiedervermietungsMiete(d) * barScale
       );
 
-    if (mietabsenkungenActive){
+    if (mietabsenkungenActive) {
       stopBars
         .selectAll("text")
         .style("opacity", 0)
         .transition()
         .duration(1000)
         .style("opacity", 1)
-    
+
     }
-    
+
     if (citySelected()) updateConsequences(selectedCity());
   }
 
@@ -1836,9 +1837,9 @@ d3.json(
       .getElementById("mietobergrenzen")
     if (button.nextElementSibling.className !== "closedItem") {
       button.nextElementSibling.className = "closedItem"
-      button.textContent = "▸ " + button.textContent.replace(/ /g,'').replace(/\n/g,'').slice(1);
+      button.textContent = "▸ " + button.textContent.replace(/ /g, '').replace(/\n/g, '').slice(1);
     } else {
-      button.textContent = "▾ " + button.textContent.replace(/ /g,'').replace(/\n/g,'').slice(1);
+      button.textContent = "▾ " + button.textContent.replace(/ /g, '').replace(/\n/g, '').slice(1);
       button.nextElementSibling.className = "openItem"
     }
   }
@@ -1874,11 +1875,11 @@ d3.json(
     }
   }
 
-  function wohnungenotgebieteToggled (status) {
+  function wohnungenotgebieteToggled(status) {
     wohnungenotgebieteActive = status;
     updateNotGebieteRegel();
     map.selectAll(".cityCircle")
-    .attr("fill", colorCityCircles)
+      .attr("fill", colorCityCircles)
 
     map
       .selectAll(".increaseRect")
@@ -1926,7 +1927,7 @@ d3.json(
   // make map responsive
   window.addEventListener('resize', function (event) {
     const dropdown = document.getElementById("citySelector");
-    if (document.getElementById("mapContainer").offsetWidth < 500 && dropdown.selectedIndex === 0){
+    if (document.getElementById("mapContainer").offsetWidth < 500 && dropdown.selectedIndex === 0) {
       dropdown.disable();
       dropdown.selectedOption.label = 'Wähle eine Stadt aus der Liste aus.';
       dropdown.selectedIndex = 0;
@@ -1938,8 +1939,8 @@ d3.json(
       dropdown.selectedIndex = 0;
       dropdown.enable();
     }
-    if(window.innerWidth != windowWidth || window.innerHeight != windowHeight){
-      drawMap()  
+    if (window.innerWidth != windowWidth || window.innerHeight != windowHeight) {
+      drawMap()
     }
   }, true);
 
@@ -1965,9 +1966,9 @@ d3.json(
     wohnungenotgebieteToggled(e.target.checked);
   });
   document.getElementById("wohnungenotgebiete").onclick = wohnungenotgebietePressed;
-  document.getElementById("citySelector").addEventListener("change", citySelectorChanged);  
-  
-  function citySelectorChanged (event) {
+  document.getElementById("citySelector").addEventListener("change", citySelectorChanged);
+
+  function citySelectorChanged(event) {
     const selectedCity = event.target.value;
     if (selectedCity === 'reset') {
       reset(true);
@@ -1979,7 +1980,7 @@ d3.json(
     Swal.fire({
       title: 'Örtliche Durchschnittsmiete',
       html: '<p style="color: #545454;">In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.<br>' +
-      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
@@ -1996,7 +1997,7 @@ d3.json(
     Swal.fire({
       title: 'Örtliche Durchschnittsmiete',
       html: '<p style="color: #545454;">In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.<br>' +
-      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
@@ -2013,7 +2014,7 @@ d3.json(
     Swal.fire({
       title: 'Örtliche Durchschnittsmiete',
       html: '<p style="color: #545454;">In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.<br>' +
-      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
@@ -2048,7 +2049,7 @@ d3.json(
     Swal.fire({
       title: 'Angespannter Wohnungsmarkt',
       html: '<p style="color: #545454;">Die Bundesländer können Gebiete, in denen die Mieten besonders stark steigen und es an Wohnungen mangelt, als „angespannte Wohnungsmärkte“ festlegen. Dort gelten verschärfte Regeln für den Mieterschutz wie die Mietpreisbremse oder die abgesenkte Kappungsgrenze.<br>' +
-      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52740" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52740" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
@@ -2065,7 +2066,7 @@ d3.json(
     Swal.fire({
       title: 'Angespannter Wohnungsmarkt',
       html: '<p style="color: #545454;">Die Bundesländer können Gebiete, in denen die Mieten besonders stark steigen und es an Wohnungen mangelt, als „angespannte Wohnungsmärkte“ festlegen. Dort gelten verschärfte Regeln für den Mieterschutz wie die Mietpreisbremse oder die abgesenkte Kappungsgrenze.<br>' +
-      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52740" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52740" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
@@ -2082,7 +2083,7 @@ d3.json(
     Swal.fire({
       title: 'Mietpreisbremse',
       html: '<p style="color: #545454;">Seit dem diesem 2015 beschlossenen Gesetz dürfen Wohnungen nicht teurer als 10 Prozent über der örtlichen Referenzmiete vermietet werden. Ausgenommen sind Neubauten, umfassend modernisierte und Wohnungen, die schon vorher teurer vermietet wurden.<br>' +
-      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52744" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52744" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
@@ -2099,7 +2100,7 @@ d3.json(
     Swal.fire({
       title: 'Wohnungsnotgebiete',
       html: '<p style="color: #545454;">Die Mietendeckel-Studie schlägt vor, Städte und Gemeinden mit einer besonders gefährdeten Wohnungsversorgung als Wohnungsnotgebiete auszurufen. Dort soll ein besonders scharfes Mietrecht gelten, um die weitere Verdrängung von Menschen mit geringen Einkommen zu stoppen.<br>' +
-      'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52749" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52749" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
