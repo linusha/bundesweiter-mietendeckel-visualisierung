@@ -794,15 +794,6 @@ d3.json(
       .style("visibility", clickedData.active ? "hidden" : "visible");
   };
 
-  // TODO: Do we keep this? 
-  function colorCityCircles(d) {
-    // if (wohnungenotgebieteActive && !kappungsgrenzeActive && !mietabsenkungenActive && !mietobergrenzenActive) {
-    //   if (d.marketCategory == 3) return "#ff3300"
-    // }
-    // else if (benefitingFromCurrentSelection().includes(d.name)) return "#ff3300";
-    return "#2b3240"
-  }
-
   function drawMap() {
     width = document.getElementById("mapContainer").offsetWidth;
     height = height = width / 0.625;
@@ -874,7 +865,7 @@ d3.json(
         return projection([d.long, d.lat])[1];
       })
       .attr("r", circleRadius)
-      .attr("fill", colorCityCircles)
+      .attr("fill", "#2b3240")
       .on("mousedown", updateCitySelection)
       .on("mouseover", function (event, d) {
         tooltip.transition().duration(200).style("visibility", "visible");
@@ -1026,9 +1017,6 @@ d3.json(
   function kappungsgrenzeToggled(status) {
     kappungsgrenzeActive = status;
 
-    map.selectAll(".cityCircle")
-      .attr("fill", colorCityCircles)
-
     map
       .selectAll(".increaseRect")
       .transition()
@@ -1057,9 +1045,6 @@ d3.json(
 
   function mietabsenkungenToggled(status) {
     mietabsenkungenActive = status;
-
-    map.selectAll(".cityCircle")
-      .attr("fill", colorCityCircles)
 
     map
       .selectAll(".increaseRect")
@@ -1119,8 +1104,6 @@ d3.json(
   function mietobergrenzenToggled(status) {
     mietobergrenzenActive = status;
 
-    map.selectAll(".cityCircle")
-      .attr("fill", colorCityCircles)
     // adapt rent rects
     map
       .selectAll(".marketRect")
