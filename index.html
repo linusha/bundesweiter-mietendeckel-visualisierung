@@ -58,6 +58,20 @@
         <div class="column">
           <div id="measureControls">
             <div style="display: inline-grid;">
+              <button class="measureSelection" id="sofortprogramm" style="margin-bottom: 5%;">
+              ▸ Temporäres Sofortprogramm
+              </button>
+              <div class="closedItem">
+                <label class="switch">
+                  <input type="checkbox" id="sofortprogrammCheckbox">
+                  <span class="slider round"></span>
+                </label>
+                <p style="float: right;width: 80%;">
+                Bis zu vollständigen Einführung eines bundesweiten Mietendeckels gilt ein Mietenstopp in Gebieten mit <span id="wohnungsnotgebiete" class="infolink"><span>Wohnungsnotlage</span></span> oder <span id="wohnungsnotgebiete" class="infolink"><span>angespanntem Wohnungsmarkt</span></span>. Überall werden Mieterhöhungen auf maximal 2% im Jahr begrenzt.
+                </p>
+              </div>
+            </div>
+            <div style="display: inline-grid;">
               <button class="measureSelection" id="kappungsgrenzen" style="margin-top: 2%; margin-bottom: 5%;">
               ▸ Mieterhöhungen begrenzen
               </button>
@@ -101,21 +115,6 @@
                 <p style="float: right;width: 80%;">
                   Überhöhte Mieten können auf 20 % über der <span class="infolink" id="modal-average-rent-senkung"><span>örtlichen Durchschnittsmiete</span></span> gesenkt werden.
                   Mieter:innen können sich dafür an die örtlichen Behörden wenden.
-                </p>
-              </div>
-            </div>
-            <div style="display: inline-grid;">
-              <button class="measureSelection" id="wohnungenotgebiete" style="margin-bottom: 5%;">
-              ▸ Wohnungsnotgebiete ausweisen
-              </button>
-              <div class="closedItem">
-                <label class="switch">
-                  <input type="checkbox" id="wohnungsnotgebieteCheckbox">
-                  <span class="slider round"></span>
-                </label>
-                <p style="float: right;width: 80%;">
-                In <span id="wohnungsnotgebiete" class="infolink"><span>Wohnungsnotgebieten</span></span> werden die oberen drei Maßnahmen verschärft.
-                <span id="notgebiet-regeln"></span>
                 </p>
               </div>
             </div>

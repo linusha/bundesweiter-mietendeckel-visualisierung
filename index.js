@@ -466,6 +466,7 @@ d3.json(
   let kappungsgrenzeActive = false;
   let mietobergrenzenActive = false;
   let mietabsenkungenActive = false;
+  let sofortProgrammActive = false;
   let wohnungenotgebieteActive = false;
   let barScale = 5;
   let width = document.getElementById("customMietendeckelApplet").offsetWidth;
@@ -497,6 +498,11 @@ d3.json(
   }
 
   function mieterhoehung(city) {
+    if (sofortProgrammActive) {
+      if (city.marketCategory > 1) return (city.bestandsMiete).toFixed(2)
+      return (city.bestandsMiete * 1.02).toFixed(2);
+    }
+
     if (kappungsgrenzeActive) {
       if (wohnungenotgebieteActive) {
         if (mietabsenkungenActive) return Math.min(city.kappungSollNot.toFixed(2), bestandsMiete(city));
@@ -1178,22 +1184,19 @@ d3.json(
     if (citySelected()) updateConsequences(selectedCity());
   }
 
-  function wohnungenotgebietePressed() {
-    let button = document.getElementById("wohnungenotgebiete")
+  function sofortprogrammPressed() {
+    let button = document.getElementById("sofortprogramm")
     if (button.nextElementSibling.className !== "closedItem") {
       button.nextElementSibling.className = "closedItem"
-      button.textContent = "▸ " + 'Wohnungsnotgebiete ausweisen';
+      button.textContent = "▸ " + 'Temporäres Sofortprogramm';
     } else {
-      button.textContent = "▾ " + 'Wohnungsnotgebiete ausweisen';
+      button.textContent = "▾ " + 'Temporäres Sofortprogramm';
       button.nextElementSibling.className = "openItem"
     }
   }
 
-  function wohnungenotgebieteToggled(status) {
-    wohnungenotgebieteActive = status;
-    updateNotGebieteRegel();
-    map.selectAll(".cityCircle")
-      .attr("fill", colorCityCircles)
+  function sofortProgrammToggled(status) {
+    sofortProgrammActive = status;
 
     map
       .selectAll(".increaseRect")
@@ -1203,26 +1206,6 @@ d3.json(
       .attr(
         "y",
         (d) => projection([d.long, d.lat])[1] - mieterhoehung(d) * barScale
-      );
-
-    map
-      .selectAll(".stopRect")
-      .transition()
-      .duration(1000)
-      .attr("height", (d) => bestandsMiete(d) * barScale)
-      .attr(
-        "y",
-        (d) => projection([d.long, d.lat])[1] - bestandsMiete(d) * barScale
-      );
-
-    map
-      .selectAll(".marketRect")
-      .transition()
-      .duration(1000)
-      .attr("height", (d) => wiedervermietungsMiete(d) * barScale)
-      .attr(
-        "y",
-        (d) => projection([d.long, d.lat])[1] - wiedervermietungsMiete(d) * barScale
       );
 
     if (citySelected()) updateConsequences(selectedCity());
@@ -1260,11 +1243,12 @@ d3.json(
   document.getElementById("kappungsgrenzen").onclick = kappungsgrenzePressed;
   document.getElementById("mietobergrenzen").onclick = mietobergrenzenPressed;
   document.getElementById("mietabsenkungen").onclick = mietabsenkungenPressed;
+  document.getElementById("sofortprogramm").onclick = sofortprogrammPressed;
 
   document.getElementById("kappungsgrenzenCheckbox").checked = false;
   document.getElementById("mietobergrenzenCheckbox").checked = false;
   document.getElementById("mietabsenkungenCheckbox").checked = false;
-  document.getElementById("wohnungsnotgebieteCheckbox").checked = false;
+  document.getElementById("sofortprogrammCheckbox").checked = false;
 
   document.getElementById("kappungsgrenzenCheckbox").addEventListener('change', e => {
     kappungsgrenzeToggled(e.target.checked);
@@ -1275,10 +1259,9 @@ d3.json(
   document.getElementById("mietabsenkungenCheckbox").addEventListener('change', e => {
     mietabsenkungenToggled(e.target.checked);
   });
-  document.getElementById("wohnungsnotgebieteCheckbox").addEventListener('change', e => {
-    wohnungenotgebieteToggled(e.target.checked);
+  document.getElementById("sofortprogrammCheckbox").addEventListener('change', e => {
+    sofortProgrammToggled(e.target.checked);
   });
-  document.getElementById("wohnungenotgebiete").onclick = wohnungenotgebietePressed;
   document.getElementById("citySelector").addEventListener("change", citySelectorChanged);
 
   function citySelectorChanged(event) {
