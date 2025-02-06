@@ -123,7 +123,9 @@ svg {
 }
 
 .infolink > span {
-  border-bottom: 2px dashed #FFFFFF;
+  text-decoration-style: dashed;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
 }
 
 .infolink {
