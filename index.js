@@ -16,6 +16,7 @@ let cities = [
     "marktMiete": 12.15,
     "bestandsMiete": 7.99,
     "mietspiegel": 8.55,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Berlin",
@@ -26,6 +27,7 @@ let cities = [
     "marktMiete": 17.38,
     "bestandsMiete": 7.67,
     "mietspiegel": 7.11,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Bielefeld",
@@ -36,6 +38,7 @@ let cities = [
     "marktMiete": 8.78,
     "bestandsMiete": 7.12,
     "mietspiegel": 6.54,
+    "kappungsgrenze": 0.2
   },
   {
     "name": "Bochum",
@@ -46,6 +49,7 @@ let cities = [
     "marktMiete": 8,
     "bestandsMiete": 6.25,
     "mietspiegel": 5.71,
+    "kappungsgrenze": 0.2
   },
   {
     "name": "Bonn",
@@ -56,6 +60,7 @@ let cities = [
     "marktMiete": 12.16,
     "bestandsMiete": 9.09,
     "mietspiegel": 6.83,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Bremen",
@@ -66,6 +71,7 @@ let cities = [
     "marktMiete": 10.04,
     "bestandsMiete": 7.54,
     "mietspiegel": 4.99,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Dortmund",
@@ -76,6 +82,7 @@ let cities = [
     "marktMiete": 8.9,
     "bestandsMiete": 6.45,
     "mietspiegel": 5.79,
+    "kappungsgrenze": 0.2
   },
   {
     "name": "Dresden",
@@ -86,6 +93,7 @@ let cities = [
     "marktMiete": 9.52,
     "bestandsMiete": 6.92,
     "mietspiegel": 6.64,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Duisburg",
@@ -96,6 +104,7 @@ let cities = [
     "marktMiete": 7.27,
     "bestandsMiete": 5.48,
     "mietspiegel": 6.18,
+    "kappungsgrenze": 0.2
   },
   {
     "name": "Düsseldorf",
@@ -106,6 +115,7 @@ let cities = [
     "marktMiete": 13.15,
     "bestandsMiete": 9.24,
     "mietspiegel": 9.28,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Erfurt",
@@ -116,6 +126,7 @@ let cities = [
     "marktMiete": 8.36,
     "bestandsMiete": 6.48,
     "mietspiegel": 6.06,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Essen",
@@ -126,6 +137,7 @@ let cities = [
     "marktMiete": 8.4,
     "bestandsMiete": 6.72,
     "mietspiegel": 6.24,
+    "kappungsgrenze": 0.2
   },
   {
     "name": "Frankfurt am Main",
@@ -136,6 +148,7 @@ let cities = [
     "marktMiete": 17.19,
     "bestandsMiete": 10.58,
     "mietspiegel": 8.3,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Hamburg",
@@ -146,6 +159,7 @@ let cities = [
     "marktMiete": 14.93,
     "bestandsMiete": 9.16,
     "mietspiegel": 9.32,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Hannover",
@@ -156,6 +170,7 @@ let cities = [
     "marktMiete": 10.47,
     "bestandsMiete": 7.61,
     "mietspiegel": 7.8,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Karlsruhe",
@@ -166,6 +181,7 @@ let cities = [
     "marktMiete": 11.98,
     "bestandsMiete": 7.92,
     "mietspiegel": 8.47,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Köln",
@@ -176,6 +192,7 @@ let cities = [
     "marktMiete": 13.95,
     "bestandsMiete": 9.39,
     "mietspiegel": 8.39,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Leipzig",
@@ -186,6 +203,7 @@ let cities = [
     "marktMiete": 8.96,
     "bestandsMiete": 5.93,
     "mietspiegel": 5.83,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Mannheim",
@@ -196,6 +214,7 @@ let cities = [
     "marktMiete": 11.28,
     "bestandsMiete": 8.39,
     "mietspiegel": 7.47,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "München",
@@ -206,6 +225,7 @@ let cities = [
     "marktMiete": 21.23,
     "bestandsMiete": 12.32,
     "mietspiegel": 12.08,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Münster",
@@ -216,6 +236,7 @@ let cities = [
     "marktMiete": 12.3,
     "bestandsMiete": 6.97,
     "mietspiegel": 7.41,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Nürnberg",
@@ -226,6 +247,7 @@ let cities = [
     "marktMiete": 11.59,
     "bestandsMiete": 8.21,
     "mietspiegel": 9.14,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Rostock",
@@ -236,6 +258,7 @@ let cities = [
     "marktMiete": 10.05,
     "bestandsMiete": 6.7,
     "mietspiegel": 6.14,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Stuttgart",
@@ -246,6 +269,7 @@ let cities = [
     "marktMiete": 16.56,
     "bestandsMiete": 10.39,
     "mietspiegel": 10.09,
+    "kappungsgrenze": 0.15
   },
   {
     "name": "Wuppertal",
@@ -256,6 +280,7 @@ let cities = [
     "marktMiete": 7.77,
     "bestandsMiete": 6.1,
     "mietspiegel": 6,
+    "kappungsgrenze": 0.2
   }
 ];
 
