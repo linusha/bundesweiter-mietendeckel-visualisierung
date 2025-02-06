@@ -16,10 +16,20 @@
         Jeder Baustein des Konzepts kann einzeln ein- oder ausgeschaltet werden, um die Effekte auf die Mieten bundesweit
         oder für jede Stadt zu beobachten. Bitte beachte, dass es sich bei allen Mietpreisen um Durchschnittsangaben handelt, die nicht unmittelbar Aussagen über konkrete Mietverhältnisse zulassen!
       </p>
-      <p>
-        <select-pure id="citySelector">
-          <option-pure value="" disabled hidden>Wähle eine Stadt aus der Liste oder klicke sie auf der Karte an.</option-pure>
-          <option-pure value="Augsburg">Augsburg</option-pure>
+    </div>
+    <div id='content'>
+      <div class="row">
+        <div class="column">
+          <div id="mapContainer">
+          </div>
+        </div>
+
+        <div class="column">
+          <div style="padding-bottom: 10px;">
+            <select-pure id="citySelector">
+              <option-pure value="" disabled hidden>Wähle eine Stadt aus der Liste oder klicke sie auf der Karte an.
+              </option-pure>
+              <option-pure value="Augsburg">Augsburg</option-pure>
           <option-pure value="Berlin">Berlin</option-pure>
           <option-pure value="Bielefeld">Bielefeld</option-pure>
           <option-pure value="Bochum">Bochum</option-pure>
@@ -42,16 +52,10 @@
           <option-pure value="Münster">Münster</option-pure>
           <option-pure value="Nürnberg">Nürnberg</option-pure>
           <option-pure value="Rostock">Rostock</option-pure>
-          <option-pure value="Stuttgart">Stuttgart</option-pure>
-          <option-pure value="Wuppertal">Wuppertal</option-pure>
-          <option-pure value="reset">Karte zurücksetzen</option-pure>
-        </select-pure>
-      </p>
-    </div>
-    <div id='content'>
-      <div class="row">
-        <div class="column">
-          <div id="mapContainer">
+              <option-pure value="Stuttgart">Stuttgart</option-pure>
+              <option-pure value="Wuppertal">Wuppertal</option-pure>
+              <option-pure value="reset">Karte zurücksetzen</option-pure>
+            </select-pure>
           </div>
           <div id="consequences">
             <p id="tutorial" class="callout">Wähle eine Stadt aus, um zu sehen wie sich die Maßnahmen auf die Mieten dort auswirken.</p>
