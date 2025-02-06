@@ -310,30 +310,25 @@ d3.json(
 
   function wiedervermietungsMiete(city) {
     if (mietobergrenzenActive) {
-      if (wohnungenotgebieteActive) {
-        if (mietabsenkungenActive) city.wiedervermietungSollNot.toFixed(2);
-        return city.wiedervermietungSollNot.toFixed(2);
-      }
-      if (mietabsenkungenActive) return city.wiedervermietungSoll.toFixed(2);
-      return city.wiedervermietungSoll.toFixed(2);
+      if (city.marketCategory == 1) return (city.bestandsMiete * 1.1).toFixed(2)
+      if (city.marketCategory == 2) return (city.bestandsMiete * 1.06).toFixed(2)
+      if (city.marketCategory == 3) return (city.bestandsMiete).toFixed(2)
     }
-    if (mietabsenkungenActive) return city.marktMiete.toFixed(2);
     return city.marktMiete.toFixed(2);
   }
 
-  function mieterhoehung(city) {
-    if (sofortProgrammActive) {
+  function mieterhoehung(city, forceCurrentLegalSituation = false) {
+    if (!forceCurrentLegalSituation && sofortProgrammActive) {
       if (city.marketCategory > 1) return (city.bestandsMiete).toFixed(2)
       return (city.bestandsMiete * 1.02).toFixed(2);
     }
 
-    if (kappungsgrenzeActive) {
-      if (mietabsenkungenActive) city.kappungSoll.toFixed(2);
-      return city.kappungSoll.toFixed(2);
+    if (!forceCurrentLegalSituation && kappungsgrenzeActive) {
+      return city.bestandsMiete.toFixed(2)
     }
 
-    if (mietabsenkungenActive) city.kappungIst.toFixed(2);
-    return city.kappungIst.toFixed(2);
+    const erhoehung = (city.bestandsMiete * (1 + city.kappungsgrenze))
+    return Math.min(erhoehung, city.mietspiegel).toFixed(2);
   }
 
   //////
