@@ -908,7 +908,12 @@ d3.json(
     }
     updateCitySelection(null, cities.find(city => city.name === selectedCity));
   };
-  document.getElementById('modal-average-rent').onclick = () => {
+
+  //////
+  // Modals
+  //////
+
+  Array.from(document.getElementsByClassName('referenzmiete')).forEach((e) => e.onclick = () => {
     Swal.fire({
       title: 'Örtliche Durchschnittsmiete',
       html: '<p style="color: #545454;">In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.<br>' +
@@ -924,42 +929,9 @@ d3.json(
         popup: '',                     // disable popup fade-out animation
       },
     })
-  };
-  document.getElementById('modal-average-rent-top').onclick = () => {
-    Swal.fire({
-      title: 'Örtliche Durchschnittsmiete',
-      html: '<p style="color: #545454;">In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.<br>' +
-        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
-      confirmButtonText: 'OK',
-      confirmButtonColor: "#FF3300",
-      showClass: {
-        backdrop: 'swal2-noanimation', // disable backdrop animation
-        popup: '',                     // disable popup animation
-        icon: ''                       // disable icon animation
-      },
-      hideClass: {
-        popup: '',                     // disable popup fade-out animation
-      },
-    })
-  };
-  document.getElementById('modal-average-rent-senkung').onclick = () => {
-    Swal.fire({
-      title: 'Örtliche Durchschnittsmiete',
-      html: '<p style="color: #545454;">In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.<br>' +
-        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52741" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
-      confirmButtonText: 'OK',
-      confirmButtonColor: "#FF3300",
-      showClass: {
-        backdrop: 'swal2-noanimation', // disable backdrop animation
-        popup: '',                     // disable popup animation
-        icon: ''                       // disable icon animation
-      },
-      hideClass: {
-        popup: '',                     // disable popup fade-out animation
-      },
-    })
-  };
-  document.getElementById('modal-paper').onclick = () => {
+  });
+
+  Array.from(document.getElementsByClassName('concept')).forEach((e) => e.onclick = () => {
     Swal.fire({
       title: 'Konzept für einen bundesweiten Mietendeckel',
       html: '<p style="color: #545454;">Diese Darstellung basiert auf einem Konzept das von Andrej Holm und Benjamin Raabe in ihrer Studie <a href="https://www.rosalux.de/publikation/id/44898/bundesweiter-mietendeckel-noetig-und-moeglich" target="_blank" rel="noopener noreferrer">' +
@@ -976,8 +948,9 @@ d3.json(
         popup: '',                     // disable popup fade-out animation
       },
     })
-  };
-  document.getElementById('first-angespannt').onclick = () => {
+  });
+
+  Array.from(document.getElementsByClassName('angespannt')).forEach((e) => e.onclick = () => {
     Swal.fire({
       title: 'Angespannter Wohnungsmarkt',
       html: '<p style="color: #545454;">Die Bundesländer können Gebiete, in denen die Mieten besonders stark steigen und es an Wohnungen mangelt, als „angespannte Wohnungsmärkte“ festlegen. Dort gelten verschärfte Regeln für den Mieterschutz wie die Mietpreisbremse oder die abgesenkte Kappungsgrenze.<br>' +
@@ -993,42 +966,10 @@ d3.json(
         popup: '',                     // disable popup fade-out animation
       },
     })
-  };
-  document.getElementById('second-angespannt').onclick = () => {
-    Swal.fire({
-      title: 'Angespannter Wohnungsmarkt',
-      html: '<p style="color: #545454;">Die Bundesländer können Gebiete, in denen die Mieten besonders stark steigen und es an Wohnungen mangelt, als „angespannte Wohnungsmärkte“ festlegen. Dort gelten verschärfte Regeln für den Mieterschutz wie die Mietpreisbremse oder die abgesenkte Kappungsgrenze.<br>' +
-        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52740" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
-      confirmButtonText: 'OK',
-      confirmButtonColor: "#FF3300",
-      showClass: {
-        backdrop: 'swal2-noanimation', // disable backdrop animation
-        popup: '',                     // disable popup animation
-        icon: ''                       // disable icon animation
-      },
-      hideClass: {
-        popup: '',                     // disable popup fade-out animation
-      },
-    })
-  };
-  document.getElementById('mietpreisbremse').onclick = () => {
-    Swal.fire({
-      title: 'Mietpreisbremse',
-      html: '<p style="color: #545454;">Seit dem diesem 2015 beschlossenen Gesetz dürfen Wohnungen nicht teurer als 10 Prozent über der örtlichen Referenzmiete vermietet werden. Ausgenommen sind Neubauten, umfassend modernisierte und Wohnungen, die schon vorher teurer vermietet wurden.<br>' +
-        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52744" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
-      confirmButtonText: 'OK',
-      confirmButtonColor: "#FF3300",
-      showClass: {
-        backdrop: 'swal2-noanimation', // disable backdrop animation
-        popup: '',                     // disable popup animation
-        icon: ''                       // disable icon animation
-      },
-      hideClass: {
-        popup: '',                     // disable popup fade-out animation
-      },
-    })
-  };
-  document.getElementById('wohnungsnotgebiete').onclick = () => {
+  });
+
+  // TODO: adapt text
+  Array.from(document.getElementsByClassName('nichtangespannt')).forEach((e) => e.onclick = () => {
     Swal.fire({
       title: 'Wohnungsnotgebiete',
       html: '<p style="color: #545454;">Die Mietendeckel-Studie schlägt vor, Städte und Gemeinden mit einer besonders gefährdeten Wohnungsversorgung als Wohnungsnotgebiete auszurufen. Dort soll ein besonders scharfes Mietrecht gelten, um die weitere Verdrängung von Menschen mit geringen Einkommen zu stoppen.<br>' +
@@ -1044,5 +985,24 @@ d3.json(
         popup: '',                     // disable popup fade-out animation
       },
     })
-  };
+  });
+
+  // TODO: adapt text
+  Array.from(document.getElementsByClassName('wohnungsnotlage')).forEach((e) => e.onclick = () => {
+    Swal.fire({
+      title: 'Wohnungsnotgebiete',
+      html: '<p style="color: #545454;">Die Mietendeckel-Studie schlägt vor, Städte und Gemeinden mit einer besonders gefährdeten Wohnungsversorgung als Wohnungsnotgebiete auszurufen. Dort soll ein besonders scharfes Mietrecht gelten, um die weitere Verdrängung von Menschen mit geringen Einkommen zu stoppen.<br>' +
+        'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52749" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
+      confirmButtonText: 'OK',
+      confirmButtonColor: "#FF3300",
+      showClass: {
+        backdrop: 'swal2-noanimation', // disable backdrop animation
+        popup: '',                     // disable popup animation
+        icon: ''                       // disable icon animation
+      },
+      hideClass: {
+        popup: '',                     // disable popup fade-out animation
+      },
+    })
+  });
 });
