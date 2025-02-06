@@ -2,10 +2,6 @@ import * as d3 from "d3";
 import Swal from 'sweetalert2';
 import 'select-pure/dist/index.js';
 
-function arraySum(array) {
-  return array.reduce((accumVariable, curValue) => accumVariable + curValue, 0);
-}
-
 // marketCategory:
 // 1 - balanced market
 // 2 - strained market
@@ -27,16 +23,6 @@ let cities = [
     "wiedervermietungSollNot": 6.68,
     "mietsenkungSoll": 8.02,
     "mietsenkungSollNot": 7.24,
-    "geschütztKappung": 94790,
-    "geschütztKappungNot": 227106,
-    "leistbarkeitsdifferenzKappung": 225,
-    "geschütztMietsenkung": 52467,
-    "geschütztMietsenkungNot": 123810,
-    "leistbarkeitsdifferenzMietsenkung": 164,
-    "geschütztWiedervermietung": 186773,
-    "geschütztWiedervermietungNot": 227106,
-    "leistbarkeitsDifferenzWiedervermietung": 246,
-    "haushalte": 1374537
   },
   {
     "name": "Berlin",
@@ -54,16 +40,6 @@ let cities = [
     "wiedervermietungSollNot": 6.68,
     "mietsenkungSoll": 8.02,
     "mietsenkungSollNot": 7.24,
-    "geschütztKappung": 94790,
-    "geschütztKappungNot": 227106,
-    "leistbarkeitsdifferenzKappung": 225,
-    "geschütztMietsenkung": 52467,
-    "geschütztMietsenkungNot": 123810,
-    "leistbarkeitsdifferenzMietsenkung": 164,
-    "geschütztWiedervermietung": 186773,
-    "geschütztWiedervermietungNot": 227106,
-    "leistbarkeitsDifferenzWiedervermietung": 246,
-    "haushalte": 1374537
   },
   {
     "name": "Bielefeld",
@@ -81,16 +57,6 @@ let cities = [
     "wiedervermietungSollNot": 6.19,
     "mietsenkungSoll": 7.43,
     "mietsenkungSollNot": 5.56,
-    "geschütztKappung": 6004,
-    "geschütztKappungNot": 12364,
-    "leistbarkeitsdifferenzKappung": 244,
-    "geschütztMietsenkung": 3512,
-    "geschütztMietsenkungNot": 9161,
-    "leistbarkeitsdifferenzMietsenkung": 165,
-    "geschütztWiedervermietung": 11033,
-    "geschütztWiedervermietungNot": 12364,
-    "leistbarkeitsDifferenzWiedervermietung": 237,
-    "haushalte": 87434
   },
   {
     "name": "Bochum",
@@ -108,16 +74,6 @@ let cities = [
     "wiedervermietungSollNot": 6.66,
     "mietsenkungSoll": 6.89,
     "mietsenkungSollNot": 6.89,
-    "geschütztKappung": 2182,
-    "geschütztKappungNot": 2182,
-    "leistbarkeitsdifferenzKappung": 233,
-    "geschütztMietsenkung": 2281,
-    "geschütztMietsenkungNot": 2281,
-    "leistbarkeitsdifferenzMietsenkung": 152,
-    "geschütztWiedervermietung": 0,
-    "geschütztWiedervermietungNot": 0,
-    "leistbarkeitsDifferenzWiedervermietung": 0,
-    "haushalte": 112132
   },
   {
     "name": "Bonn",
@@ -135,16 +91,6 @@ let cities = [
     "wiedervermietungSollNot": 8.72,
     "mietsenkungSoll": 9.52,
     "mietsenkungSollNot": 9.52,
-    "geschütztKappung": 5928,
-    "geschütztKappungNot": 5928,
-    "leistbarkeitsdifferenzKappung": 287,
-    "geschütztMietsenkung": 2031,
-    "geschütztMietsenkungNot": 2031,
-    "leistbarkeitsdifferenzMietsenkung": 207,
-    "geschütztWiedervermietung": 4833,
-    "geschütztWiedervermietungNot": 4833,
-    "leistbarkeitsDifferenzWiedervermietung": 278,
-    "haushalte": 90619
   },
   {
     "name": "Bremen",
@@ -162,16 +108,6 @@ let cities = [
     "wiedervermietungSollNot": 6.88,
     "mietsenkungSoll": 6.86,
     "mietsenkungSollNot": 6.86,
-    "geschütztKappung": 2372,
-    "geschütztKappungNot": 2372,
-    "leistbarkeitsdifferenzKappung": 209,
-    "geschütztMietsenkung": 4593,
-    "geschütztMietsenkungNot": 4593,
-    "leistbarkeitsdifferenzMietsenkung": 154,
-    "geschütztWiedervermietung": 0,
-    "geschütztWiedervermietungNot": 0,
-    "leistbarkeitsDifferenzWiedervermietung": 0,
-    "haushalte": 192054
   },
   {
     "name": "Dortmund",
@@ -189,16 +125,6 @@ let cities = [
     "wiedervermietungSollNot": 6.88,
     "mietsenkungSoll": 6.86,
     "mietsenkungSollNot": 6.86,
-    "geschütztKappung": 2372,
-    "geschütztKappungNot": 2372,
-    "leistbarkeitsdifferenzKappung": 209,
-    "geschütztMietsenkung": 4593,
-    "geschütztMietsenkungNot": 4593,
-    "leistbarkeitsdifferenzMietsenkung": 154,
-    "geschütztWiedervermietung": 0,
-    "geschütztWiedervermietungNot": 0,
-    "leistbarkeitsDifferenzWiedervermietung": 0,
-    "haushalte": 192054
   },
   {
     "name": "Dresden",
@@ -216,16 +142,6 @@ let cities = [
     "wiedervermietungSollNot": 6.73,
     "mietsenkungSoll": 7.34,
     "mietsenkungSollNot": 7.34,
-    "geschütztKappung": 15931,
-    "geschütztKappungNot": 15931,
-    "leistbarkeitsdifferenzKappung": 176,
-    "geschütztMietsenkung": 4198,
-    "geschütztMietsenkungNot": 4198,
-    "leistbarkeitsdifferenzMietsenkung": 130,
-    "geschütztWiedervermietung": 17597,
-    "geschütztWiedervermietungNot": 17597,
-    "leistbarkeitsDifferenzWiedervermietung": 164,
-    "haushalte": 216632
   },
   {
     "name": "Duisburg",
@@ -243,16 +159,6 @@ let cities = [
     "wiedervermietungSollNot": 5.9,
     "mietsenkungSoll": 6.64,
     "mietsenkungSollNot": 6.64,
-    "geschütztKappung": 2386,
-    "geschütztKappungNot": 2386,
-    "leistbarkeitsdifferenzKappung": 214,
-    "geschütztMietsenkung": 2643,
-    "geschütztMietsenkungNot": 2643,
-    "leistbarkeitsdifferenzMietsenkung": 145,
-    "geschütztWiedervermietung": 0,
-    "geschütztWiedervermietungNot": 0,
-    "leistbarkeitsDifferenzWiedervermietung": 0,
-    "haushalte": 162263
   },
   {
     "name": "Düsseldorf",
@@ -270,16 +176,6 @@ let cities = [
     "wiedervermietungSollNot": 8.73,
     "mietsenkungSoll": 9.53,
     "mietsenkungSollNot": 9.53,
-    "geschütztKappung": 10829,
-    "geschütztKappungNot": 10829,
-    "leistbarkeitsdifferenzKappung": 314,
-    "geschütztMietsenkung": 10402,
-    "geschütztMietsenkungNot": 10402,
-    "leistbarkeitsdifferenzMietsenkung": 203,
-    "geschütztWiedervermietung": 21804,
-    "geschütztWiedervermietungNot": 21804,
-    "leistbarkeitsDifferenzWiedervermietung": 314,
-    "haushalte": 219382
   },
   {
     "name": "Erfurt",
@@ -297,16 +193,6 @@ let cities = [
     "wiedervermietungSollNot": 7.13,
     "mietsenkungSoll": 7,
     "mietsenkungSollNot": 7,
-    "geschütztKappung": 7397,
-    "geschütztKappungNot": 7397,
-    "leistbarkeitsdifferenzKappung": 201,
-    "geschütztMietsenkung": 2044,
-    "geschütztMietsenkungNot": 2044,
-    "leistbarkeitsdifferenzMietsenkung": 118,
-    "geschütztWiedervermietung": 0,
-    "geschütztWiedervermietungNot": 0,
-    "leistbarkeitsDifferenzWiedervermietung": 0,
-    "haushalte": 74062
   },
   {
     "name": "Essen",
@@ -324,16 +210,6 @@ let cities = [
     "wiedervermietungSollNot": 6.85,
     "mietsenkungSoll": 7.3,
     "mietsenkungSollNot": 7.3,
-    "geschütztKappung": 16674,
-    "geschütztKappungNot": 16674,
-    "leistbarkeitsdifferenzKappung": 267,
-    "geschütztMietsenkung": 4371,
-    "geschütztMietsenkungNot": 4371,
-    "leistbarkeitsdifferenzMietsenkung": 161,
-    "geschütztWiedervermietung": 0,
-    "geschütztWiedervermietungNot": 0,
-    "leistbarkeitsDifferenzWiedervermietung": 0,
-    "haushalte": 198670
   },
   {
     "name": "Frankfurt am Main",
@@ -351,16 +227,6 @@ let cities = [
     "wiedervermietungSollNot": 8.82,
     "mietsenkungSoll": 10.58,
     "mietsenkungSollNot": 8.57,
-    "geschütztKappung": 12990,
-    "geschütztKappungNot": 28267,
-    "leistbarkeitsdifferenzKappung": 317,
-    "geschütztMietsenkung": 11381,
-    "geschütztMietsenkungNot": 27437,
-    "leistbarkeitsdifferenzMietsenkung": 226,
-    "geschütztWiedervermietung": 16129,
-    "geschütztWiedervermietungNot": 28267,
-    "leistbarkeitsDifferenzWiedervermietung": 323,
-    "haushalte": 258693
   },
   {
     "name": "Hamburg",
@@ -378,16 +244,6 @@ let cities = [
     "wiedervermietungSollNot": 8.26,
     "mietsenkungSoll": 9.91,
     "mietsenkungSollNot": 8.25,
-    "geschütztKappung": 34534,
-    "geschütztKappungNot": 67582,
-    "leistbarkeitsdifferenzKappung": 299,
-    "geschütztMietsenkung": 27540,
-    "geschütztMietsenkungNot": 72134,
-    "leistbarkeitsdifferenzMietsenkung": 206,
-    "geschütztWiedervermietung": 55138,
-    "geschütztWiedervermietungNot": 67582,
-    "leistbarkeitsDifferenzWiedervermietung": 308,
-    "haushalte": 634664
   },
   {
     "name": "Hannover",
@@ -405,16 +261,6 @@ let cities = [
     "wiedervermietungSollNot": 7.26,
     "mietsenkungSoll": 7.92,
     "mietsenkungSollNot": 7.92,
-    "geschütztKappung": 9501,
-    "geschütztKappungNot": 9501,
-    "leistbarkeitsdifferenzKappung": 230,
-    "geschütztMietsenkung": 4579,
-    "geschütztMietsenkungNot": 4579,
-    "leistbarkeitsdifferenzMietsenkung": 171,
-    "geschütztWiedervermietung": 214,
-    "geschütztWiedervermietungNot": 214,
-    "leistbarkeitsDifferenzWiedervermietung": 208,
-    "haushalte": 185086
   },
   {
     "name": "Karlsruhe",
@@ -432,16 +278,6 @@ let cities = [
     "wiedervermietungSollNot": 7.4,
     "mietsenkungSoll": 8.08,
     "mietsenkungSollNot": 8.08,
-    "geschütztKappung": 8163,
-    "geschütztKappungNot": 8163,
-    "leistbarkeitsdifferenzKappung": 292,
-    "geschütztMietsenkung": 3918,
-    "geschütztMietsenkungNot": 3918,
-    "leistbarkeitsdifferenzMietsenkung": 186,
-    "geschütztWiedervermietung": 12378,
-    "geschütztWiedervermietungNot": 12378,
-    "leistbarkeitsDifferenzWiedervermietung": 274,
-    "haushalte": 87423
   },
   {
     "name": "Köln",
@@ -459,16 +295,6 @@ let cities = [
     "wiedervermietungSollNot": 8.21,
     "mietsenkungSoll": 9.85,
     "mietsenkungSollNot": 7.15,
-    "geschütztKappung": 17268,
-    "geschütztKappungNot": 36403,
-    "leistbarkeitsdifferenzKappung": 320,
-    "geschütztMietsenkung": 14408,
-    "geschütztMietsenkungNot": 43196,
-    "leistbarkeitsdifferenzMietsenkung": 206,
-    "geschütztWiedervermietung": 26311,
-    "geschütztWiedervermietungNot": 36403,
-    "leistbarkeitsDifferenzWiedervermietung": 320,
-    "haushalte": 335035
   },
   {
     "name": "Leipzig",
@@ -486,16 +312,6 @@ let cities = [
     "wiedervermietungSollNot": 5.98,
     "mietsenkungSoll": 6.53,
     "mietsenkungSollNot": 6.53,
-    "geschütztKappung": 12997,
-    "geschütztKappungNot": 12997,
-    "leistbarkeitsdifferenzKappung": 131,
-    "geschütztMietsenkung": 8516,
-    "geschütztMietsenkungNot": 8516,
-    "leistbarkeitsdifferenzMietsenkung": 105,
-    "geschütztWiedervermietung": 10473,
-    "geschütztWiedervermietungNot": 10473,
-    "leistbarkeitsDifferenzWiedervermietung": 128,
-    "haushalte": 231582
   },
   {
     "name": "Mannheim",
@@ -513,16 +329,6 @@ let cities = [
     "wiedervermietungSollNot": 7.69,
     "mietsenkungSoll": 8.39,
     "mietsenkungSollNot": 8.39,
-    "geschütztKappung": 5996,
-    "geschütztKappungNot": 5996,
-    "leistbarkeitsdifferenzKappung": 262,
-    "geschütztMietsenkung": 2076,
-    "geschütztMietsenkungNot": 2076,
-    "leistbarkeitsdifferenzMietsenkung": 183,
-    "geschütztWiedervermietung": 7234,
-    "geschütztWiedervermietungNot": 7234,
-    "leistbarkeitsDifferenzWiedervermietung": 263,
-    "haushalte": 93868
   },
   {
     "name": "München",
@@ -540,16 +346,6 @@ let cities = [
     "wiedervermietungSollNot": 11.11,
     "mietsenkungSoll": 13.33,
     "mietsenkungSollNot": 9.87,
-    "geschütztKappung": 25389,
-    "geschütztKappungNot": 41190,
-    "leistbarkeitsdifferenzKappung": 377,
-    "geschütztMietsenkung": 30098,
-    "geschütztMietsenkungNot": 61219,
-    "leistbarkeitsdifferenzMietsenkung": 269,
-    "geschütztWiedervermietung": 30855,
-    "geschütztWiedervermietungNot": 41190,
-    "leistbarkeitsDifferenzWiedervermietung": 375,
-    "haushalte": 496879
   },
   {
     "name": "Münster",
@@ -567,16 +363,6 @@ let cities = [
     "wiedervermietungSollNot": 8.68,
     "mietsenkungSoll": 9.47,
     "mietsenkungSollNot": 9.47,
-    "geschütztKappung": 3781,
-    "geschütztKappungNot": 3781,
-    "leistbarkeitsdifferenzKappung": 259,
-    "geschütztMietsenkung": 3484,
-    "geschütztMietsenkungNot": 3484,
-    "leistbarkeitsdifferenzMietsenkung": 196,
-    "geschütztWiedervermietung": 2637,
-    "geschütztWiedervermietungNot": 2637,
-    "leistbarkeitsDifferenzWiedervermietung": 265,
-    "haushalte": 86397
   },
   {
     "name": "Nürnberg",
@@ -594,16 +380,6 @@ let cities = [
     "wiedervermietungSollNot": 7.74,
     "mietsenkungSoll": 8.45,
     "mietsenkungSollNot": 8.45,
-    "geschütztKappung": 11369,
-    "geschütztKappungNot": 11369,
-    "leistbarkeitsdifferenzKappung": 284,
-    "geschütztMietsenkung": 5112,
-    "geschütztMietsenkungNot": 5112,
-    "leistbarkeitsdifferenzMietsenkung": 168,
-    "geschütztWiedervermietung": 22219,
-    "geschütztWiedervermietungNot": 22219,
-    "leistbarkeitsDifferenzWiedervermietung": 286,
-    "haushalte": 146766
   },
   {
     "name": "Rostock",
@@ -621,16 +397,6 @@ let cities = [
     "wiedervermietungSollNot": 6.71,
     "mietsenkungSoll": 7.32,
     "mietsenkungSollNot": 7.32,
-    "geschütztKappung": 23549,
-    "geschütztKappungNot": 23549,
-    "leistbarkeitsdifferenzKappung": 293,
-    "geschütztMietsenkung": 1903,
-    "geschütztMietsenkungNot": 1903,
-    "leistbarkeitsdifferenzMietsenkung": 135,
-    "geschütztWiedervermietung": 0,
-    "geschütztWiedervermietungNot": 0,
-    "leistbarkeitsDifferenzWiedervermietung": 0,
-    "haushalte": 95719
   },
   {
     "name": "Stuttgart",
@@ -648,16 +414,6 @@ let cities = [
     "wiedervermietungSollNot": 8.53,
     "mietsenkungSoll": 10.24,
     "mietsenkungSollNot": 8.42,
-    "geschütztKappung": 14415,
-    "geschütztKappungNot": 31262,
-    "leistbarkeitsdifferenzKappung": 362,
-    "geschütztMietsenkung": 8642,
-    "geschütztMietsenkungNot": 13790,
-    "leistbarkeitsdifferenzMietsenkung": 222,
-    "geschütztWiedervermietung": 29268,
-    "geschütztWiedervermietungNot": 31262,
-    "leistbarkeitsDifferenzWiedervermietung": 364,
-    "haushalte": 169403
   },
   {
     "name": "Wuppertal",
@@ -675,16 +431,6 @@ let cities = [
     "wiedervermietungSollNot": 6.18,
     "mietsenkungSoll": 6.89,
     "mietsenkungSollNot": 6.89,
-    "geschütztKappung": 3987,
-    "geschütztKappungNot": 3987,
-    "leistbarkeitsdifferenzKappung": 214,
-    "geschütztMietsenkung": 2130,
-    "geschütztMietsenkungNot": 2130,
-    "leistbarkeitsdifferenzMietsenkung": 154,
-    "geschütztWiedervermietung": 0,
-    "geschütztWiedervermietungNot": 0,
-    "leistbarkeitsDifferenzWiedervermietung": 0,
-    "haushalte": 101941
   }
 ];
 
@@ -704,416 +450,6 @@ d3.json(
   //////
   // Methods related to calculations and data
   //////
-
-  function calculateNewLeistbareWohnverhaeltnisse(cityData) {
-    if (
-      !kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      !mietabsenkungenActive
-    )
-      return 0;
-    if (
-      !kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    )
-      return cityData.geschütztMietsenkung;
-    if (
-      !kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    )
-      return cityData.geschütztMietsenkungNot;
-    if (
-      !kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      !mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    )
-      return cityData.geschütztWiedervermietung;
-    if (
-      !kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      !mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    )
-      return cityData.geschütztWiedervermietungNot;
-    if (
-      !kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    )
-      return cityData.geschütztMietsenkung + cityData.geschütztWiedervermietung;
-    if (
-      !kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    )
-      return (
-        cityData.geschütztMietsenkungNot + cityData.geschütztWiedervermietungNot
-      );
-    if (
-      kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      !mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    )
-      return cityData.geschütztKappung;
-    if (
-      kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      !mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    )
-      return cityData.geschütztKappungNot;
-    if (
-      kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    )
-      return cityData.geschütztKappung + cityData.geschütztMietsenkung;
-    if (
-      kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    )
-      return cityData.geschütztKappungNot + cityData.geschütztMietsenkungNot;
-    if (
-      kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      !mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    )
-      return cityData.geschütztWiedervermietung + cityData.geschütztKappung;
-    if (
-      kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      !mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    )
-      return (
-        cityData.geschütztKappungNot + cityData.geschütztWiedervermietungNot
-      );
-    if (
-      kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    )
-      return (
-        cityData.geschütztKappung +
-        cityData.geschütztMietsenkung +
-        cityData.geschütztWiedervermietung
-      );
-    if (
-      kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    )
-      return (
-        cityData.geschütztKappungNot +
-        cityData.geschütztMietsenkungNot +
-        cityData.geschütztWiedervermietungNot
-      );
-  }
-
-  function calculateEquivalentSubjektfoerderung() {
-    if (
-      !kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      !mietabsenkungenActive
-    )
-      return 0;
-    if (
-      !kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    ) {
-      return arraySum(
-        cities.map(
-          (city) =>
-            city.geschütztMietsenkung * city.leistbarkeitsdifferenzMietsenkung
-        )
-      );
-    }
-    if (
-      !kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    ) {
-      return (
-        12 *
-        arraySum(
-          cities.map(
-            (city) =>
-              city.geschütztMietsenkungNot *
-              city.leistbarkeitsdifferenzMietsenkung
-          )
-        )
-      );
-    }
-    if (
-      !kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      !mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    ) {
-      return (
-        12 *
-        arraySum(
-          cities.map(
-            (city) =>
-              city.geschütztWiedervermietung *
-              city.leistbarkeitsDifferenzWiedervermietung
-          )
-        )
-      );
-    }
-    if (
-      !kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      !mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    ) {
-      return (
-        12 *
-        arraySum(
-          cities.map(
-            (city) =>
-              city.geschütztWiedervermietungNot *
-              city.leistbarkeitsDifferenzWiedervermietung
-          )
-        )
-      );
-    }
-    if (
-      !kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    ) {
-      return (
-        12 *
-        arraySum(
-          cities.map(
-            (city) =>
-              city.geschütztMietsenkung *
-              city.leistbarkeitsdifferenzMietsenkung +
-              city.geschütztWiedervermietung *
-              city.leistbarkeitsDifferenzWiedervermietung
-          )
-        )
-      );
-    }
-    if (
-      !kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    ) {
-      return (
-        12 *
-        arraySum(
-          cities.map(
-            (city) =>
-              city.geschütztMietsenkungNot *
-              city.leistbarkeitsdifferenzMietsenkung +
-              city.geschütztWiedervermietungNot *
-              city.leistbarkeitsDifferenzWiedervermietung
-          )
-        )
-      );
-    }
-    if (
-      kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      !mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    ) {
-      return (
-        12 *
-        arraySum(
-          cities.map(
-            (city) => city.geschütztKappung * city.leistbarkeitsdifferenzKappung
-          )
-        )
-      );
-    }
-    if (
-      kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      !mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    ) {
-      return (
-        12 *
-        arraySum(
-          cities.map(
-            (city) =>
-              city.geschütztKappungNot * city.leistbarkeitsdifferenzKappung
-          )
-        )
-      );
-    }
-    if (
-      kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    ) {
-      return (
-        12 *
-        arraySum(
-          cities.map(
-            (city) =>
-              city.geschütztKappung * city.leistbarkeitsdifferenzKappung +
-              city.geschütztMietsenkung * city.leistbarkeitsdifferenzMietsenkung
-          )
-        )
-      );
-    }
-    if (
-      kappungsgrenzeActive &&
-      !mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    ) {
-      return (
-        12 *
-        arraySum(
-          cities.map(
-            (city) =>
-              city.geschütztKappungNot * city.leistbarkeitsdifferenzKappung +
-              city.geschütztMietsenkungNot *
-              city.leistbarkeitsdifferenzMietsenkung
-          )
-        )
-      );
-    }
-    if (
-      kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      !mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    ) {
-      return (
-        12 *
-        arraySum(
-          cities.map(
-            (city) =>
-              city.geschütztWiedervermietung *
-              city.leistbarkeitsDifferenzWiedervermietung +
-              city.geschütztKappung * city.leistbarkeitsdifferenzKappung
-          )
-        )
-      );
-    }
-    if (
-      kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      !mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    ) {
-      return (
-        12 *
-        arraySum(
-          cities.map(
-            (city) =>
-              city.geschütztKappungNot * city.leistbarkeitsdifferenzKappung +
-              city.geschütztWiedervermietungNot *
-              city.leistbarkeitsDifferenzWiedervermietung
-          )
-        )
-      );
-    }
-    if (
-      kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      !wohnungenotgebieteActive
-    ) {
-      return (
-        12 *
-        arraySum(
-          cities.map(
-            (city) =>
-              city.geschütztKappung * city.leistbarkeitsdifferenzKappung +
-              city.geschütztMietsenkung *
-              city.leistbarkeitsdifferenzMietsenkung +
-              city.geschütztWiedervermietung *
-              city.leistbarkeitsDifferenzWiedervermietung
-          )
-        )
-      );
-    }
-    if (
-      kappungsgrenzeActive &&
-      mietobergrenzenActive &&
-      mietabsenkungenActive &&
-      wohnungenotgebieteActive
-    ) {
-      return (
-        12 *
-        arraySum(
-          cities.map(
-            (city) =>
-              city.geschütztKappungNot * city.leistbarkeitsdifferenzKappung +
-              city.geschütztMietsenkungNot *
-              city.leistbarkeitsdifferenzMietsenkung +
-              city.geschütztWiedervermietungNot *
-              city.leistbarkeitsDifferenzWiedervermietung
-          )
-        )
-      );
-    }
-  }
-
-  function getEquivalentSubjektfoerderungString() {
-    const sum = calculateEquivalentSubjektfoerderung();
-    if (sum > 1_000_000_000) { // more than one billion
-      return (sum / 1_000_000_000).toFixed(1).toString().replace('.', ',') + ' Milliarden €'
-    }
-    return (sum / 1_000_000).toFixed(1).toString().replace('.', ',') + ' Millionen €'
-  }
-
-  function benefitsFromKappungsgrenze(city) {
-    return city.geschütztKappung > 0;
-  }
-
-  function benefitsFromMietobergrenzen(city) {
-    return city.geschütztWiedervermietung > 0;
-  }
-
-  function benefitsFromMietabsenkungen(city) {
-    return city.geschütztMietsenkung > 0;
-  }
-
-  function benefitsFromNotgebiete(city) {
-    return city.geschütztKappungNot > 0 || city.geschütztMietsenkungNot > 0 || city.geschütztWiedervermietungNot > 0;
-  }
-
-  function benefitingFromCurrentSelection() {
-    let benefitingKappung = [];
-    let benefitingWiedervermietung = [];
-    let benefitingAbsenkung = [];
-    let benefitingNot = [];
-    if (kappungsgrenzeActive) benefitingKappung = cities.filter(city => benefitsFromKappungsgrenze(city));
-    if (mietobergrenzenActive) benefitingWiedervermietung = cities.filter(city => benefitsFromMietobergrenzen(city));
-    if (mietabsenkungenActive) benefitingAbsenkung = cities.filter(city => benefitsFromMietabsenkungen(city));
-    if (wohnungenotgebieteActive) benefitingNot = cities.filter(city => benefitsFromNotgebiete(city));
-
-    return [...new Set((benefitingKappung.concat(benefitingWiedervermietung, benefitingAbsenkung, benefitingNot)).map(city => city.name))]
-  }
-
   function bestandsMiete(city) {
     if (mietabsenkungenActive) {
       if (wohnungenotgebieteActive) return city.mietsenkungSollNot.toFixed(2);
@@ -1148,11 +484,6 @@ d3.json(
     return city.kappungIst.toFixed(2);
   }
 
-  function profitingHouseholds(city) {
-    let percent = calculateNewLeistbareWohnverhaeltnisse(city) / city.haushalte
-    return Math.round(1 / percent);
-  }
-
   //////
   // Methods related to the visualization
   //////
@@ -1161,49 +492,9 @@ d3.json(
     document.getElementById("consequences").innerHTML = '<p id="tutorial" class="callout">Wähle eine Stadt aus, um zu sehen wie sich die Maßnahmen auf die Mieten dort auswirken.</p>'
   }
 
-  function updateSubjektfoerderungsCallout() {
-    let text, allBenefiting;
-    if (!kappungsgrenzeActive && !mietabsenkungenActive && !mietobergrenzenActive) {
-      text =
-        `<p class="callout">Aktiviere eine oder mehrere der Maßnahmen, um zu sehen, wie sie sich insgesamt auswirken.</p>`;
-    } else {
-      allBenefiting = arraySum(cities.map((city) => calculateNewLeistbareWohnverhaeltnisse(city))).toLocaleString("de-DE")
-      text = "<h3>So wirken die ausgewählten Maßnahmen bundesweit:</h3><div class='numbers-container'><p class='custom-bold in-box'>Die aktivierten Maßnahmen entlasten <b>" + allBenefiting.toString().replaceAll('.', ' ') + ` Haushalte in ${benefitingFromCurrentSelection().length} Städten.</b> ` +
-        `Um eine ähnlichen Entlastung für die Haushalte zu erzielen müssten pro Jahr zusätzlich <b>${getEquivalentSubjektfoerderungString()}</b> an <span class="infolink" id="wohngeld"><span>Mietzuschüssen (zum Beispiel durch Wohngeld)</span></span> aufgewendet werden.</p></div>`
-    }
-    document.getElementById("subjektfoerderung").innerHTML = text;
-    if (!document.getElementById("wohngeld")) return;
-    document.getElementById("wohngeld").onclick = () => {
-      Swal.fire({
-        title: 'Mietzuschüsse',
-        html: '<p style="color: #545454;">Der Staat subventioniert den „privaten Wohnungsmarkt“ in Milliardenhöhe. Der Großteil (zuletzt 17,5 Mrd. Euro im Jahr) fließt in direkte Zuschüsse zur Miete. Dazu zählt das Wohngeld, aber auch die Übernahme von Wohnkosten durch Jobcenter und Sozialämter in „angemessener“ Höhe.<br>' +
-          'Weitere Infos findest Du im <a href="https://www.rosalux.de/?id=29945#c52747" target="_blank" rel="noopener noreferrer">Glossar</a>.<p>',
-        confirmButtonText: 'OK',
-        confirmButtonColor: "#FF3300",
-        showClass: {
-          backdrop: 'swal2-noanimation', // disable backdrop animation
-          popup: '',                     // disable popup animation
-          icon: ''                       // disable icon animation
-        },
-        hideClass: {
-          popup: '',                     // disable popup fade-out animation
-        },
-      })
-    };
-  }
-
   function getConsequencesContent(cityData) {
     let nameTag = "<h3>So wirken die Maßnahmen in " + cityData.name + ":</h3>";
     let leistbarNewTag
-    if (calculateNewLeistbareWohnverhaeltnisse(cityData) > 0) {
-      leistbarNewTag =
-        "<p>" +
-        calculateNewLeistbareWohnverhaeltnisse(cityData).toLocaleString("de-DE") +
-        ` leistbare Mietverhältnisse entstehen in ${cityData.name} oder werden dort erhalten. ` + "<b>Jeder " + profitingHouseholds(cityData) + `. Haushalt in ${cityData.name} profitiert davon.</b>` + "</p>";
-    } else {
-      leistbarNewTag =
-        `<p>Die ausgewählten Maßnahmen haben keinen Effekt auf die Mietpreise in ${cityData.name}.</p>`;
-    }
     if (!kappungsgrenzeActive && !mietabsenkungenActive && !mietobergrenzenActive && !wohnungenotgebieteActive) {
       leistbarNewTag =
         `<p>Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sich sich auf ${cityData.name} auswirken. Aktuell ist die Lage so:</p>`;
@@ -1519,11 +810,12 @@ d3.json(
       .style("visibility", clickedData.active ? "hidden" : "visible");
   };
 
+  // TODO: Do we keep this? 
   function colorCityCircles(d) {
-    if (wohnungenotgebieteActive && !kappungsgrenzeActive && !mietabsenkungenActive && !mietobergrenzenActive) {
-      if (d.marketCategory == 3) return "#ff3300"
-    }
-    else if (benefitingFromCurrentSelection().includes(d.name)) return "#ff3300";
+    // if (wohnungenotgebieteActive && !kappungsgrenzeActive && !mietabsenkungenActive && !mietobergrenzenActive) {
+    //   if (d.marketCategory == 3) return "#ff3300"
+    // }
+    // else if (benefitingFromCurrentSelection().includes(d.name)) return "#ff3300";
     return "#2b3240"
   }
 
@@ -1750,7 +1042,6 @@ d3.json(
   function kappungsgrenzeToggled(status) {
     kappungsgrenzeActive = status;
     updateNotGebieteRegel();
-    updateSubjektfoerderungsCallout();
 
     map.selectAll(".cityCircle")
       .attr("fill", colorCityCircles)
@@ -1784,7 +1075,6 @@ d3.json(
   function mietabsenkungenToggled(status) {
     mietabsenkungenActive = status;
     updateNotGebieteRegel();
-    updateSubjektfoerderungsCallout();
 
     map.selectAll(".cityCircle")
       .attr("fill", colorCityCircles)
@@ -1847,7 +1137,6 @@ d3.json(
   function mietobergrenzenToggled(status) {
     mietobergrenzenActive = status;
     updateNotGebieteRegel();
-    updateSubjektfoerderungsCallout();
 
     map.selectAll(".cityCircle")
       .attr("fill", colorCityCircles)
@@ -1911,7 +1200,6 @@ d3.json(
         (d) => projection([d.long, d.lat])[1] - wiedervermietungsMiete(d) * barScale
       );
 
-    updateSubjektfoerderungsCallout();
     if (citySelected()) updateConsequences(selectedCity());
   }
 
@@ -2113,5 +1401,4 @@ d3.json(
       },
     })
   };
-  updateSubjektfoerderungsCallout();
 });
