@@ -46,7 +46,7 @@ let cities = [
     "active": false,
     "long": 7.12,
     "lat": 51.48,
-    "marktMiete": 8,
+    "marktMiete": 8.00,
     "bestandsMiete": 6.25,
     "mietspiegel": 5.71,
     "kappungsgrenze": 0.2
@@ -79,7 +79,7 @@ let cities = [
     "active": false,
     "long": 7.46,
     "lat": 51.51,
-    "marktMiete": 8.9,
+    "marktMiete": 8.90,
     "bestandsMiete": 6.45,
     "mietspiegel": 5.79,
     "kappungsgrenze": 0.2
@@ -134,7 +134,7 @@ let cities = [
     "active": false,
     "long": 7.01,
     "lat": 51.45,
-    "marktMiete": 8.4,
+    "marktMiete": 8.40,
     "bestandsMiete": 6.72,
     "mietspiegel": 6.24,
     "kappungsgrenze": 0.2
@@ -147,7 +147,7 @@ let cities = [
     "lat": 50.11,
     "marktMiete": 17.19,
     "bestandsMiete": 10.58,
-    "mietspiegel": 8.3,
+    "mietspiegel": 8.30,
     "kappungsgrenze": 0.15
   },
   {
@@ -169,7 +169,7 @@ let cities = [
     "lat": 52.37,
     "marktMiete": 10.47,
     "bestandsMiete": 7.61,
-    "mietspiegel": 7.8,
+    "mietspiegel": 7.80,
     "kappungsgrenze": 0.15
   },
   {
@@ -256,7 +256,7 @@ let cities = [
     "long": 12.14,
     "lat": 54.08,
     "marktMiete": 10.05,
-    "bestandsMiete": 6.7,
+    "bestandsMiete": 6.70,
     "mietspiegel": 6.14,
     "kappungsgrenze": 0.15
   },
@@ -278,8 +278,8 @@ let cities = [
     "long": 7.16,
     "lat": 50.77,
     "marktMiete": 7.77,
-    "bestandsMiete": 6.1,
-    "mietspiegel": 6,
+    "bestandsMiete": 6.10,
+    "mietspiegel": 6.00,
     "kappungsgrenze": 0.2
   }
 ];
@@ -428,40 +428,37 @@ d3.json(
     averageBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => '⌀' + d.bestandsMiete.toString().replace('.', ','))
-      .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-      .attr("x", (d) => projection([d.long, d.lat])[0] - (2 * barWidth) + (d.bestandsMiete.toString().length == 5 ?
-        0.3 :
-        1)
-      )
+      .text((d) => '⌀' + d.bestandsMiete.toFixed(2).replace('.', ',') + "€")
+      .attr("y", (d) => projection([d.long, d.lat])[1] - 24 - (d.bestandsMiete.toFixed(2).length == 5 ? 4 : 0))
+      .attr("x", (d) => projection([d.long, d.lat])[0] - (2 * barWidth - 11.5))
+      .attr("style", "writing-mode: sideways-lr")
+      .style("font-weight", "bold")
       .style("visibility", "visible")
-      .style("font-size", "2pt")
+      .style("font-size", "4pt")
       .style("fill", "#2b3240")
 
     marketBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => '⌀' + wiedervermietungsMiete(d).toString().replace('.', ','))
-      .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-      .attr("x", (d) => projection([d.long, d.lat])[0] + (wiedervermietungsMiete(d).toString().length == 5 ?
-        0.3 :
-        1)
-      )
+      .text((d) => '⌀' + wiedervermietungsMiete(d).replace('.', ',') + "€")
+      .attr("y", (d) => projection([d.long, d.lat])[1] - 24 - (wiedervermietungsMiete(d).length == 5 ? 4 : 0))
+      .attr("x", (d) => projection([d.long, d.lat])[0] + 6.5)
+      .attr("style", "writing-mode: sideways-lr")
+      .style("font-weight", "bold")
       .style("visibility", "visible")
-      .style("font-size", "2pt")
+      .style("font-size", "4pt")
       .style("fill", "#2b3240")
 
     stopBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => (mietabsenkungenActive ? '⌀' + mietsenkungAuf(d).toString().replace('.', ',') : ''))
-      .attr("y", (d) => projection([d.long, d.lat])[1] - 10)
-      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + (mietsenkungAuf(d).toString().length == 5 ?
-        0.3 :
-        1)
-      )
+      .text((d) => (mietabsenkungenActive ? '⌀' + mietsenkungAuf(d).replace('.', ',') + "€" : ''))
+      .attr("y", (d) => projection([d.long, d.lat])[1] - 24 - (mietsenkungAuf(d).length == 5 ? 4 : 0))
+      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + 12)
+      .attr("style", "writing-mode: sideways-lr")
+      .style("font-weight", "bold")
       .style("visibility", "visible")
-      .style("font-size", "2pt")
+      .style("font-size", "4pt")
       .style("fill", "#2b3240")
 
   }
