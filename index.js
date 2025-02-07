@@ -377,6 +377,7 @@ d3.json(
 
   function reset(calledFromUs) {
     if (!(calledFromUs === true) && document.getElementById("mapContainer").offsetWidth < 500) return;
+    map.selectAll('.backgroundbox').remove()
     document.getElementById("citySelector").removeEventListener("change", citySelectorChanged);
     document.getElementById("citySelector").selectedIndex = 0;
     document.getElementById("citySelector").addEventListener("change", citySelectorChanged);
@@ -422,45 +423,93 @@ d3.json(
   }
 
   function updateBarNumbers(city) {
+    map.selectAll('.backgroundbox').remove()
+
     map.selectAll("text")
       .style("visibility", "hidden")
 
-    averageBars
+    const padding = 1;
+
+    // TODO: In the long run, it would be goot to clean up the positioning calculations below...
+    const avgtext = averageBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => '⌀' + d.bestandsMiete.toFixed(2).replace('.', ',') + "€")
-      .attr("y", (d) => projection([d.long, d.lat])[1] - 24 - (d.bestandsMiete.toFixed(2).length == 5 ? 4 : 0))
-      .attr("x", (d) => projection([d.long, d.lat])[0] - (2 * barWidth - 11.5))
-      .attr("style", "writing-mode: sideways-lr")
-      .style("font-weight", "bold")
+
+    avgtext.text((d) => '⌀' + d.bestandsMiete.toString().replace('.', ','))
       .style("visibility", "visible")
       .style("font-size", "4pt")
+      .style("font-weight", "bold")
       .style("fill", "#2b3240")
+      .html(function (d) {
+        return `<tspan y='${projection([d.long, d.lat])[1] - 10}' x='${projection([d.long, d.lat])[0] - (2 * barWidth - 1.8) - (d.bestandsMiete.toString().length == 5 ? 0.5 : -1)}'>` + d.bestandsMiete.toString().replace('.', ',') + `</tspan>`
+          + `<tspan style="font-size:2pt" y='${projection([d.long, d.lat])[1] - 7}' x='${projection([d.long, d.lat])[0] - (2 * barWidth - 2.5) + (d.bestandsMiete.toString().length == 5 ? 0.5 : 1)}'>` + "⌀ in €/m²" + `</tspan>`;
+      })
 
-    marketBars
+    let bbox = avgtext.node().getBBox();
+
+    averageBars.filter((d) => d.name == city.name)
+      .insert("rect", "text")
+      .attr("class", "backgroundbox")
+      .attr("x", bbox.x - padding)
+      .attr("y", bbox.y - padding)
+      .attr("width", bbox.width + (padding * 2))
+      .attr("height", bbox.height + (padding * 2))
+      .style("fill", "#018E06")
+      .style("opacity", 0.8);
+
+    const marketText = marketBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => '⌀' + wiedervermietungsMiete(d).replace('.', ',') + "€")
-      .attr("y", (d) => projection([d.long, d.lat])[1] - 24 - (wiedervermietungsMiete(d).length == 5 ? 4 : 0))
-      .attr("x", (d) => projection([d.long, d.lat])[0] + 6.5)
-      .attr("style", "writing-mode: sideways-lr")
-      .style("font-weight", "bold")
+
+    marketText.text((d) => '⌀' + wiedervermietungsMiete(d).replace('.', ',') + "€")
       .style("visibility", "visible")
       .style("font-size", "4pt")
+      .style("font-weight", "bold")
       .style("fill", "#2b3240")
+      .html(function (d) {
+        return `<tspan y='${projection([d.long, d.lat])[1] - 23}' x='${projection([d.long, d.lat])[0] - 2.6 - (wiedervermietungsMiete(d).length == 5 ? 0.5 : -1.2)}'>` + wiedervermietungsMiete(d).toString().replace('.', ',') + `</tspan>`
+          + `<tspan style="font-size:2pt" y='${projection([d.long, d.lat])[1] - 20}' x='${projection([d.long, d.lat])[0] - 0.8}'>` + "⌀ in €/m²" + `</tspan>`;
+      })
 
-    stopBars
+    bbox = marketText.node().getBBox();
+
+    marketBars.filter((d) => d.name == city.name)
+      .insert("rect", "text")
+      .attr("class", "backgroundbox")
+      .attr("x", bbox.x - padding)
+      .attr("y", bbox.y - padding)
+      .attr("width", bbox.width + (padding * 2))
+      .attr("height", bbox.height + (padding * 2))
+      .style("fill", "#0084ff")
+      .style("opacity", 0.8);
+
+    const stopTexts = stopBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
-      .text((d) => (mietabsenkungenActive ? '⌀' + mietsenkungAuf(d).replace('.', ',') + "€" : ''))
-      .attr("y", (d) => projection([d.long, d.lat])[1] - 24 - (mietsenkungAuf(d).length == 5 ? 4 : 0))
-      .attr("x", (d) => projection([d.long, d.lat])[0] + barWidth + 12)
-      .attr("style", "writing-mode: sideways-lr")
-      .style("font-weight", "bold")
-      .style("visibility", "visible")
-      .style("font-size", "4pt")
-      .style("fill", "#2b3240")
 
+    if (mietabsenkungenActive) {
+      stopTexts.text((d) => (mietabsenkungenActive ? '⌀' + mietsenkungAuf(d).replace('.', ',') + "€" : ''))
+        .style("font-weight", "bold")
+        .style("visibility", "visible")
+        .style("font-size", "4pt")
+        .style("fill", "#2b3240")
+        .html(function (d) {
+          return `<tspan y='${projection([d.long, d.lat])[1] - 10}' x='${projection([d.long, d.lat])[0] + 14 - (mietsenkungAuf(d).length == 5 ? 2 : 0)}'>` + mietsenkungAuf(d).replace('.', ',') + `</tspan>`
+            + `<tspan style="font-size:2pt" y='${projection([d.long, d.lat])[1] - 7}' x='${projection([d.long, d.lat])[0] + 16}'>` + "in €/m²" + `</tspan>`;
+        })
+
+      bbox = stopTexts.node().getBBox();
+
+      stopBars.filter((d) => d.name == city.name)
+        .insert("rect", "text")
+        .attr("class", "backgroundbox")
+        .attr("x", bbox.x - padding)
+        .attr("y", bbox.y - padding)
+        .attr("width", bbox.width + (padding * 2))
+        .attr("height", bbox.height + (padding * 2))
+        .style("fill", "#ff3300")
+        .style("opacity", 0.8)
+    }
   }
 
   function updateConsequences(city) {
