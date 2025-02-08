@@ -670,7 +670,7 @@ d3.json(
       height = 400 / 0.625;
     }
     if (width < 400) {
-      height = 500
+      height = 300
     }
     document.getElementById("mapContainer").innerHTML = "";
     map = d3
@@ -979,9 +979,7 @@ d3.json(
   //////
   let windowWidth = window.innerWidth;
   let windowHeight = window.innerHeight;
-  function resize(event) {
-    if (window.innerWidth == windowWidth) return;
-
+  function adaptDropdownToScreenSize () {
     const dropdown = document.getElementById("citySelector");
     if (document.getElementById("mapContainer").offsetWidth < 500 && dropdown.selectedIndex === 0) {
       dropdown.disable();
@@ -995,10 +993,17 @@ d3.json(
       dropdown.selectedIndex = 0;
       dropdown.enable();
     }
+  }
+  function resize(event) {
+    if (window.innerWidth == windowWidth) return;
+
+    adaptDropdownToScreenSize();
+
     if (window.innerWidth != windowWidth || window.innerHeight != windowHeight) {
       drawMap()
     }
   }
+  adaptDropdownToScreenSize();
   drawMap();
   resize();
 

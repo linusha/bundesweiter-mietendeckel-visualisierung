@@ -27,8 +27,8 @@ svg {
 }
 
 @media (max-width: 835px) {
-  #content {
-    flex-direction: column;
+  .row { /* Act as column on small screens */
+    flex-direction: column !important; 
   }
 
   .custom-h2 {
