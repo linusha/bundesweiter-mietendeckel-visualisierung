@@ -980,6 +980,8 @@ d3.json(
   let windowWidth = window.innerWidth;
   let windowHeight = window.innerHeight;
   function resize(event) {
+    if (window.innerWidth == windowWidth) return;
+
     const dropdown = document.getElementById("citySelector");
     if (document.getElementById("mapContainer").offsetWidth < 500 && dropdown.selectedIndex === 0) {
       dropdown.disable();
@@ -996,7 +998,11 @@ d3.json(
     if (window.innerWidth != windowWidth || window.innerHeight != windowHeight) {
       drawMap()
     }
-  }, true);
+  }
+  drawMap();
+  resize();
+
+  window.addEventListener('resize', resize, true);
 
   document.getElementById("kappungsgrenzen").onclick = kappungsgrenzePressed;
   document.getElementById("mietobergrenzen").onclick = mietobergrenzenPressed;
