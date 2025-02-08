@@ -664,7 +664,7 @@ d3.json(
 
   function colorCityCircles(d) {
     if (d.marketCategory == 2) return "#ff9e48"
-    if (d.marketCategory == 3) return "#ff5e35" 
+    if (d.marketCategory == 3) return "#ff5e35"
     return "#2b3240"
   }
 
@@ -860,7 +860,10 @@ d3.json(
       full = true;
     } else full = false;
 
-    if (citySelected()) updateConsequences(selectedCity());
+    if (citySelected()) {
+      updateConsequences(selectedCity());
+      // if (status) document.getElementById('consequences').scrollIntoView(true, { behavior: "smooth"});
+    }
   }
 
   function mietabsenkungenPressed() {
@@ -917,7 +920,10 @@ d3.json(
 
     }
 
-    if (citySelected()) updateConsequences(selectedCity());
+    if (citySelected()) {
+      updateConsequences(selectedCity());
+      // if (status) document.getElementById('consequences').scrollIntoView(true, { behavior: "smooth"});
+    }
   }
 
   function mietobergrenzenPressed() {
@@ -953,7 +959,10 @@ d3.json(
         "y",
         (d) => projection([d.long, d.lat])[1] - wiedervermietungsMiete(d) * barScale
       );
-    if (citySelected()) updateConsequences(selectedCity());
+    if (citySelected()) {
+      updateConsequences(selectedCity());
+      // if (status) document.getElementById('consequences').scrollIntoView(true, { behavior: "smooth"});
+    }
   }
 
   function sofortprogrammPressed() {
@@ -977,7 +986,10 @@ d3.json(
       full = true;
     } else full = false;
 
-    if (citySelected()) updateConsequences(selectedCity());
+    if (citySelected()) {
+      updateConsequences(selectedCity());
+      // if (status) document.getElementById('consequences').scrollIntoView(true, { behavior: "smooth"});
+    }
   }
 
   //////
@@ -985,7 +997,7 @@ d3.json(
   //////
   let windowWidth = window.innerWidth;
   let windowHeight = window.innerHeight;
-  function adaptDropdownToScreenSize () {
+  function adaptDropdownToScreenSize() {
     const dropdown = document.getElementById("citySelector");
     if (document.getElementById("mapContainer").offsetWidth < 500 && dropdown.selectedIndex === 0) {
       dropdown.disable();
