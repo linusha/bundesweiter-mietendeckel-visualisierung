@@ -292,7 +292,8 @@ d3.json(
   let mietobergrenzenActive = false;
   let mietabsenkungenActive = false;
   let sofortProgrammActive = false;
-  let wohnungenotgebieteActive = false;
+  let partial = false;
+  let full = false;
   let barScale = 5;
   let width = document.getElementById("customMietendeckelApplet").offsetWidth;
   let height = width / 0.625;
@@ -317,67 +318,84 @@ d3.json(
     return city.marktMiete.toFixed(2);
   }
 
-  function mieterhoehung(city, forceCurrentLegalSituation = false) {
-    if (!forceCurrentLegalSituation && sofortProgrammActive) {
-      if (city.marketCategory > 1) return (city.bestandsMiete).toFixed(2)
-      return (city.bestandsMiete * 1.02).toFixed(2);
-    }
-
-    if (!forceCurrentLegalSituation && kappungsgrenzeActive) {
-      return city.bestandsMiete.toFixed(2)
-    }
-
-    const erhoehung = (city.bestandsMiete * (1 + city.kappungsgrenze))
-    return Math.min(erhoehung, city.mietspiegel).toFixed(2);
-  }
-
   //////
   // Methods related to the visualization
   //////
 
   function showHintNoSelectedCity() {
-    document.getElementById("consequences").innerHTML = '<p id="tutorial" class="callout">Wähle eine Stadt aus, um zu sehen wie sich die Maßnahmen auf die Mieten dort auswirken.</p>'
+    document.getElementById("consequences").innerHTML = '<p id="tutorial" class="callout">Wähle eine Stadt aus, um zu sehen, wie Mieter*innen dort entlastet werden können.</p>'
   }
 
   function getConsequencesContent(cityData) {
-    let nameTag = "<h3>So wirken die Maßnahmen in " + cityData.name + ":</h3>";
-    let leistbarNewTag
-    if (!kappungsgrenzeActive && !mietabsenkungenActive && !mietobergrenzenActive && !wohnungenotgebieteActive) {
-      leistbarNewTag =
-        `<p>Aktiviere eine oder mehrere der Maßnahmen oben, um zu sehen, wie sich sich auf ${cityData.name} auswirken. Aktuell ist die Lage so:</p>`;
+    let introTag;
+    introTag =
+      `<p>Aktiviere eine oder mehrere der Maßnahmen des Mietendeckels, um zu sehen, wie sie Mieter*innen in ${cityData.name} entlastet.`;
+
+    const statusString = () => {
+      if (!sofortProgrammActive && !partial && !full) return " jetzt"
+      if (sofortProgrammActive && !partial && !full) return " mit Sofortprogramm"
+      if (partial && !full) return " mit teilweisem Mietendeckel"
+      if (full) return " mit Mietendeckel"
     }
+    let nameTag = "<h3>Lage in " + cityData.name + `${statusString()}:</h3>`
+
+    let typeTag = () => {
+      if (cityData.marketCategory == 1) return `<p class='in-box'>${cityData.name} hat einen nicht angespannten Wohnungsmarkt.</p>`
+      if (cityData.marketCategory == 2) return `<p class='in-box'>${cityData.name} hat einen <strong style='color:#ff9e48'>angespannten Wohnungsmarkt.</strong></p>`
+      if (cityData.marketCategory == 3) return `<p class='in-box'>In ${cityData.name} herrscht eine <strong style='color:#ff5e35'>Wohnungsnotlage</strong>.</p>`
+    }
+
     let averageTag =
-      `<p class='in-box'><span style='color:#018E06;'>●</span> Momentan beträgt die durchschnittliche Miete: <b>` +
+      `<p class='in-box'><span style='color:#018E06;'>●</span> Momentan beträgt die durchschnittliche Bestandsmiete: <b>` +
       cityData.bestandsMiete.toString().replace('.', ',') +
       "</b>€/m²</p>";
-    let mieterhoehungsText = "Durchschnittlich mögliche Mieterhöhung auf"
-    let mieterhoehungsTag =
-      `<p class='in-box'><span style='color:#EBE415;'>●</span> ${mieterhoehungsText}: <b>` +
-      mieterhoehung(cityData).toString().replace('.', ',') +
-      "</b>€/m²</p>";
-    let neuvermietungsText = "Durchschnittliche Miete bei Wiedervermietung"
+    // TODO: Add explanation why rents will forever increase
+    let mieterhoehungsTag = () => {
+      if (!sofortProgrammActive && !kappungsgrenzeActive) return `<p class='in-box'>Bei Mietverträgen mit einer Miete bis ${cityData.mietspiegel.toString().replaceAll('.', ',')}€/m², sind häufig Mietsteigerungen von bis zu <strong>${cityData.kappungsgrenze * 100}% in 3 Jahren</strong> möglich. So steigen die Mieten immer weiter.</p>`;
+      if (sofortProgrammActive && !kappungsgrenzeActive && cityData.marketCategory > 1) return "<p class='in-box'>Mit einem temporären Mietenstopp durch das Sofortprogramm sind keine Mieterhöhungen im Bestand mehr möglich.</p>"
+      if (sofortProgrammActive && !kappungsgrenzeActive && cityData.marketCategory == 1) return `<p class='in-box'>Durch das Sofortprogramm sind Mieterhöhungen im Bestand nur um 2% pro Jahr möglich, und auch nur bis maximal ${cityData.mietspiegel.toString().replaceAll('.', ',')}€/m².</p>`
+      if (kappungsgrenzeActive && cityData.marketCategory == 1) return `<p class='in-box'>Durch den Mietendeckel sind Mieterhöhungen im Bestand auf 10% in 3 Jahren begrenzt, und auch nur bis maximal ${cityData.bestandsMiete.toString().replaceAll('.', ',')}€/m².</p>`
+      if (kappungsgrenzeActive && cityData.marketCategory == 2) return `<p class='in-box'>Durch den Mietendeckel sind Mieterhöhungen im Bestand auf 6% in 3 Jahren begrenzt, und auch nur bis maximal ${cityData.bestandsMiete.toString().replaceAll('.', ',')}€/m².</p>`
+      if (kappungsgrenzeActive && cityData.marketCategory == 3) return `<p class='in-box'>Durch den Mietendeckel sind keine Mieterhöhungen im Bestand mehr möglich.</p>`
+    };
+
+    let neuvermietungsText = "Durchschnittliche Miete bei neuen Verträgen"
     let neuvermietungsTag =
       `<p class='in-box'><span style='color:#0084FF;'>●</span> ${neuvermietungsText}: <b>` +
       wiedervermietungsMiete(cityData).toString().replace('.', ',') +
       "</b>€/m²</p>";
-    let bestandsMietenTag =
-      `<p class='in-box'><span style='color:#FF3300;'>●</span> Die durchschnittliche maximal erlaubte Höchstmiete beträgt: <b>` +
-      mieterhoehung(cityData).toString().replace('.', ',') +
-      "</b>€/m²</p>";
+
+    let neuVermietungsExplainer = () => {
+      if (mietobergrenzenActive && cityData.marketCategory == 1) return `<p class='in-box'>Durch den Mietendeckel dürfen die Mieten bei Vertragsschluss nur noch maximal 10% höher liegen als die örtliche Durchschnittsmiete von ${cityData.bestandsMiete.toString().replaceAll('.', ',')}€/m².</p>`
+      if (mietobergrenzenActive && cityData.marketCategory == 2) return `<p class='in-box'>Durch den Mietendeckel dürfen die Mieten bei Vertragsschluss nur noch maximal 6% höher liegen als die örtliche Durchschnittsmiete von ${cityData.bestandsMiete.toString().replaceAll('.', ',')}€/m².</p>`
+      if (mietobergrenzenActive && cityData.marketCategory == 3) return `<p class='in-box'>Durch den Mietendeckel dürfen die Mieten bei Vertragsschluss nicht höher liegen als die örtliche Durchschnittsmiete von ${cityData.bestandsMiete.toString().replaceAll('.', ',')}€/m².</p>`
+      return '';
+    }
+    let bestandsMietenTag = () => {
+      return `<p class='in-box'><span style='color:#FF3300;'>●</span> Die durchschnittliche maximal erlaubte Höchstmiete beträgt: <b>` +
+        mietsenkungAuf(cityData).toString().replace('.', ',') +
+        "</b>€/m²</p>" +
+        "<p class='in-box'>Der Mietendeckel erlaubt es, höhere Miete auf diesen Betrag abzusenken. Durch eine Umsetzung über das Wirtschaftsstrafrecht, müssen Mieter*innen hierfür nicht selbst Klage einreichen.</p>";
+    }
+
     return (
       nameTag +
-      leistbarNewTag +
       "<div class='numbers-container'>" +
+      typeTag() +
       averageTag +
-      mieterhoehungsTag +
+      mieterhoehungsTag() +
       neuvermietungsTag +
-      ((mietabsenkungenActive ? bestandsMietenTag + "</div>" : "</div>"))
+      neuVermietungsExplainer() +
+      ((mietabsenkungenActive ? bestandsMietenTag() + "</div>" : "</div>")) +
+      introTag
     );
   }
 
   function reset(calledFromUs) {
     if (!(calledFromUs === true) && document.getElementById("mapContainer").offsetWidth < 500) return;
+
     map.selectAll('.backgroundbox').remove()
+
     document.getElementById("citySelector").removeEventListener("change", citySelectorChanged);
     document.getElementById("citySelector").selectedIndex = 0;
     document.getElementById("citySelector").addEventListener("change", citySelectorChanged);
@@ -799,6 +817,13 @@ d3.json(
   function kappungsgrenzeToggled(status) {
     kappungsgrenzeActive = status;
 
+    if (mietabsenkungenActive || kappungsgrenzeActive || mietobergrenzenActive) partial = true
+    else partial = false;
+    if (mietabsenkungenActive && kappungsgrenzeActive && mietobergrenzenActive) {
+      partial = false;
+      full = true;
+    } else full = false;
+
     if (citySelected()) updateConsequences(selectedCity());
   }
 
@@ -817,6 +842,14 @@ d3.json(
 
   function mietabsenkungenToggled(status) {
     mietabsenkungenActive = status;
+
+    if (mietabsenkungenActive || kappungsgrenzeActive || mietobergrenzenActive) partial = true
+    else partial = false;
+
+    if (mietabsenkungenActive && kappungsgrenzeActive && mietobergrenzenActive) {
+      partial = false;
+      full = true;
+    } else full = false;
 
     map
       .selectAll(".stopRect")
@@ -866,6 +899,14 @@ d3.json(
   function mietobergrenzenToggled(status) {
     mietobergrenzenActive = status;
 
+    if (mietabsenkungenActive || kappungsgrenzeActive || mietobergrenzenActive) partial = true
+    else partial = false;
+
+    if (mietabsenkungenActive && kappungsgrenzeActive && mietobergrenzenActive) {
+      partial = false;
+      full = true;
+    } else full = false;
+
     // adapt rent rects
     map
       .selectAll(".marketRect")
@@ -893,18 +934,22 @@ d3.json(
   function sofortProgrammToggled(status) {
     sofortProgrammActive = status;
 
+    if (mietabsenkungenActive || kappungsgrenzeActive || mietobergrenzenActive) partial = true
+    else partial = false;
+    if (mietabsenkungenActive && kappungsgrenzeActive && mietobergrenzenActive) {
+      partial = false;
+      full = true;
+    } else full = false;
+
     if (citySelected()) updateConsequences(selectedCity());
   }
 
   //////
   // Bootstrap Visualization
   //////
-
   let windowWidth = window.innerWidth;
   let windowHeight = window.innerHeight;
-  drawMap()
-  // make map responsive
-  window.addEventListener('resize', function (event) {
+  function resize(event) {
     const dropdown = document.getElementById("citySelector");
     if (document.getElementById("mapContainer").offsetWidth < 500 && dropdown.selectedIndex === 0) {
       dropdown.disable();
