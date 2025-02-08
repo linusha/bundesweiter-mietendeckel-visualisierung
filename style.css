@@ -91,6 +91,7 @@ svg {
   flex-direction: column;
   flex-basis: 100%;
   flex: 1;
+  padding: 10px;
 }
 
 .numbers-container {
@@ -123,7 +124,9 @@ svg {
 }
 
 .infolink > span {
-  border-bottom: 2px dashed #FFFFFF;
+  text-decoration-style: dashed;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
 }
 
 .infolink {
@@ -143,6 +146,10 @@ svg {
   color: inherit;
   border: 1px solid;
   text-decoration: none;
+}
+
+.select-wrapper {
+  padding-bottom: 10px !important;
 }
 
 select-pure {
