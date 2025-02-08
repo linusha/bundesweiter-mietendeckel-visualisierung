@@ -329,7 +329,7 @@ d3.json(
   function getConsequencesContent(cityData) {
     let introTag;
     introTag =
-      `<p>Aktiviere eine oder mehrere der Maßnahmen des Mietendeckels, um zu sehen, wie sie Mieter*innen in ${cityData.name} entlastet.`;
+      `<p style="margin-top: 10px">Aktiviere eine oder mehrere der Maßnahmen des Mietendeckels, um zu sehen, wie sie Mieter*innen in ${cityData.name} entlastet.`;
 
     const statusString = () => {
       if (!sofortProgrammActive && !partial && !full) return " jetzt"
