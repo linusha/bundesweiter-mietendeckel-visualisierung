@@ -447,86 +447,116 @@ d3.json(
       .style("visibility", "hidden")
 
     const padding = 1;
+    var xScopeFix; // var is important here, as we hack our way around the d3 scope below
 
-    // TODO: In the long run, it would be goot to clean up the positioning calculations below...
-    const avgtext = averageBars
+    // General idea behind centered multi-line text:
+    // Insert tspan elements inside of empty text
+    // calculate width of the characters
+    // center a box on the bar that fits the characters
+    // center the characters inside of the box
+
+    const avgText = averageBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
 
-    avgtext.text((d) => '⌀' + d.bestandsMiete.toString().replace('.', ','))
+    avgText.text('')
       .style("visibility", "visible")
       .style("font-size", "4pt")
       .style("font-weight", "bold")
       .style("fill", "#2b3240")
       .html(function (d) {
-        return `<tspan y='${projection([d.long, d.lat])[1] - 10}' x='${projection([d.long, d.lat])[0] - (2 * barWidth - 1.8) - (d.bestandsMiete.toString().length == 5 ? 0.5 : -1)}'>` + d.bestandsMiete.toString().replace('.', ',') + `</tspan>`
-          + `<tspan style="font-size:2pt" y='${projection([d.long, d.lat])[1] - 7}' x='${projection([d.long, d.lat])[0] - (2 * barWidth - 2.5) + (d.bestandsMiete.toString().length == 5 ? 0.5 : 1)}'>` + "⌀ in €/m²" + `</tspan>`;
+        return `<tspan x='0' y='${projection([d.long, d.lat])[1] - 10}'>` + d.bestandsMiete.toFixed(2).replace('.', ',') + `</tspan>`
+          + `<tspan style="font-size:2pt" x='0' y='${projection([d.long, d.lat])[1] - 7}'>` + "⌀ in €/m²" + `</tspan>`;
       })
 
-    let bbox = avgtext.node().getBBox();
-
+    let bbox = avgText.node().getBBox();
     averageBars.filter((d) => d.name == city.name)
       .insert("rect", "text")
       .attr("class", "backgroundbox")
-      .attr("x", bbox.x - padding)
+      .attr("x", (d) => {
+        // xpos - bar offset beginning + half a bar - half width of the box
+        xScopeFix = projection([d.long, d.lat])[0] - (2 * barWidth - 5) + barWidth / 2 - (bbox.width + 2 * padding) / 2
+        return xScopeFix
+      })
       .attr("y", bbox.y - padding)
       .attr("width", bbox.width + (padding * 2))
       .attr("height", bbox.height + (padding * 2))
       .style("fill", "#018E06")
       .style("opacity", 0.8);
 
+    avgText.selectAll('tspan')
+      .attr("x", () => {
+        return xScopeFix + padding
+      })
+
     const marketText = marketBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
 
-    marketText.text((d) => '⌀' + wiedervermietungsMiete(d).replace('.', ',') + "€")
+    marketText.text('')
       .style("visibility", "visible")
       .style("font-size", "4pt")
       .style("font-weight", "bold")
       .style("fill", "#2b3240")
       .html(function (d) {
-        return `<tspan y='${projection([d.long, d.lat])[1] - 23}' x='${projection([d.long, d.lat])[0] - 2.6 - (wiedervermietungsMiete(d).length == 5 ? 0.5 : -1.2)}'>` + wiedervermietungsMiete(d).toString().replace('.', ',') + `</tspan>`
-          + `<tspan style="font-size:2pt" y='${projection([d.long, d.lat])[1] - 20}' x='${projection([d.long, d.lat])[0] - 0.8}'>` + "⌀ in €/m²" + `</tspan>`;
+        return `<tspan y='${projection([d.long, d.lat])[1] - 23}' x='0'>` + wiedervermietungsMiete(d).toString().replace('.', ',') + `</tspan>`
+          + `<tspan style="font-size:2pt" y='${projection([d.long, d.lat])[1] - 20}' x='0'>` + "⌀ in €/m²" + `</tspan>`;
       })
 
     bbox = marketText.node().getBBox();
-
     marketBars.filter((d) => d.name == city.name)
       .insert("rect", "text")
       .attr("class", "backgroundbox")
-      .attr("x", bbox.x - padding)
+      .attr("x", (d) => {
+        // xpos + half a bar - half width of the box
+        xScopeFix = projection([d.long, d.lat])[0] + barWidth / 2 - (bbox.width + 2 * padding) / 2
+        return xScopeFix
+      })
       .attr("y", bbox.y - padding)
       .attr("width", bbox.width + (padding * 2))
       .attr("height", bbox.height + (padding * 2))
       .style("fill", "#0084ff")
       .style("opacity", 0.8);
 
+    marketText.selectAll('tspan')
+      .attr("x", () => {
+        return xScopeFix + padding
+      })
+
     const stopTexts = stopBars
       .selectAll("text")
       .filter((d) => d.name == city.name)
 
     if (mietabsenkungenActive) {
-      stopTexts.text((d) => (mietabsenkungenActive ? '⌀' + mietsenkungAuf(d).replace('.', ',') + "€" : ''))
+      stopTexts.text('')
         .style("font-weight", "bold")
         .style("visibility", "visible")
         .style("font-size", "4pt")
         .style("fill", "#2b3240")
         .html(function (d) {
-          return `<tspan y='${projection([d.long, d.lat])[1] - 10}' x='${projection([d.long, d.lat])[0] + 14 - (mietsenkungAuf(d).length == 5 ? 2 : 0)}'>` + mietsenkungAuf(d).replace('.', ',') + `</tspan>`
-            + `<tspan style="font-size:2pt" y='${projection([d.long, d.lat])[1] - 7}' x='${projection([d.long, d.lat])[0] + 16}'>` + "in €/m²" + `</tspan>`;
+          return `<tspan y='${projection([d.long, d.lat])[1] - 10}' x='0'>` + mietsenkungAuf(d).replace('.', ',') + `</tspan>`
+            + `<tspan style="font-size:2pt" y='${projection([d.long, d.lat])[1] - 7}' x='0'>` + "in €/m²" + `</tspan>`;
         })
 
       bbox = stopTexts.node().getBBox();
-
       stopBars.filter((d) => d.name == city.name)
         .insert("rect", "text")
         .attr("class", "backgroundbox")
-        .attr("x", bbox.x - padding)
+        .attr("x", (d) => {
+          // xpos + bar offset beginning + half a bar - half width of the box
+          xScopeFix = projection([d.long, d.lat])[0] + (barWidth + 5) + barWidth / 2 - (bbox.width + 2 * padding) / 2
+          return xScopeFix
+        })
         .attr("y", bbox.y - padding)
         .attr("width", bbox.width + (padding * 2))
         .attr("height", bbox.height + (padding * 2))
         .style("fill", "#ff3300")
         .style("opacity", 0.8)
+
+      stopTexts.selectAll('tspan')
+        .attr("x", () => {
+          return xScopeFix + padding
+        })
     }
   }
 
