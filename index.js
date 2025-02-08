@@ -662,6 +662,12 @@ d3.json(
       .style("visibility", clickedData.active ? "hidden" : "visible");
   };
 
+  function colorCityCircles(d) {
+    if (d.marketCategory == 2) return "#ff9e48"
+    if (d.marketCategory == 3) return "#ff5e35" 
+    return "#2b3240"
+  }
+
   function drawMap() {
     width = document.getElementById("mapContainer").offsetWidth;
     height = height = width / 0.625;
@@ -733,7 +739,7 @@ d3.json(
         return projection([d.long, d.lat])[1];
       })
       .attr("r", circleRadius)
-      .attr("fill", "#2b3240")
+      .attr("fill", colorCityCircles)
       .on("mousedown", updateCitySelection)
       .on("mouseover", function (event, d) {
         tooltip.transition().duration(200).style("visibility", "visible");
