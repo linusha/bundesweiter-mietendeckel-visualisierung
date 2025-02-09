@@ -351,7 +351,7 @@ d3.json(
       "</b>€/m²</p>";
     // TODO: Add explanation why rents will forever increase
     let mieterhoehungsTag = () => {
-      if (!sofortProgrammActive && !kappungsgrenzeActive) return `<p class='in-box'>Bei Mietverträgen mit einer Miete bis ${cityData.mietspiegel.toString().replaceAll('.', ',')}€/m², sind häufig Mietsteigerungen von bis zu <strong>${cityData.kappungsgrenze * 100}% in 3 Jahren</strong> möglich. So steigen die Mieten immer weiter.</p>`;
+      if (!sofortProgrammActive && !kappungsgrenzeActive) return `<p class='in-box'>Bei Mietverträgen mit einer Miete bis ${cityData.mietspiegel.toString().replaceAll('.', ',')}€/m², sind häufig Mietsteigerungen von bis zu <strong>${cityData.kappungsgrenze * 100}% in 3 Jahren</strong> möglich. So steigen die Mieten <span class="infolink mietpreisbremse"><span>immer weiter.</span></span></p>`;
       if (sofortProgrammActive && !kappungsgrenzeActive && cityData.marketCategory > 1) return "<p class='in-box'>Mit einem temporären Mietenstopp durch das Sofortprogramm sind keine Mieterhöhungen im Bestand mehr möglich.</p>"
       if (sofortProgrammActive && !kappungsgrenzeActive && cityData.marketCategory == 1) return `<p class='in-box'>Durch das Sofortprogramm sind Mieterhöhungen im Bestand nur um 2% pro Jahr möglich, und auch nur bis maximal ${cityData.mietspiegel.toString().replaceAll('.', ',')}€/m².</p>`
       if (kappungsgrenzeActive && cityData.marketCategory == 1) return `<p class='in-box'>Durch den Mietendeckel sind Mieterhöhungen im Bestand auf 10% in 3 Jahren begrenzt, und auch nur bis maximal ${cityData.bestandsMiete.toString().replaceAll('.', ',')}€/m².</p>`
@@ -375,7 +375,7 @@ d3.json(
       return `<p class='in-box'><span style='color:#FF3300;'>●</span> Die durchschnittliche maximal erlaubte Höchstmiete beträgt: <b>` +
         mietsenkungAuf(cityData).toString().replace('.', ',') +
         "</b>€/m²</p>" +
-        "<p class='in-box'>Der Mietendeckel erlaubt es, höhere Miete auf diesen Betrag abzusenken. Durch eine Umsetzung über das Wirtschaftsstrafrecht, müssen Mieter*innen hierfür nicht selbst Klage einreichen.</p>";
+        "<p class='in-box'>Der Mietendeckel erlaubt es, höhere Mieten auf diesen Betrag abzusenken. Durch eine Umsetzung über das Wirtschaftsstrafrecht, müssen Mieter*innen hierfür nicht selbst Klage einreichen.</p>";
     }
 
     return (
@@ -563,6 +563,7 @@ d3.json(
   function updateConsequences(city) {
     updateBarNumbers(city);
     document.getElementById("consequences").innerHTML = getConsequencesContent(city);
+    mietpreisbremsenPopup();
   }
 
   let updateCitySelection = function (event, clickedData) {
@@ -1081,10 +1082,10 @@ d3.json(
     })
   });
 
-  Array.from(document.getElementsByClassName('angespannt')).forEach((e) => e.onclick = () => {
+  Array.from(document.getElementsByClassName('gebiete')).forEach((e) => e.onclick = () => {
     Swal.fire({
-      title: 'Angespannter Wohnungsmarkt',
-      html: '<p style="color: #545454;">Die Bundesländer können Gebiete, in denen die Mieten besonders stark steigen und es an Wohnungen mangelt, als „angespannte Wohnungsmärkte“ festlegen. Dort gelten verschärfte Regeln für den Mieterschutz wie die Mietpreisbremse oder die abgesenkte Kappungsgrenze.<br><p>',
+      title: 'Arten von Wohnungsmärkten',
+      html: '<p style="color: #545454;">Das Mietendeckel-Konzept sieht eine regionale Abstufung der Maßnahmen vor, je nach den Gegebenheiten des örtlichen Mietmarktes. Basierend auf der örtlichen Bevölkerungsentwicklung, der Leerstandsquote und dem Verhältnis zwischen Bestands- und Angebotsmieten, wird zwischen "nicht angespannten", "angespannten" und Wohnungsmärkten mit einer "Wohnungsnotlage" unterschieden.<br><p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
@@ -1098,39 +1099,22 @@ d3.json(
     })
   });
 
-  // TODO: adapt text
-  Array.from(document.getElementsByClassName('nichtangespannt')).forEach((e) => e.onclick = () => {
-    Swal.fire({
-      title: 'Wohnungsnotgebiete',
-      html: '<p style="color: #545454;">Die Mietendeckel-Studie schlägt vor, Städte und Gemeinden mit einer besonders gefährdeten Wohnungsversorgung als Wohnungsnotgebiete auszurufen. Dort soll ein besonders scharfes Mietrecht gelten, um die weitere Verdrängung von Menschen mit geringen Einkommen zu stoppen.<br><p>',
-      confirmButtonText: 'OK',
-      confirmButtonColor: "#FF3300",
-      showClass: {
-        backdrop: 'swal2-noanimation', // disable backdrop animation
-        popup: '',                     // disable popup animation
-        icon: ''                       // disable icon animation
-      },
-      hideClass: {
-        popup: '',                     // disable popup fade-out animation
-      },
-    })
-  });
-
-  // TODO: adapt text
-  Array.from(document.getElementsByClassName('wohnungsnotlage')).forEach((e) => e.onclick = () => {
-    Swal.fire({
-      title: 'Wohnungsnotgebiete',
-      html: '<p style="color: #545454;">Die Mietendeckel-Studie schlägt vor, Städte und Gemeinden mit einer besonders gefährdeten Wohnungsversorgung als Wohnungsnotgebiete auszurufen. Dort soll ein besonders scharfes Mietrecht gelten, um die weitere Verdrängung von Menschen mit geringen Einkommen zu stoppen.<br><p>',
-      confirmButtonText: 'OK',
-      confirmButtonColor: "#FF3300",
-      showClass: {
-        backdrop: 'swal2-noanimation', // disable backdrop animation
-        popup: '',                     // disable popup animation
-        icon: ''                       // disable icon animation
-      },
-      hideClass: {
-        popup: '',                     // disable popup fade-out animation
-      },
-    })
-  });
+  function mietpreisbremsenPopup() {
+    Array.from(document.getElementsByClassName('mietpreisbremse')).forEach((e) => e.onclick = () => {
+      Swal.fire({
+        title: 'Ortsübliche Vergleichsmiete',
+        html: '<p style="color: #545454;">Gerade wird die Grenze bis zu der Mieterhöhungen erlaubt sind anhand der "ortsüblichen Vergleichsmiete" bestimmt. In diese fließen jedoch nur bestimmte Mieten ein - günstige Bestandsmieten oder Sozialwohnungen finden keine Berücksichtigung. Außerdem finden nur Mieten berücksichtigung, in denen es in den letzten 6 Jahren zu einer Mietänderung gekommen ist. So steigt diese Zahl mit Mieterhöhungen immer weiter.<br><p>',
+        confirmButtonText: 'OK',
+        confirmButtonColor: "#FF3300",
+        showClass: {
+          backdrop: 'swal2-noanimation', // disable backdrop animation
+          popup: '',                     // disable popup animation
+          icon: ''                       // disable icon animation
+        },
+        hideClass: {
+          popup: '',                     // disable popup fade-out animation
+        },
+      })
+    });
+  }
 });

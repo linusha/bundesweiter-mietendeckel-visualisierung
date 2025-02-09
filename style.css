@@ -146,6 +146,7 @@ svg {
   color: inherit;
   border: 1px solid;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .select-wrapper {
