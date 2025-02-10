@@ -347,7 +347,7 @@ d3.json(
 
     let averageTag =
       `<p class='in-box'><span style='color:#018E06;'>●</span> Momentan beträgt die durchschnittliche Bestandsmiete: <b>` +
-      cityData.bestandsMiete.toString().replace('.', ',') +
+      cityData.bestandsMiete.toFixed(2).replace('.', ',') +
       "</b>€/m²</p>";
     // TODO: Add explanation why rents will forever increase
     let mieterhoehungsTag = () => {
