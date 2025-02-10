@@ -351,12 +351,28 @@ d3.json(
       "</b>€/m²</p>";
     // TODO: Add explanation why rents will forever increase
     let mieterhoehungsTag = () => {
-      if (!sofortProgrammActive && !kappungsgrenzeActive) return `<p class='in-box'>Bei Mietverträgen mit einer Miete bis ${cityData.mietspiegel.toString().replaceAll('.', ',')}€/m², sind häufig Mietsteigerungen von bis zu <strong>${cityData.kappungsgrenze * 100}% in 3 Jahren</strong> möglich. So steigen die Mieten <span class="infolink mietpreisbremse"><span>immer weiter.</span></span></p>`;
-      if (sofortProgrammActive && !kappungsgrenzeActive && cityData.marketCategory > 1) return "<p class='in-box'>Mit einem temporären Mietenstopp durch das Sofortprogramm sind keine Mieterhöhungen im Bestand mehr möglich.</p>"
-      if (sofortProgrammActive && !kappungsgrenzeActive && cityData.marketCategory == 1) return `<p class='in-box'>Durch das Sofortprogramm sind Mieterhöhungen im Bestand nur um 2% pro Jahr möglich, und auch nur bis maximal ${cityData.mietspiegel.toString().replaceAll('.', ',')}€/m².</p>`
-      if (kappungsgrenzeActive && cityData.marketCategory == 1) return `<p class='in-box'>Durch den Mietendeckel sind Mieterhöhungen im Bestand auf 10% in 3 Jahren begrenzt, und auch nur bis maximal ${cityData.bestandsMiete.toString().replaceAll('.', ',')}€/m².</p>`
-      if (kappungsgrenzeActive && cityData.marketCategory == 2) return `<p class='in-box'>Durch den Mietendeckel sind Mieterhöhungen im Bestand auf 6% in 3 Jahren begrenzt, und auch nur bis maximal ${cityData.bestandsMiete.toString().replaceAll('.', ',')}€/m².</p>`
-      if (kappungsgrenzeActive && cityData.marketCategory == 3) return `<p class='in-box'>Durch den Mietendeckel sind keine Mieterhöhungen im Bestand mehr möglich.</p>`
+      let string;
+      if (!sofortProgrammActive && !kappungsgrenzeActive) return `<p class='in-box mieterhoehung'>Bei Mietverträgen mit einer Miete bis ${cityData.mietspiegel.toFixed(2).replaceAll('.', ',')}€/m², sind häufig Mietsteigerungen von bis zu <strong>${cityData.kappungsgrenze * 100}% in 3 Jahren</strong> möglich. So steigen die Mieten <span class="infolink mietpreisbremse"><span>immer weiter.</span></span></p>`;
+      if (sofortProgrammActive && !kappungsgrenzeActive && cityData.marketCategory > 1) return "<p class='in-box mieterhoehung'>Mit einem temporären Mietenstopp durch das Sofortprogramm sind keine Mieterhöhungen im Bestand mehr möglich.</p>"
+      if (sofortProgrammActive && !kappungsgrenzeActive && cityData.marketCategory == 1) return `<p class='in-box mieterhoehung'>Durch das Sofortprogramm sind Mieterhöhungen im Bestand nur um 2% pro Jahr möglich, und auch nur bis maximal ${cityData.mietspiegel.toFixed(2).replaceAll('.', ',')}€/m².</p>`
+      if (kappungsgrenzeActive && cityData.marketCategory == 1){
+        string = `<p class='in-box mieterhoehung'>Durch den Mietendeckel sind Mieterhöhungen im Bestand auf 10% in 3 Jahren begrenzt, und auch nur bis maximal ${cityData.bestandsMiete.toFixed(2).replaceAll('.', ',')}€/m².`
+        if (cityData.mietspiegel > cityData.bestandsMiete) string += ` <strong>Ohne den Mietendeckel, wären Mietsteigerungen von ${cityData.kappungsgrenze * 100}% in 3 Jahren bis auf ${cityData.mietspiegel.toFixed(2).replaceAll('.', ',')}€/m² möglich.</strong></p>`
+        else string += '</p>'
+        return string
+      }
+      if (kappungsgrenzeActive && cityData.marketCategory == 2){
+        string = `<p class='in-box mieterhoehung'>Durch den Mietendeckel sind Mieterhöhungen im Bestand auf 6% in 3 Jahren begrenzt, und auch nur bis maximal ${cityData.bestandsMiete.toFixed(2).replaceAll('.', ',')}€/m².`
+        if (cityData.mietspiegel > cityData.bestandsMiete) string += ` <strong>Ohne den Mietendeckel, wären Mietsteigerungen von ${cityData.kappungsgrenze * 100}% in 3 Jahren bis auf ${cityData.mietspiegel.toFixed(2).replaceAll('.', ',')}€/m² möglich.</strong></p>`
+        else string += '</p>'
+        return string
+      } 
+      if (kappungsgrenzeActive && cityData.marketCategory == 3) {
+        string = `<p class='in-box mieterhoehung'>Durch den Mietendeckel sind keine Mieterhöhungen im Bestand mehr möglich.`
+        if (cityData.mietspiegel > cityData.bestandsMiete) string += ` <strong>Ohne den Mietendeckel, wären Mietsteigerungen von ${cityData.kappungsgrenze * 100}% in 3 Jahren bis auf ${cityData.mietspiegel.toFixed(2).replaceAll('.', ',')}€/m² möglich.</strong></p>`
+        else string += '</p>'
+        return string
+      }
     };
 
     let neuvermietungsText = "Durchschnittliche Miete bei neuen Verträgen"
@@ -366,16 +382,16 @@ d3.json(
       "</b>€/m²</p>";
 
     let neuVermietungsExplainer = () => {
-      if (mietobergrenzenActive && cityData.marketCategory == 1) return `<p class='in-box'>Durch den Mietendeckel dürfen die Mieten bei Vertragsschluss nur noch maximal 10% höher liegen als die örtliche Durchschnittsmiete von ${cityData.bestandsMiete.toString().replaceAll('.', ',')}€/m².</p>`
-      if (mietobergrenzenActive && cityData.marketCategory == 2) return `<p class='in-box'>Durch den Mietendeckel dürfen die Mieten bei Vertragsschluss nur noch maximal 6% höher liegen als die örtliche Durchschnittsmiete von ${cityData.bestandsMiete.toString().replaceAll('.', ',')}€/m².</p>`
-      if (mietobergrenzenActive && cityData.marketCategory == 3) return `<p class='in-box'>Durch den Mietendeckel dürfen die Mieten bei Vertragsschluss nicht höher liegen als die örtliche Durchschnittsmiete von ${cityData.bestandsMiete.toString().replaceAll('.', ',')}€/m².</p>`
+      if (mietobergrenzenActive && cityData.marketCategory == 1) return `<p class='in-box neuvermietung'>Durch den Mietendeckel dürfen die Mieten bei Vertragsschluss nur noch maximal 10% höher liegen als die örtliche Durchschnittsmiete von ${cityData.bestandsMiete.toFixed(2).replaceAll('.', ',')}€/m².</p>`
+      if (mietobergrenzenActive && cityData.marketCategory == 2) return `<p class='in-box neuvermietung'>Durch den Mietendeckel dürfen die Mieten bei Vertragsschluss nur noch maximal 6% höher liegen als die örtliche Durchschnittsmiete von ${cityData.bestandsMiete.toFixed(2).replaceAll('.', ',')}€/m².</p>`
+      if (mietobergrenzenActive && cityData.marketCategory == 3) return `<p class='in-box neuvermietung'>Durch den Mietendeckel dürfen die Mieten bei Vertragsschluss nicht höher liegen als die örtliche Durchschnittsmiete von ${cityData.bestandsMiete.toFixed(2).replaceAll('.', ',')}€/m².</p>`
       return '';
     }
     let bestandsMietenTag = () => {
       return `<p class='in-box'><span style='color:#FF3300;'>●</span> Die durchschnittliche maximal erlaubte Höchstmiete beträgt: <b>` +
         mietsenkungAuf(cityData).toString().replace('.', ',') +
         "</b>€/m²</p>" +
-        "<p class='in-box'>Der Mietendeckel erlaubt es, höhere Mieten auf diesen Betrag abzusenken. Durch eine Umsetzung über das Wirtschaftsstrafrecht, müssen Mieter*innen hierfür nicht selbst Klage einreichen.</p>";
+        "<p class='in-box maximal'>Der Mietendeckel erlaubt es, höhere Mieten auf diesen Betrag abzusenken. Durch eine Umsetzung über das Wirtschaftsstrafrecht, müssen Mieter*innen hierfür nicht selbst Klage einreichen.</p>";
     }
 
     return (
@@ -560,9 +576,79 @@ d3.json(
     }
   }
 
-  function updateConsequences(city) {
+  
+  function updateConsequences(city, source) {
     updateBarNumbers(city);
     document.getElementById("consequences").innerHTML = getConsequencesContent(city);
+    let tag;
+    if (source == 'erhoehungen'){
+      tag = document.getElementsByClassName("mieterhoehung")[0];
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            tag.classList.add("glow", "border-pulse");
+    
+            setTimeout(() => {
+              tag.classList.remove("glow", "border-pulse");
+              observer.disconnect();
+            }, 5000);
+          }
+        });
+      }, { threshold: 0.5 }); // Trigger when at least 50% of the element is visible
+    
+      observer.observe(tag);
+    }
+    if (source == 'obergrenzen'){
+        tag = document.getElementsByClassName("neuvermietung")[0];
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              tag.classList.add("glow", "border-pulse");
+      
+              setTimeout(() => {
+                tag.classList.remove("glow", "border-pulse");
+                observer.disconnect();
+              }, 5000);
+            }
+          });
+        }, { threshold: 0.5 }); // Trigger when at least 50% of the element is visible
+      
+        observer.observe(tag);
+      }
+    if (source == 'senkungen') {
+      tag = document.getElementsByClassName("maximal")[0];
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              tag.classList.add("glow", "border-pulse");
+      
+              setTimeout(() => {
+                tag.classList.remove("glow", "border-pulse");
+                observer.disconnect();
+              }, 5000);
+            }
+          });
+        }, { threshold: 0.5 }); // Trigger when at least 50% of the element is visible
+      
+        observer.observe(tag);
+    }
+    if (source == "programm" && !full) {
+      tag = document.getElementsByClassName("mieterhoehung")[0];
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              tag.classList.add("glow", "border-pulse");
+      
+              setTimeout(() => {
+                tag.classList.remove("glow", "border-pulse");
+                observer.disconnect();
+              }, 6000);
+            }
+          });
+        }, { threshold: 0.5 }); // Trigger when at least 50% of the element is visible
+      
+        observer.observe(tag);
+    }
     mietpreisbremsenPopup();
   }
 
@@ -862,7 +948,7 @@ d3.json(
     } else full = false;
 
     if (citySelected()) {
-      updateConsequences(selectedCity());
+      updateConsequences(selectedCity(),'erhoehungen');
       // if (status) document.getElementById('consequences').scrollIntoView(true, { behavior: "smooth"});
     }
   }
@@ -922,7 +1008,7 @@ d3.json(
     }
 
     if (citySelected()) {
-      updateConsequences(selectedCity());
+      updateConsequences(selectedCity(), 'senkungen');
       // if (status) document.getElementById('consequences').scrollIntoView(true, { behavior: "smooth"});
     }
   }
@@ -961,7 +1047,7 @@ d3.json(
         (d) => projection([d.long, d.lat])[1] - wiedervermietungsMiete(d) * barScale
       );
     if (citySelected()) {
-      updateConsequences(selectedCity());
+      updateConsequences(selectedCity(), 'obergrenzen');
       // if (status) document.getElementById('consequences').scrollIntoView(true, { behavior: "smooth"});
     }
   }
@@ -988,7 +1074,7 @@ d3.json(
     } else full = false;
 
     if (citySelected()) {
-      updateConsequences(selectedCity());
+      updateConsequences(selectedCity(), 'programm');
       // if (status) document.getElementById('consequences').scrollIntoView(true, { behavior: "smooth"});
     }
   }

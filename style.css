@@ -105,6 +105,8 @@ svg {
 
 .in-box {
   margin: 1%;
+  position: relative;
+  padding-left: 10px; /* Space for the animation highlight border */
 }
 
 .in-box > b,
@@ -165,8 +167,8 @@ select-pure {
   --select-outline: 2px solid #FFFFFF;
 }
 
- /* The switch - the box around the slider */
- .switch {
+/* The switch - the box around the slider */
+.switch {
   position: relative;
   display: inline-block;
   width: 40px;
@@ -228,4 +230,36 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
-} 
+}
+
+
+.glow {
+  animation: glow-animation 1.5s ease-in-out infinite;
+}
+
+@keyframes glow-animation {
+  0%, 100% {
+    text-shadow: 0 0 10px #ff3300;
+  }
+
+  50% {
+    text-shadow: none;
+  }
+}
+
+.border-pulse::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: #ff3300;
+  opacity: 1;
+  animation: pulse-border 2s ease-out infinite;
+}
+
+@keyframes pulse-border {
+  0%, 100% { transform: scaleY(0.8); }
+  50% { transform: scaleY(1); }
+}
