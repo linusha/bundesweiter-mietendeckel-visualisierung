@@ -751,7 +751,7 @@ d3.json(
 
   function colorCityCircles(d) {
     if (d.marketCategory == 2) return "#ff9e48"
-    if (d.marketCategory == 3) return "#ff5e35"
+    if (d.marketCategory == 3) return "#ff3300"
     return "#2b3240"
   }
 
