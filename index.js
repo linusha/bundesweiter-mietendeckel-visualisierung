@@ -1154,7 +1154,7 @@ d3.json(
   Array.from(document.getElementsByClassName('referenzmiete')).forEach((e) => e.onclick = () => {
     Swal.fire({
       title: 'Örtliche Durchschnittsmiete',
-      html: '<p style="color: #545454;">In die Durchschnittsmiete fließen alle Mieten ein, anders als in den derzeitigen Mietspiegeln, die nur die Mietänderungen der vergangenen 6 Jahre berücksichtigen. Die Durchschnittsmiete liegt also in der Regel niedriger.<br><p>',
+      html: '<p style="color: #545454;">Mit dem Mietendeckel wird als Maßstab für Miethöhen die echte Durchschnittsmiete als Referenzmiete verwendet. In die echte Durchschnittsmiete fließen alle Mieten ein; anders als gerade in die "ortsübliche Vergleichsmiete", die nur Mieten mit einer Mietänderungen in den vergangenen 6 Jahre berücksichtigt. Die Durchschnittsmiete liegt also in der Regel niedriger. Schon diese Umstellung entlastet viele Mieter*innen.<br><p>',
       confirmButtonText: 'OK',
       confirmButtonColor: "#FF3300",
       showClass: {
@@ -1189,7 +1189,7 @@ d3.json(
     Array.from(document.getElementsByClassName('mietpreisbremse')).forEach((e) => e.onclick = () => {
       Swal.fire({
         title: 'Ortsübliche Vergleichsmiete',
-        html: '<p style="color: #545454;">Gerade wird die Grenze bis zu der Mieterhöhungen erlaubt sind anhand der "ortsüblichen Vergleichsmiete" bestimmt. In diese fließen jedoch nur bestimmte Mieten ein - günstige Bestandsmieten oder Sozialwohnungen finden keine Berücksichtigung. Außerdem finden nur Mieten berücksichtigung, in denen es in den letzten 6 Jahren zu einer Mietänderung gekommen ist. So steigt diese Zahl mit Mieterhöhungen immer weiter.<br><p>',
+        html: '<p style="color: #545454;">Gerade wird die Grenze bis zu der Mieterhöhungen erlaubt sind anhand der "ortsüblichen Vergleichsmiete" bestimmt. In diese fließen jedoch nur bestimmte Mieten ein - günstige Bestandsmieten oder Sozialwohnungen finden keine Berücksichtigung. Außerdem finden nur Mieten berücksichtigung, in denen es in den letzten 6 Jahren zu einer Mietänderung gekommen ist. So steigt diese Grenze mit neuen Mieterhöhungen immer weiter.<br><p>',
         confirmButtonText: 'OK',
         confirmButtonColor: "#FF3300",
         showClass: {
