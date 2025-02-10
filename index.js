@@ -388,7 +388,7 @@ d3.json(
       return '';
     }
     let bestandsMietenTag = () => {
-      return `<p class='in-box'><span style='color:#FF3300;'>●</span> Die durchschnittliche maximal erlaubte Höchstmiete beträgt: <b>` +
+      return `<p class='in-box'><span style='color:#FF3300;'>●</span> Die maximal erlaubte Höchstmiete beträgt: <b>` +
         mietsenkungAuf(cityData).toString().replace('.', ',') +
         "</b>€/m²</p>" +
         "<p class='in-box maximal'>Der Mietendeckel erlaubt es, höhere Mieten auf diesen Betrag abzusenken. Durch eine Umsetzung über das Wirtschaftsstrafrecht, müssen Mieter*innen hierfür nicht selbst Klage einreichen.</p>";
