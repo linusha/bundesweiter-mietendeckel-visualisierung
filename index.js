@@ -15,7 +15,7 @@ let cities = [
     "lat": 48.36,
     "marktMiete": 12.15,
     "bestandsMiete": 7.99,
-    "mietspiegel": 8.55,
+    "mietspiegel": 8.56,
     "kappungsgrenze": 0.15
   },
   {
@@ -26,7 +26,7 @@ let cities = [
     "lat": 52.52,
     "marktMiete": 17.38,
     "bestandsMiete": 7.67,
-    "mietspiegel": 7.11,
+    "mietspiegel": 7.35,
     "kappungsgrenze": 0.15
   },
   {
@@ -37,7 +37,7 @@ let cities = [
     "lat": 52.03,
     "marktMiete": 8.78,
     "bestandsMiete": 7.12,
-    "mietspiegel": 6.54,
+    "mietspiegel": 7.15,
     "kappungsgrenze": 0.2
   },
   {
@@ -48,7 +48,7 @@ let cities = [
     "lat": 51.48,
     "marktMiete": 8.00,
     "bestandsMiete": 6.25,
-    "mietspiegel": 5.71,
+    "mietspiegel": 6.00,
     "kappungsgrenze": 0.2
   },
   {
@@ -59,7 +59,7 @@ let cities = [
     "lat": 50.73,
     "marktMiete": 12.16,
     "bestandsMiete": 9.09,
-    "mietspiegel": 6.83,
+    "mietspiegel": 9.17,
     "kappungsgrenze": 0.15
   },
   {
@@ -70,7 +70,7 @@ let cities = [
     "lat": 53.07,
     "marktMiete": 10.04,
     "bestandsMiete": 7.54,
-    "mietspiegel": 4.99,
+    "mietspiegel": 7.76,
     "kappungsgrenze": 0.15
   },
   {
@@ -81,7 +81,7 @@ let cities = [
     "lat": 51.51,
     "marktMiete": 8.90,
     "bestandsMiete": 6.45,
-    "mietspiegel": 5.79,
+    "mietspiegel": 6.39,
     "kappungsgrenze": 0.2
   },
   {
@@ -92,7 +92,7 @@ let cities = [
     "lat": 51.05,
     "marktMiete": 9.52,
     "bestandsMiete": 6.92,
-    "mietspiegel": 6.64,
+    "mietspiegel": 6.95,
     "kappungsgrenze": 0.15
   },
   {
@@ -103,7 +103,7 @@ let cities = [
     "lat": 51.43,
     "marktMiete": 7.27,
     "bestandsMiete": 5.48,
-    "mietspiegel": 6.18,
+    "mietspiegel": 6.30,
     "kappungsgrenze": 0.2
   },
   {
@@ -114,7 +114,7 @@ let cities = [
     "lat": 51.22,
     "marktMiete": 13.15,
     "bestandsMiete": 9.24,
-    "mietspiegel": 9.28,
+    "mietspiegel": 9.32,
     "kappungsgrenze": 0.15
   },
   {
@@ -125,7 +125,7 @@ let cities = [
     "lat": 50.97,
     "marktMiete": 8.36,
     "bestandsMiete": 6.48,
-    "mietspiegel": 6.06,
+    "mietspiegel": 6.20,
     "kappungsgrenze": 0.15
   },
   {
@@ -136,7 +136,7 @@ let cities = [
     "lat": 51.45,
     "marktMiete": 8.40,
     "bestandsMiete": 6.72,
-    "mietspiegel": 6.24,
+    "mietspiegel": 7.14,
     "kappungsgrenze": 0.2
   },
   {
@@ -147,7 +147,7 @@ let cities = [
     "lat": 50.11,
     "marktMiete": 17.19,
     "bestandsMiete": 10.58,
-    "mietspiegel": 8.30,
+    "mietspiegel": 10.44,
     "kappungsgrenze": 0.15
   },
   {
@@ -158,7 +158,7 @@ let cities = [
     "lat": 53.57,
     "marktMiete": 14.93,
     "bestandsMiete": 9.16,
-    "mietspiegel": 9.32,
+    "mietspiegel": 9.44,
     "kappungsgrenze": 0.15
   },
   {
@@ -169,7 +169,7 @@ let cities = [
     "lat": 52.37,
     "marktMiete": 10.47,
     "bestandsMiete": 7.61,
-    "mietspiegel": 7.80,
+    "mietspiegel": 7.88,
     "kappungsgrenze": 0.15
   },
   {
@@ -180,7 +180,7 @@ let cities = [
     "lat": 49,
     "marktMiete": 11.98,
     "bestandsMiete": 7.92,
-    "mietspiegel": 8.47,
+    "mietspiegel": 8.59,
     "kappungsgrenze": 0.15
   },
   {
@@ -191,7 +191,7 @@ let cities = [
     "lat": 50.93,
     "marktMiete": 13.95,
     "bestandsMiete": 9.39,
-    "mietspiegel": 8.39,
+    "mietspiegel": 8.45,
     "kappungsgrenze": 0.15
   },
   {
@@ -213,7 +213,7 @@ let cities = [
     "lat": 49.49,
     "marktMiete": 11.28,
     "bestandsMiete": 8.39,
-    "mietspiegel": 7.47,
+    "mietspiegel": 9.48,
     "kappungsgrenze": 0.15
   },
   {
@@ -224,7 +224,7 @@ let cities = [
     "lat": 48.13,
     "marktMiete": 21.23,
     "bestandsMiete": 12.32,
-    "mietspiegel": 12.08,
+    "mietspiegel": 14.58,
     "kappungsgrenze": 0.15
   },
   {
@@ -235,7 +235,7 @@ let cities = [
     "lat": 51.96,
     "marktMiete": 12.3,
     "bestandsMiete": 6.97,
-    "mietspiegel": 7.41,
+    "mietspiegel": 7.32,
     "kappungsgrenze": 0.15
   },
   {
@@ -246,7 +246,7 @@ let cities = [
     "lat": 49.45,
     "marktMiete": 11.59,
     "bestandsMiete": 8.21,
-    "mietspiegel": 9.14,
+    "mietspiegel": 9.23,
     "kappungsgrenze": 0.15
   },
   {
@@ -257,7 +257,7 @@ let cities = [
     "lat": 54.08,
     "marktMiete": 10.05,
     "bestandsMiete": 6.70,
-    "mietspiegel": 6.14,
+    "mietspiegel": 6.86,
     "kappungsgrenze": 0.15
   },
   {
@@ -268,7 +268,7 @@ let cities = [
     "lat": 48.78,
     "marktMiete": 16.56,
     "bestandsMiete": 10.39,
-    "mietspiegel": 10.09,
+    "mietspiegel": 10.11,
     "kappungsgrenze": 0.15
   },
   {
@@ -279,7 +279,7 @@ let cities = [
     "lat": 50.77,
     "marktMiete": 7.77,
     "bestandsMiete": 6.10,
-    "mietspiegel": 6.00,
+    "mietspiegel": 6.19,
     "kappungsgrenze": 0.2
   }
 ];
