@@ -1140,10 +1140,19 @@ d3.json(
     if (window.innerWidth != windowWidth || window.innerHeight != windowHeight) {
       drawMap()
     }
+    Array.from(document.getElementsByClassName("jumper")).forEach(e => {
+      if (window.innerWidth < 600)  e.style.visibility = "visible"
+      else e.style.visibility = "hidden"
+    })
   }
   adaptDropdownToScreenSize();
   drawMap();
   resize();
+
+  Array.from(document.getElementsByClassName("jumper")).forEach(e => {
+    if (window.innerWidth < 600)  e.style.visibility = "visible"
+    else e.style.visibility = "hidden"
+  })
 
   window.addEventListener('resize', resize, true);
 
@@ -1170,6 +1179,7 @@ d3.json(
     sofortProgrammToggled(e.target.checked);
   });
   document.getElementById("citySelector").addEventListener("change", citySelectorChanged);
+    Array.from(document.getElementsByClassName("jumper")).forEach(e => e.onclick = () =>  document.getElementById('consequences').scrollIntoView(true, { behavior: "smooth"}))
 
   function citySelectorChanged(event) {
     const selectedCity = event.target.value;
