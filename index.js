@@ -445,6 +445,7 @@ d3.json(
     cityCircles
       .style("visibility", "visible");
 
+    document.getElementById("rentincrease-display").style.visibility = "hidden";
     showHintNoSelectedCity();
   }
 
@@ -578,6 +579,38 @@ d3.json(
 
   
   function updateConsequences(city, source) {
+    const container = document.getElementById("mapContainer");
+    const display = document.getElementById("rentincrease-display");
+    
+    display.style.setProperty("visibility", "visible")
+    
+    let xPos = container.getBoundingClientRect().left + scrollX;
+    if (document.getElementById("mapContainer").offsetWidth > 400) xPos += 23;
+    let yPos = container.getBoundingClientRect().top + scrollY;
+    if (document.getElementById("mapContainer").offsetWidth > 400) yPos += 20;
+    
+    display.style.left = xPos +"px"
+    display.style.top = yPos +"px"
+
+    let percentageString, yearString;
+    if (!sofortProgrammActive && !kappungsgrenzeActive) percentageString = `↗ +${(city.kappungsgrenze*100).toString()}%`
+    if (sofortProgrammActive) {
+      if (city.marketCategory == 1) percentageString = "↗ +2%"
+      else percentageString = "→ +0% (keine)"
+    }
+    
+    if (kappungsgrenzeActive) {
+      if (city.marketCategory == 1) percentageString = "↗ +10%"
+      if (city.marketCategory == 2) percentageString = "↗ +6%"
+      if (city.marketCategory == 3) percentageString = "→ +0% (keine)"
+    }
+    yearString = sofortProgrammActive && !kappungsgrenzeActive ? "im Jahr" : "in 3 Jahren"
+    if (percentageString == "→ +0% (keine)") yearString = "";
+
+    document.getElementById("rentincrease-display").innerHTML = `<p><span>max. mögliche Mieterhöhung:</span></br>`  
+    + `<span><strong>${percentageString}</strong></span>`
+      + `<span> ${yearString}</span></p>`;
+
     updateBarNumbers(city);
     document.getElementById("consequences").innerHTML = getConsequencesContent(city);
     let tag;
