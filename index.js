@@ -9,7 +9,7 @@ import 'select-pure/dist/index.js';
 let cities = [
   {
     "name": "Augsburg",
-    "marketCategory": 2,
+    "marketCategory": 3,
     "active": false,
     "long": 10.89,
     "lat": 48.36,
@@ -31,7 +31,7 @@ let cities = [
   },
   {
     "name": "Bielefeld",
-    "marketCategory": 2,
+    "marketCategory": 1,
     "active": false,
     "long": 8.53,
     "lat": 52.03,
@@ -75,7 +75,7 @@ let cities = [
   },
   {
     "name": "Dortmund",
-    "marketCategory": 2,
+    "marketCategory": 1,
     "active": false,
     "long": 7.46,
     "lat": 51.51,
@@ -97,12 +97,12 @@ let cities = [
   },
   {
     "name": "Duisburg",
-    "marketCategory": 2,
+    "marketCategory": 1,
     "active": false,
     "long": 6.76,
     "lat": 51.43,
     "marktMiete": 7.27,
-    "bestandsMiete": 5.48,
+    "bestandsMiete": 5.84,
     "mietspiegel": 6.30,
     "kappungsgrenze": 0.2
   },
@@ -141,7 +141,7 @@ let cities = [
   },
   {
     "name": "Frankfurt am Main",
-    "marketCategory": 2,
+    "marketCategory": 3,
     "active": false,
     "long": 8.68,
     "lat": 50.11,
@@ -196,7 +196,7 @@ let cities = [
   },
   {
     "name": "Leipzig",
-    "marketCategory": 2,
+    "marketCategory": 3,
     "active": false,
     "long": 12.37,
     "lat": 51.33,
@@ -207,7 +207,7 @@ let cities = [
   },
   {
     "name": "Mannheim",
-    "marketCategory": 2,
+    "marketCategory": 1,
     "active": false,
     "long": 8.47,
     "lat": 49.49,
@@ -273,7 +273,7 @@ let cities = [
   },
   {
     "name": "Wuppertal",
-    "marketCategory": 2,
+    "marketCategory": 1,
     "active": false,
     "long": 7.16,
     "lat": 50.77,
