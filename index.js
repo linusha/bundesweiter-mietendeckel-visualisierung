@@ -355,13 +355,13 @@ d3.json(
       if (!sofortProgrammActive && !kappungsgrenzeActive) return `<p class='in-box mieterhoehung'>Bei Mietverträgen mit einer Miete bis ${cityData.mietspiegel.toFixed(2).replaceAll('.', ',')}€/m², sind häufig Mietsteigerungen von bis zu <strong>${cityData.kappungsgrenze * 100}% in 3 Jahren</strong> möglich. So steigen die Mieten <span class="infolink mietpreisbremse"><span>immer weiter.</span></span></p>`;
       if (sofortProgrammActive && !kappungsgrenzeActive && cityData.marketCategory > 1) return "<p class='in-box mieterhoehung'>Mit einem temporären Mietenstopp durch das Sofortprogramm sind keine Mieterhöhungen im Bestand mehr möglich.</p>"
       if (sofortProgrammActive && !kappungsgrenzeActive && cityData.marketCategory == 1) return `<p class='in-box mieterhoehung'>Durch das Sofortprogramm sind Mieterhöhungen im Bestand nur um 2% pro Jahr möglich, und auch nur bis maximal ${cityData.mietspiegel.toFixed(2).replaceAll('.', ',')}€/m².</p>`
-      if (kappungsgrenzeActive && cityData.marketCategory == 1){
+      if (kappungsgrenzeActive && cityData.marketCategory == 1) {
         string = `<p class='in-box mieterhoehung'>Durch den Mietendeckel sind Mieterhöhungen im Bestand auf 10% in 3 Jahren begrenzt, und auch nur bis maximal ${cityData.bestandsMiete.toFixed(2).replaceAll('.', ',')}€/m².`
         if (cityData.mietspiegel > cityData.bestandsMiete) string += ` <strong>Ohne den Mietendeckel, wären Mietsteigerungen von ${cityData.kappungsgrenze * 100}% in 3 Jahren bis auf ${cityData.mietspiegel.toFixed(2).replaceAll('.', ',')}€/m² möglich.</strong></p>`
         else string += '</p>'
         return string
       }
-      if (kappungsgrenzeActive && cityData.marketCategory == 2){
+      if (kappungsgrenzeActive && cityData.marketCategory == 2) {
         string = `<p class='in-box mieterhoehung'>Durch den Mietendeckel sind Mieterhöhungen im Bestand auf 6% in 3 Jahren begrenzt, und auch nur bis maximal ${cityData.bestandsMiete.toFixed(2).replaceAll('.', ',')}€/m².`
         if (cityData.mietspiegel > cityData.bestandsMiete) string += ` <strong>Ohne den Mietendeckel, wären Mietsteigerungen von ${cityData.kappungsgrenze * 100}% in 3 Jahren bis auf ${cityData.mietspiegel.toFixed(2).replaceAll('.', ',')}€/m² möglich.</strong></p>`
         else string += '</p>'
@@ -588,12 +588,12 @@ d3.json(
     if (document.getElementById("mapContainer").offsetWidth > 400) xPos += 23;
     let yPos = container.getBoundingClientRect().top + scrollY;
     if (document.getElementById("mapContainer").offsetWidth > 400) yPos += 20;
-    
-    display.style.left = xPos +"px"
-    display.style.top = yPos +"px"
+
+    display.style.left = xPos + "px"
+    display.style.top = yPos + "px"
 
     let percentageString, yearString;
-    if (!sofortProgrammActive && !kappungsgrenzeActive) percentageString = `↗ +${(city.kappungsgrenze*100).toString()}%`
+    if (!sofortProgrammActive && !kappungsgrenzeActive) percentageString = `↗ +${(city.kappungsgrenze * 100).toString()}%`
     if (sofortProgrammActive) {
       if (city.marketCategory == 1) percentageString = "↗ +2%"
       else percentageString = "→ +0% (keine)"
@@ -614,13 +614,13 @@ d3.json(
     updateBarNumbers(city);
     document.getElementById("consequences").innerHTML = getConsequencesContent(city);
     let tag;
-    if (source == 'erhoehungen'){
+    if (source == 'erhoehungen') {
       tag = document.getElementsByClassName("mieterhoehung")[0];
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             tag.classList.add("glow", "border-pulse");
-    
+
             setTimeout(() => {
               tag.classList.remove("glow", "border-pulse");
               observer.disconnect();
@@ -628,11 +628,11 @@ d3.json(
           }
         });
       }, { threshold: 0.5 }); // Trigger when at least 50% of the element is visible
-    
+
       observer.observe(tag);
     }
-    if (source == 'obergrenzen'){
-        tag = document.getElementsByClassName("neuvermietung")[0];
+    if (source == 'obergrenzen') {
+      tag = document.getElementsByClassName("neuvermietung")[0];
         const observer = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -981,7 +981,7 @@ d3.json(
     } else full = false;
 
     if (citySelected()) {
-      updateConsequences(selectedCity(),'erhoehungen');
+      updateConsequences(selectedCity(), 'erhoehungen');
       // if (status) document.getElementById('consequences').scrollIntoView(true, { behavior: "smooth"});
     }
   }
@@ -1141,7 +1141,7 @@ d3.json(
       drawMap()
     }
     Array.from(document.getElementsByClassName("jumper")).forEach(e => {
-      if (window.innerWidth < 600)  e.style.visibility = "visible"
+      if (window.innerWidth < 600) e.style.visibility = "visible"
     })
   }
   adaptDropdownToScreenSize();
@@ -1149,7 +1149,7 @@ d3.json(
   resize();
 
   Array.from(document.getElementsByClassName("jumper")).forEach(e => {
-    if (window.innerWidth < 600)  e.style.visibility = "visible"
+    if (window.innerWidth < 600) e.style.visibility = "visible"
   })
 
   window.addEventListener('resize', resize, true);
