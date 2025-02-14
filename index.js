@@ -366,7 +366,7 @@ d3.json(
         if (cityData.mietspiegel > cityData.bestandsMiete) string += ` <strong>Ohne den Mietendeckel, wären Mietsteigerungen von ${cityData.kappungsgrenze * 100}% in 3 Jahren bis auf ${cityData.mietspiegel.toFixed(2).replaceAll('.', ',')}€/m² möglich.</strong></p>`
         else string += '</p>'
         return string
-      } 
+      }
       if (kappungsgrenzeActive && cityData.marketCategory == 3) {
         string = `<p class='in-box mieterhoehung'>Durch den Mietendeckel sind keine Mieterhöhungen im Bestand mehr möglich.`
         if (cityData.mietspiegel > cityData.bestandsMiete) string += ` <strong>Ohne den Mietendeckel, wären Mietsteigerungen von ${cityData.kappungsgrenze * 100}% in 3 Jahren bis auf ${cityData.mietspiegel.toFixed(2).replaceAll('.', ',')}€/m² möglich.</strong></p>`
@@ -577,13 +577,13 @@ d3.json(
     }
   }
 
-  
+
   function updateConsequences(city, source) {
     const container = document.getElementById("mapContainer");
     const display = document.getElementById("rentincrease-display");
-    
+
     display.style.setProperty("visibility", "visible")
-    
+
     let xPos = container.getBoundingClientRect().left + scrollX;
     if (document.getElementById("mapContainer").offsetWidth > 400) xPos += 23;
     let yPos = container.getBoundingClientRect().top + scrollY;
@@ -598,7 +598,7 @@ d3.json(
       if (city.marketCategory == 1) percentageString = "↗ +2%"
       else percentageString = "→ +0% (keine)"
     }
-    
+
     if (kappungsgrenzeActive) {
       if (city.marketCategory == 1) percentageString = "↗ +10%"
       if (city.marketCategory == 2) percentageString = "↗ +6%"
@@ -607,12 +607,24 @@ d3.json(
     yearString = sofortProgrammActive && !kappungsgrenzeActive ? "im Jahr" : "in 3 Jahren"
     if (percentageString == "→ +0% (keine)") yearString = "";
 
-    document.getElementById("rentincrease-display").innerHTML = `<p><span>max. mögliche Mieterhöhung:</span></br>`  
-    + `<span><strong>${percentageString}</strong></span>`
+    document.getElementById("rentincrease-display").innerHTML = `<p><span>max. mögliche Mieterhöhung:</span></br>`
+      + `<span><strong>${percentageString}</strong></span>`
       + `<span> ${yearString}</span></p>`;
 
     updateBarNumbers(city);
+
+    // Keep position when manipulating page contents
+    let lastHeight, lastScroll, scrollDiff;
+    if (source){
+      lastHeight = document.getElementsByTagName("body")[0].offsetHeight ;
+      lastScroll = scrollY;
+    }
     document.getElementById("consequences").innerHTML = getConsequencesContent(city);
+    if (source){
+      scrollDiff = document.getElementsByTagName("body")[0].offsetHeight - lastHeight;
+      window.scroll({top: lastScroll+scrollDiff, behavior: "instant"});
+    }
+    
     let tag;
     if (source == 'erhoehungen') {
       tag = document.getElementsByClassName("mieterhoehung")[0];
@@ -633,54 +645,54 @@ d3.json(
     }
     if (source == 'obergrenzen') {
       tag = document.getElementsByClassName("neuvermietung")[0];
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              tag.classList.add("glow", "border-pulse");
-      
-              setTimeout(() => {
-                tag.classList.remove("glow", "border-pulse");
-                observer.disconnect();
-              }, 5000);
-            }
-          });
-        }, { threshold: 0.5 }); // Trigger when at least 50% of the element is visible
-      
-        observer.observe(tag);
-      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            tag.classList.add("glow", "border-pulse");
+
+            setTimeout(() => {
+              tag.classList.remove("glow", "border-pulse");
+              observer.disconnect();
+            }, 5000);
+          }
+        });
+      }, { threshold: 0.5 }); // Trigger when at least 50% of the element is visible
+
+      observer.observe(tag);
+    }
     if (source == 'senkungen') {
       tag = document.getElementsByClassName("maximal")[0];
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              tag.classList.add("glow", "border-pulse");
-      
-              setTimeout(() => {
-                tag.classList.remove("glow", "border-pulse");
-                observer.disconnect();
-              }, 5000);
-            }
-          });
-        }, { threshold: 0.5 }); // Trigger when at least 50% of the element is visible
-      
-        observer.observe(tag);
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            tag.classList.add("glow", "border-pulse");
+
+            setTimeout(() => {
+              tag.classList.remove("glow", "border-pulse");
+              observer.disconnect();
+            }, 5000);
+          }
+        });
+      }, { threshold: 0.5 }); // Trigger when at least 50% of the element is visible
+
+      observer.observe(tag);
     }
     if (source == "programm" && !full) {
       tag = document.getElementsByClassName("mieterhoehung")[0];
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              tag.classList.add("glow", "border-pulse");
-      
-              setTimeout(() => {
-                tag.classList.remove("glow", "border-pulse");
-                observer.disconnect();
-              }, 6000);
-            }
-          });
-        }, { threshold: 0.5 }); // Trigger when at least 50% of the element is visible
-      
-        observer.observe(tag);
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            tag.classList.add("glow", "border-pulse");
+
+            setTimeout(() => {
+              tag.classList.remove("glow", "border-pulse");
+              observer.disconnect();
+            }, 6000);
+          }
+        });
+      }, { threshold: 0.5 }); // Trigger when at least 50% of the element is visible
+
+      observer.observe(tag);
     }
     mietpreisbremsenPopup();
   }
