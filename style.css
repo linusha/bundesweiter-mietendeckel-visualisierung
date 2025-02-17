@@ -5,6 +5,10 @@ svg {
   z-index: 0;
 }
 
+.tooltip {
+  pointer-events: none;
+}
+
 .custom-h2 {
   padding-top: 2% !important;
   font-size: x-large !important;
@@ -277,4 +281,14 @@ input:checked + .slider:before {
 
 #rentincrease-display p {
   color: #2b3240;
+}
+
+.teaser_icon_viz {
+  width: 50px !important; 
+  height: 50px !important;
+  fill: #f30 !important;
+  padding: 5px !important;
+  position: relative !important;
+  top: unset !important;
+  right: unset !important;
 }

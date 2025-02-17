@@ -338,7 +338,8 @@ d3.json(
       if (full) return " mit Mietendeckel"
     }
     let nameTag = "<h3>Lage in " + cityData.name + `${statusString()}:</h3>`
-
+    let profilTag = "";
+    if (["Berlin", "Erfurt", "Essen", "Hamburg", "Leipzig", "München"].includes(cityData.name)) profilTag = `<p style="display: flex;"><svg class="teaser_icon_viz teaser__icon"><use xlink:href="/typo3conf/ext/cb_rosalux/Resources/Public/Icons/icons.svg#icon-publication"></use></svg><strong>Für ${cityData.name} steht ein ausführliches <a href="https://www.rosalux.de/fileadmin/images/Dossiers/Wohnen/Mietendeckel_Stadtprofile/${cityData.name.replaceAll('ü', 'ue')}.pdf">Stadtprofil</a> mit weiteren Informationen zum Wohnungsmarkt zur Verfügung.</strong></p>`
     let typeTag = () => {
       if (cityData.marketCategory == 1) return `<p class='in-box'>${cityData.name} hat einen nicht angespannten Wohnungsmarkt.</p>`
       if (cityData.marketCategory == 2) return `<p class='in-box'>${cityData.name} hat einen <strong style='color:#ff9e48'>angespannten Wohnungsmarkt.</strong></p>`
@@ -395,6 +396,7 @@ d3.json(
     }
 
     return (
+      profilTag +
       nameTag +
       "<div class='numbers-container'>" +
       typeTag() +
@@ -615,16 +617,16 @@ d3.json(
 
     // Keep position when manipulating page contents
     let lastHeight, lastScroll, scrollDiff;
-    if (source){
-      lastHeight = document.getElementsByTagName("body")[0].offsetHeight ;
+    if (source) {
+      lastHeight = document.getElementsByTagName("body")[0].offsetHeight;
       lastScroll = scrollY;
     }
     document.getElementById("consequences").innerHTML = getConsequencesContent(city);
-    if (source){
+    if (source) {
       scrollDiff = document.getElementsByTagName("body")[0].offsetHeight - lastHeight;
-      window.scroll({top: lastScroll+scrollDiff, behavior: "instant"});
+      window.scroll({ top: lastScroll + scrollDiff, behavior: "instant" });
     }
-    
+
     let tag;
     if (source == 'erhoehungen') {
       tag = document.getElementsByClassName("mieterhoehung")[0];
@@ -858,6 +860,12 @@ d3.json(
 
     circleRadius = 3;
 
+    function tooltipText(d) {
+      if (["Berlin", "Erfurt", "Essen", "Hamburg", "Leipzig", "München"].includes(d.name))
+        return `${d.name}</br><strong>Mit ausführlichem Stadtprofil</strong>`
+      else return `${d.name}`
+    }
+
     cityCircles = map
       .selectAll("circles")
       .data(cities)
@@ -876,7 +884,7 @@ d3.json(
       .on("mouseover", function (event, d) {
         tooltip.transition().duration(200).style("visibility", "visible");
         tooltip
-          .html(d.name)
+          .html(tooltipText(d))
           .style("left", event.pageX + "px")
           .style("top", event.pageY - 28 + "px");
       })
@@ -1190,8 +1198,8 @@ d3.json(
   });
   document.getElementById("citySelector").addEventListener("change", citySelectorChanged);
   Array.from(document.getElementsByClassName("jumper")).forEach(e => e.onclick = () => {
-    if (window.innerWidth < 600) document.getElementsByClassName('numbers-container')[0].scrollIntoView({block: "end", inline: "nearest", behavior: "smooth" })
-    else document.getElementsByClassName('numbers-container')[0].scrollIntoView({block: "center", inline: "nearest", behavior: "smooth" })
+    if (window.innerWidth < 600) document.getElementsByClassName('numbers-container')[0].scrollIntoView({ block: "end", inline: "nearest", behavior: "smooth" })
+    else document.getElementsByClassName('numbers-container')[0].scrollIntoView({ block: "center", inline: "nearest", behavior: "smooth" })
   })
 
   function citySelectorChanged(event) {
